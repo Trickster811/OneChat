@@ -1,0 +1,170 @@
+import 'package:badges/badges.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:one_chat/contants.dart';
+
+class StorieScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final List statusInfo = [
+      StatusInfo(
+        image: 'assets/images/1.png',
+        username: '@Ulrich',
+        time: '7:45 PM',
+      ),
+      StatusInfo(
+        image: 'assets/images/6.png',
+        username: '@Youmix',
+        time: '7:45 PM',
+      ),
+      StatusInfo(
+        image: 'assets/images/girl_studying_with_music.png',
+        username: '@Julie',
+        time: '7:45 PM',
+      ),
+      StatusInfo(
+        image: 'assets/images/4.png',
+        username: '@Nancy',
+        time: '7:45 PM',
+      ),
+      StatusInfo(
+        image: 'assets/images/2.png',
+        username: '@Johannes',
+        time: '7:45 PM',
+      ),
+      StatusInfo(
+        image: 'assets/images/5.png',
+        username: '@Bro',
+        time: '7:45 PM',
+      ),
+      StatusInfo(
+        image: 'assets/images/3.png',
+        username: '@Manou',
+        time: '7:45 PM',
+      ),
+      StatusInfo(
+        image: 'assets/images/7.png',
+        username: '@Julienne',
+        time: '7:45 PM',
+      ),
+      StatusInfo(
+        image: 'assets/images/8.png',
+        username: '@Junior',
+        time: '7:45 PM',
+      ),
+      StatusInfo(
+        image: 'assets/images/10.png',
+        username: '@Anne',
+        time: '7:45 PM',
+      ),
+    ];
+
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          statusBuilder(
+            context,
+            screenWidth,
+            StatusInfo(
+              image: 'assets/images/girl_studying_with_music.png',
+              username: 'My status',
+              time: 'add status',
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.symmetric(
+              vertical: 10,
+            ),
+            padding: EdgeInsets.symmetric(
+              vertical: 2.0,
+              horizontal: 4.0,
+            ),
+            width: screenWidth,
+            color: kPrimaryColor,
+            child: Text(
+              'Recent updates :',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 12,
+                fontFamily: 'Comfortaa_bold',
+              ),
+            ),
+          ),
+          for (var item in statusInfo)
+            statusBuilder(context, screenWidth, item),
+        ],
+      ),
+    );
+  }
+
+  Widget statusBuilder(
+    BuildContext context,
+    double screenWidth,
+    @required StatusInfo item,
+  ) {
+    return InkWell(
+      onTap: () {},
+      child: Padding(
+        padding: EdgeInsets.symmetric(
+          horizontal: 10.0,
+          vertical: 5.0,
+        ),
+        child: Row(
+          children: [
+            ClipOval(
+              child: Image.asset(
+                item.image,
+                fit: BoxFit.cover,
+                height: 50,
+                width: 50,
+              ),
+            ),
+            Expanded(
+              child: Container(
+                padding: EdgeInsets.symmetric(
+                  horizontal: 8.0,
+                ),
+                height: (screenWidth / 100) * 15,
+                // width: (screenWidth / 100) * 65,
+                // color: Colors.red,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Spacer(),
+                    Text(
+                      item.username,
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    // Spacer(),
+
+                    Text(
+                      'at ' + item.time,
+                      style: TextStyle(),
+                    ),
+                    // Spacer(),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class StatusInfo {
+  final String image, username, time;
+
+  const StatusInfo({
+    Key? key,
+    required this.image,
+    required this.username,
+    required this.time,
+  });
+}
