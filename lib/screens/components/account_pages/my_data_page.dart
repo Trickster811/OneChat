@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:one_chat/contants.dart';
 import 'package:one_chat/functions.dart';
+import 'package:one_chat/main.dart';
 
 class MyDataScreen extends StatefulWidget {
   @override
@@ -9,9 +9,6 @@ class MyDataScreen extends StatefulWidget {
 }
 
 class _MyDataScreenState extends State<MyDataScreen> {
-  int index_1 = 0;
-  int index_2 = 0;
-  int index_3 = 0;
   List<List> blocks = [
     [
       'Images',
@@ -36,7 +33,7 @@ class _MyDataScreenState extends State<MyDataScreen> {
         title: Text(
           'My Data',
           style: TextStyle(
-            color: kPrimaryColor,
+            color: Theme.of(context).iconTheme.color,
             fontSize: 25,
             fontFamily: 'Comfortaa_bold',
           ),
@@ -64,7 +61,7 @@ class _MyDataScreenState extends State<MyDataScreen> {
           Container(
             width: double.maxFinite,
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: Theme.of(context).primaryColor,
               borderRadius: BorderRadius.all(
                 Radius.circular(20),
               ),
@@ -80,7 +77,7 @@ class _MyDataScreenState extends State<MyDataScreen> {
                     decoration: BoxDecoration(
                       border: Border(
                         bottom: BorderSide(
-                          color: Colors.black12,
+                          color: Theme.of(context).iconTheme.color!,
                         ),
                       ),
                     ),
@@ -109,7 +106,7 @@ class _MyDataScreenState extends State<MyDataScreen> {
                             },
                             icon: SvgPicture.asset(
                               'assets/icons/arrow-down-2.1.svg',
-                              color: kPrimaryColor,
+                              color: Theme.of(context).iconTheme.color,
                             ),
                           )
                         : IconButton(
@@ -120,7 +117,7 @@ class _MyDataScreenState extends State<MyDataScreen> {
                             },
                             icon: SvgPicture.asset(
                               'assets/icons/arrow-up-2.4.svg',
-                              color: kPrimaryColor,
+                              color: Theme.of(context).iconTheme.color,
                             ),
                           ),
                   ),

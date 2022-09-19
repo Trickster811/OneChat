@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:one_chat/contants.dart';
 import 'package:one_chat/functions.dart';
+import 'package:one_chat/main.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class MyProfileScreen extends StatelessWidget {
@@ -21,7 +21,7 @@ class MyProfileScreen extends StatelessWidget {
         title: Text(
           'My Profile',
           style: TextStyle(
-            color: kPrimaryColor,
+            color: Theme.of(context).iconTheme.color,
             fontSize: 25,
             fontFamily: 'Comfortaa_bold',
           ),
@@ -40,7 +40,7 @@ class MyProfileScreen extends StatelessWidget {
                 padding: EdgeInsets.all(8.0),
                 width: double.maxFinite,
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: Theme.of(context).primaryColor,
                   borderRadius: BorderRadius.all(
                     Radius.circular(20),
                   ),
@@ -59,7 +59,7 @@ class MyProfileScreen extends StatelessWidget {
                       decoration: BoxDecoration(
                         border: Border(
                           bottom: BorderSide(
-                            color: Colors.black12,
+                            color: Theme.of(context).iconTheme.color!,
                           ),
                         ),
                       ),
@@ -76,7 +76,7 @@ class MyProfileScreen extends StatelessWidget {
                       decoration: BoxDecoration(
                         border: Border(
                           bottom: BorderSide(
-                            color: Colors.black12,
+                            color: Theme.of(context).iconTheme.color!,
                           ),
                         ),
                       ),
@@ -93,7 +93,7 @@ class MyProfileScreen extends StatelessWidget {
                       decoration: BoxDecoration(
                         border: Border(
                           bottom: BorderSide(
-                            color: Colors.black12,
+                            color: Theme.of(context).iconTheme.color!,
                           ),
                         ),
                       ),
@@ -110,7 +110,7 @@ class MyProfileScreen extends StatelessWidget {
                       decoration: BoxDecoration(
                         border: Border(
                           bottom: BorderSide(
-                            color: Colors.black12,
+                            color: Theme.of(context).iconTheme.color!,
                           ),
                         ),
                       ),
@@ -127,7 +127,7 @@ class MyProfileScreen extends StatelessWidget {
                       decoration: BoxDecoration(
                         border: Border(
                           bottom: BorderSide(
-                            color: Colors.black12,
+                            color: Theme.of(context).iconTheme.color!,
                           ),
                         ),
                       ),
@@ -141,13 +141,6 @@ class MyProfileScreen extends StatelessWidget {
                     ),
                     Container(
                       height: 50,
-                      decoration: BoxDecoration(
-                        border: Border(
-                          bottom: BorderSide(
-                            color: Colors.black12,
-                          ),
-                        ),
-                      ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -171,7 +164,7 @@ class MyProfileScreen extends StatelessWidget {
                 height: 250,
                 width: 250,
                 decoration: BoxDecoration(
-                  color: kPrimaryColor,
+                  color: Theme.of(context).primaryColor,
                   borderRadius: BorderRadius.all(
                     Radius.circular(20),
                   ),
@@ -181,7 +174,7 @@ class MyProfileScreen extends StatelessWidget {
                   eyeStyle: QrEyeStyle(eyeShape: QrEyeShape.circle),
                   dataModuleStyle: QrDataModuleStyle(
                       dataModuleShape: QrDataModuleShape.circle),
-                  foregroundColor: Colors.white,
+                  foregroundColor: Theme.of(context).iconTheme.color,
                 ),
               ),
             ],

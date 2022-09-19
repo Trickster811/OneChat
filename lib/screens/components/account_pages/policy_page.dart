@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:one_chat/contants.dart';
 import 'package:one_chat/functions.dart';
+import 'package:one_chat/main.dart';
 
 class PolicyScreen extends StatelessWidget {
   @override
@@ -14,7 +14,7 @@ class PolicyScreen extends StatelessWidget {
         title: Text(
           'Policy',
           style: TextStyle(
-            color: kPrimaryColor,
+            color: Theme.of(context).iconTheme.color,
             fontSize: 25,
             fontFamily: 'Comfortaa_bold',
           ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:one_chat/main.dart';
 import 'package:one_chat/screens/components/account_pages/about_page.dart';
 import 'package:one_chat/screens/components/account_pages/help_page.dart';
 import 'package:one_chat/screens/components/account_pages/my_data_page.dart';
@@ -101,6 +102,7 @@ class AccountScreen extends StatelessWidget {
             child: Text(
               '@julie_Queen',
               style: TextStyle(
+                // color: kPrimaryColor,
                 fontSize: 25,
                 fontFamily: 'Comfortaa_bold',
               ),
@@ -120,6 +122,7 @@ class AccountScreen extends StatelessWidget {
                 Text(
                   'One Chat Data',
                   style: TextStyle(
+                    // color: kPrimaryColor,
                     fontSize: 15,
                     fontFamily: 'Comfortaa_bold',
                   ),
@@ -135,7 +138,7 @@ class AccountScreen extends StatelessWidget {
                     ),
                     // height: 50,
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: Theme.of(context).primaryColor,
                       borderRadius: BorderRadius.all(
                         Radius.circular(15),
                       ),
@@ -162,6 +165,7 @@ class AccountScreen extends StatelessWidget {
                 Text(
                   'Others',
                   style: TextStyle(
+                    // color: kPrimaryColor,
                     fontSize: 15,
                     fontFamily: 'Comfortaa_bold',
                   ),
@@ -177,7 +181,7 @@ class AccountScreen extends StatelessWidget {
                     ),
                     // height: 50,
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: Theme.of(context).primaryColor,
                       borderRadius: BorderRadius.all(
                         Radius.circular(10),
                       ),
@@ -228,7 +232,7 @@ class AccountScreen extends StatelessWidget {
                   ? BoxDecoration(
                       border: Border(
                         bottom: BorderSide(
-                          color: Colors.black12,
+                          color: Theme.of(context).iconTheme.color!,
                         ),
                       ),
                     )
@@ -239,8 +243,8 @@ class AccountScreen extends StatelessWidget {
                   Text(
                     element.title,
                     style: TextStyle(
+                      // color: kPrimaryColor,
                       fontSize: 15,
-                      color: Colors.black,
                       fontFamily: 'Comfortaa_regular',
                     ),
                   ),
@@ -248,6 +252,7 @@ class AccountScreen extends StatelessWidget {
                     'assets/icons/arrow-right-2.4.svg',
                     height: 20,
                     width: 20,
+                    color: Theme.of(context).iconTheme.color!,
                   ),
                 ],
               ),

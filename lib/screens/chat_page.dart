@@ -1,7 +1,7 @@
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:one_chat/contants.dart';
+import 'package:one_chat/main.dart';
 import 'package:one_chat/screens/components/chat_pages/chat_space.dart';
 
 class ConversationInfo {
@@ -150,6 +150,7 @@ class ChatScreen extends StatelessWidget {
                     Text(
                       item.username,
                       style: TextStyle(
+                        // color: kPrimaryColor,
                         fontSize: 15,
                         fontWeight: FontWeight.w600,
                       ),
@@ -158,7 +159,9 @@ class ChatScreen extends StatelessWidget {
 
                     Text(
                       item.message,
-                      style: TextStyle(),
+                      style: TextStyle(
+                          // color: kPrimaryColor,
+                          ),
                     ),
                     // Spacer(),
                   ],
@@ -184,7 +187,7 @@ class ChatScreen extends StatelessWidget {
                     onPressed: () {},
                     icon: SvgPicture.asset(
                       'assets/icons/arrow-right-2.4.svg',
-                      color: kPrimaryColor,
+                      color: Theme.of(context).iconTheme.color,
                     ),
                   ),
                 ),

@@ -44,6 +44,10 @@ dependencies:
   path_provider:
   qr_flutter:
   qr_code_scanner:
+  shared_preferences:
+  provider:
+  form_field_validator:
+  local_auth: # package for fingerprint verirfication
 
 dev_dependencies:
   flutter_test:
@@ -61,7 +65,7 @@ dev_dependencies:
 flutter_icons:
   android: "launcher_icon"
   ios: true
-  image_path: assets/images/1_cloud_logo_reversed.png
+  image_path: assets/images/one_chat_logo.png
 
 # The following section is specific to Flutter packages.
 flutter:

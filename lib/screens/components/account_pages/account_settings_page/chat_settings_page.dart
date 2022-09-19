@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:one_chat/functions.dart';
 import 'package:one_chat/main.dart';
 
-class HelpScreen extends StatelessWidget {
+class ChatSettingsScreen extends StatelessWidget {
+  final String title;
+
+  const ChatSettingsScreen({
+    Key? key,
+    required this.title,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -12,11 +16,10 @@ class HelpScreen extends StatelessWidget {
         elevation: 0,
         automaticallyImplyLeading: false,
         title: Text(
-          'Help',
+          title,
           style: TextStyle(
             color: Theme.of(context).iconTheme.color,
             fontSize: 25,
-            fontFamily: 'Comfortaa_bold',
           ),
         ),
       ),

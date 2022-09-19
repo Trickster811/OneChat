@@ -8,7 +8,7 @@ import 'package:grouped_list/grouped_list.dart';
 
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:one_chat/contants.dart';
+import 'package:one_chat/main.dart';
 import 'package:one_chat/screens/chat_page.dart';
 
 class ChatSpace extends StatefulWidget {
@@ -100,7 +100,7 @@ class _ChatSpaceState extends State<ChatSpace> {
           onPressed: () => Navigator.maybePop(context),
           icon: SvgPicture.asset(
             'assets/icons/arrow-left-2.2.svg',
-            color: kPrimaryColor,
+            color: Theme.of(context).iconTheme.color!,
           ),
         ),
         title: Row(
@@ -120,7 +120,7 @@ class _ChatSpaceState extends State<ChatSpace> {
               child: Text(
                 widget.conversationInfo.username,
                 style: TextStyle(
-                  color: kPrimaryColor,
+                  // color: kPrimaryColor,
                   fontSize: 15,
                   fontFamily: 'Comfortaa_bold',
                 ),
@@ -133,14 +133,14 @@ class _ChatSpaceState extends State<ChatSpace> {
             onPressed: () {},
             icon: SvgPicture.asset(
               'assets/icons/search.svg',
-              color: kPrimaryColor,
+              color: Theme.of(context).iconTheme.color!,
             ),
           ),
           IconButton(
             onPressed: () {},
             icon: SvgPicture.asset(
               'assets/icons/more-circle.1.svg',
-              color: kPrimaryColor,
+              color: Theme.of(context).iconTheme.color!,
             ),
           ),
         ],
@@ -149,7 +149,6 @@ class _ChatSpaceState extends State<ChatSpace> {
         children: [
           Expanded(
             child: Container(
-              color: Colors.white,
               child: GroupedListView<Message, DateTime>(
                 padding: EdgeInsets.all(8.0),
                 elements: messages,
@@ -158,13 +157,13 @@ class _ChatSpaceState extends State<ChatSpace> {
                   height: 30,
                   child: Center(
                     child: Card(
-                      color: kPrimaryColor,
+                      color: Theme.of(context).primaryColor,
                       child: Padding(
                         padding: EdgeInsets.all(2.0),
                         child: Text(
                           DateFormat.yMMMd().format(message.date),
                           style: TextStyle(
-                            color: Colors.white,
+                            // color: kPrimaryColor,
                             fontFamily: 'Comfortaa_light',
                           ),
                         ),
@@ -187,12 +186,15 @@ class _ChatSpaceState extends State<ChatSpace> {
                           decoration: BoxDecoration(
                             borderRadius:
                                 BorderRadius.all(Radius.circular(8.0)),
-                            border: Border.all(),
+                            border: Border.all(
+                              color: Theme.of(context).primaryColor,
+                            ),
                           ),
                           child: Padding(
                             padding: EdgeInsets.all(5.0),
                             child: Text(message.text,
                                 style: TextStyle(
+                                  // color: kPrimaryColor,
                                   fontFamily: 'Comfortaa_regular',
                                 )),
                           ),
@@ -200,6 +202,7 @@ class _ChatSpaceState extends State<ChatSpace> {
                         Text(
                           '7:36 PM',
                           style: TextStyle(
+                            // color: kPrimaryColor,
                             fontSize: 10,
                           ),
                         ),
@@ -219,7 +222,7 @@ class _ChatSpaceState extends State<ChatSpace> {
                   onPressed: () {},
                   icon: SvgPicture.asset(
                     'assets/icons/category.4.svg',
-                    color: kPrimaryColor,
+                    color: Theme.of(context).iconTheme.color!,
                   ),
                 ),
                 Flexible(
@@ -239,11 +242,11 @@ class _ChatSpaceState extends State<ChatSpace> {
                       },
                       onSubmitted: (String text) {},
                       cursorWidth: 1.0,
-                      cursorColor: kPrimaryColor,
+                      cursorColor: Theme.of(context).iconTheme.color,
                       decoration: InputDecoration(
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                            color: kPrimaryColor.withOpacity(0.8),
+                            color: Theme.of(context).iconTheme.color!.withOpacity(0.8),
                           ),
                           borderRadius: BorderRadius.all(
                             Radius.circular(1000.0),
@@ -251,7 +254,7 @@ class _ChatSpaceState extends State<ChatSpace> {
                         ),
                         border: OutlineInputBorder(
                           borderSide: BorderSide(
-                            color: kPrimaryColor.withOpacity(0.8),
+                            color: Theme.of(context).iconTheme.color!.withOpacity(0.8),
                           ),
                           borderRadius: BorderRadius.all(
                             Radius.circular(1000.0),
@@ -264,6 +267,7 @@ class _ChatSpaceState extends State<ChatSpace> {
                         ),
                         hintText: 'type a message',
                         hintStyle: TextStyle(
+                          // color: kPrimaryColor,
                           fontFamily: 'Comfortaa_light',
                         ),
                       ),
@@ -277,7 +281,7 @@ class _ChatSpaceState extends State<ChatSpace> {
                         },
                         icon: SvgPicture.asset(
                           'assets/icons/camera.2.svg',
-                          color: kPrimaryColor,
+                          color: Theme.of(context).iconTheme.color!,
                         ),
                       )
                     : IconButton(
@@ -295,7 +299,7 @@ class _ChatSpaceState extends State<ChatSpace> {
                         },
                         icon: SvgPicture.asset(
                           'assets/icons/send.3.svg',
-                          color: kPrimaryColor,
+                          color: Theme.of(context).iconTheme.color!,
                         ),
                       ),
                 index == 0
@@ -303,7 +307,7 @@ class _ChatSpaceState extends State<ChatSpace> {
                         onPressed: () {},
                         icon: SvgPicture.asset(
                           'assets/icons/voice.svg',
-                          color: kPrimaryColor,
+                          color: Theme.of(context).iconTheme.color!,
                         ),
                       )
                     : Container(),
@@ -336,6 +340,7 @@ class _ChatSpaceState extends State<ChatSpace> {
           title: Text(
             'Oups!!',
             style: TextStyle(
+              // color: kPrimaryColor,
               fontSize: 18,
               fontFamily: 'ArialRoundedBold',
             ),
@@ -343,6 +348,7 @@ class _ChatSpaceState extends State<ChatSpace> {
           message: Text(
             'Sorry!! An error occured',
             style: TextStyle(
+              // color: kPrimaryColor,
               fontSize: 14,
               fontFamily: 'ArialRoundedBold',
             ),
@@ -388,12 +394,13 @@ class EditPageScreen extends StatelessWidget {
           onPressed: () => Navigator.maybePop(context),
           icon: SvgPicture.asset(
             'assets/icons/arrow-left.svg',
-            color: kPrimaryColor,
+            color: Theme.of(context).iconTheme.color!,
           ),
         ),
         title: Text(
           'Edit Image',
           style: TextStyle(
+            // color: kPrimaryColor,
             fontFamily: 'Comfortaa_regular',
             fontSize: 16,
           ),
@@ -458,6 +465,7 @@ class EditPageScreen extends StatelessWidget {
                         ),
                         hintText: 'type a message',
                         hintStyle: TextStyle(
+                          // color: kPrimaryColor,
                           fontFamily: 'Comfortaa_light',
                         ),
                       ),

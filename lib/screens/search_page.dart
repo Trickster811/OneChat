@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:one_chat/contants.dart';
+import 'package:one_chat/main.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({
@@ -24,7 +24,7 @@ class _SearchScreenState extends State<SearchScreen> {
           padding: EdgeInsets.symmetric(vertical: 10.0),
           child: Container(
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: Theme.of(context).primaryColor,
               borderRadius: BorderRadius.all(
                 Radius.circular(100.0),
               ),
@@ -50,11 +50,14 @@ class _SearchScreenState extends State<SearchScreen> {
                       },
                       onSubmitted: (String text) {},
                       cursorWidth: 1.0,
-                      cursorColor: kPrimaryColor,
+                      cursorColor: Theme.of(context).iconTheme.color,
                       decoration: InputDecoration(
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                            color: kPrimaryColor.withOpacity(0.8),
+                            color: Theme.of(context)
+                                .iconTheme
+                                .color!
+                                .withOpacity(0.8),
                           ),
                           borderRadius: BorderRadius.all(
                             Radius.circular(1000.0),
@@ -62,7 +65,10 @@ class _SearchScreenState extends State<SearchScreen> {
                         ),
                         border: OutlineInputBorder(
                           borderSide: BorderSide(
-                            color: kPrimaryColor.withOpacity(0.8),
+                            color: Theme.of(context)
+                                .iconTheme
+                                .color!
+                                .withOpacity(0.8),
                           ),
                           borderRadius: BorderRadius.all(
                             Radius.circular(1000.0),
@@ -75,6 +81,7 @@ class _SearchScreenState extends State<SearchScreen> {
                         ),
                         hintText: 'type a message',
                         hintStyle: TextStyle(
+                          // color: kPrimaryColor,
                           fontFamily: 'Comfortaa_light',
                         ),
                       ),
@@ -88,14 +95,14 @@ class _SearchScreenState extends State<SearchScreen> {
                         },
                         icon: SvgPicture.asset(
                           'assets/icons/search.svg',
-                          color: kPrimaryColor,
+                          color: Theme.of(context).iconTheme.color,
                         ),
                       )
                     : IconButton(
                         onPressed: () {},
                         icon: SvgPicture.asset(
                           'assets/icons/send.3.svg',
-                          color: kPrimaryColor,
+                          color: Theme.of(context).iconTheme.color,
                           height: 40,
                           width: 40,
                         ),
@@ -106,7 +113,7 @@ class _SearchScreenState extends State<SearchScreen> {
         ),
         Container(
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: Theme.of(context).scaffoldBackgroundColor,
             borderRadius: BorderRadius.all(
               Radius.circular(10.0),
             ),
@@ -129,6 +136,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   Text(
                     'Image',
                     style: TextStyle(
+                      // color: kPrimaryColor,
                       fontSize: 10,
                       fontFamily: 'Comfortaa_bold',
                     ),
@@ -147,6 +155,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   Text(
                     'Video',
                     style: TextStyle(
+                      // color: kPrimaryColor,
                       fontSize: 10,
                       fontFamily: 'Comfortaa_bold',
                     ),
@@ -165,6 +174,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   Text(
                     'Document',
                     style: TextStyle(
+                      // color: kPrimaryColor,
                       fontSize: 10,
                       fontFamily: 'Comfortaa_bold',
                     ),
@@ -183,6 +193,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   Text(
                     'Other',
                     style: TextStyle(
+                      // color: kPrimaryColor,
                       fontSize: 10,
                       fontFamily: 'Comfortaa_bold',
                     ),
@@ -201,6 +212,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   Text(
                     'Account',
                     style: TextStyle(
+                      // color: kPrimaryColor,
                       fontSize: 10,
                       fontFamily: 'Comfortaa_bold',
                     ),
@@ -217,17 +229,17 @@ class _SearchScreenState extends State<SearchScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SvgPicture.asset(
-                      'assets/icons/category.4.svg',
-                      color: Colors.black26,
+                      'assets/images/1_Cloud_logo.svg',
+                      color: Theme.of(context).iconTheme.color,
                       height: 75,
                       width: 75,
                     ),
                     Text(
                       'No research!!!',
                       style: TextStyle(
+                        // color: kPrimaryColor,
                         fontFamily: 'Comfortaa_bold',
                         fontSize: 20,
-                        color: Colors.black26,
                       ),
                     ),
                   ],

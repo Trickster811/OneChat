@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:one_chat/contants.dart';
 import 'package:one_chat/functions.dart';
+import 'package:one_chat/main.dart';
 
 class UpdateScreen extends StatelessWidget {
   @override
@@ -14,10 +14,31 @@ class UpdateScreen extends StatelessWidget {
         title: Text(
           'Updates',
           style: TextStyle(
-            color: kPrimaryColor,
+            color: Theme.of(context).iconTheme.color,
             fontSize: 25,
             fontFamily: 'Comfortaa_bold',
           ),
+        ),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SvgPicture.asset(
+              'assets/images/1_Cloud_logo.svg',
+              color: Colors.black26,
+              height: 75,
+              width: 75,
+            ),
+            Text(
+              'No updates!!!',
+              style: TextStyle(
+                fontFamily: 'Comfortaa_bold',
+                fontSize: 20,
+                color: Colors.black26,
+              ),
+            ),
+          ],
         ),
       ),
     );

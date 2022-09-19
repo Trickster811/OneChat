@@ -1,7 +1,7 @@
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:one_chat/contants.dart';
+import 'package:one_chat/main.dart';
 
 class StorieScreen extends StatelessWidget {
   @override
@@ -81,11 +81,11 @@ class StorieScreen extends StatelessWidget {
               horizontal: 4.0,
             ),
             width: screenWidth,
-            color: kPrimaryColor,
+            color: Theme.of(context).scaffoldBackgroundColor,
             child: Text(
               'Recent updates :',
               style: TextStyle(
-                color: Colors.white,
+                // color: kPrimaryColor,
                 fontSize: 12,
                 fontFamily: 'Comfortaa_bold',
               ),
@@ -136,6 +136,7 @@ class StorieScreen extends StatelessWidget {
                     Text(
                       item.username,
                       style: TextStyle(
+                        // color: kPrimaryColor,
                         fontSize: 15,
                         fontWeight: FontWeight.w600,
                       ),
@@ -144,7 +145,9 @@ class StorieScreen extends StatelessWidget {
 
                     Text(
                       'at ' + item.time,
-                      style: TextStyle(),
+                      style: TextStyle(
+                          // color: kPrimaryColor,
+                          ),
                     ),
                     // Spacer(),
                   ],

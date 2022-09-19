@@ -1,8 +1,9 @@
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:one_chat/contants.dart';
+import 'package:one_chat/constant.dart';
 import 'package:one_chat/functions.dart';
+import 'package:one_chat/main.dart';
 import 'package:one_chat/screens/account_page.dart';
 import 'package:one_chat/screens/chat_page.dart';
 import 'package:one_chat/screens/components/account_pages/about_page.dart';
@@ -10,6 +11,7 @@ import 'package:one_chat/screens/components/account_pages/settings_page.dart';
 import 'package:one_chat/screens/components/scan_page.dart';
 import 'package:one_chat/screens/search_page.dart';
 import 'package:one_chat/screens/storie_page.dart';
+import 'package:provider/provider.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({
@@ -21,12 +23,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  void _incrementCounter() {
-    setState(() {
-      // _counter++;
-    });
-  }
-
   int index = 0;
   double appBarHeightSize = 0;
 
@@ -65,46 +61,54 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     AppBar appBar = AppBar(
-      backgroundColor: Colors.transparent,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       elevation: 0,
       title: Text(
         screenName[index],
         style: TextStyle(
-          color: kPrimaryColor,
+          color: Theme.of(context).iconTheme.color,
           fontSize: 25,
-          fontFamily: 'Comfortaa_bold',
         ),
       ),
       actions: [
-        IconButton(
-          onPressed: () {},
-          icon: SvgPicture.asset(
-            'assets/icons/search.svg',
-            color: kPrimaryColor,
-          ),
-        ),
+        index != 2
+            ? IconButton(
+                onPressed: () {},
+                icon: SvgPicture.asset(
+                  'assets/icons/search.svg',
+                  color: Theme.of(context).iconTheme.color,
+                ),
+              )
+            : Container(),
         IconButton(
           onPressed: () {
             UsualFunctions.openDialog(context, menuItemList, appBarHeightSize);
           },
           icon: SvgPicture.asset(
             'assets/icons/more-circle.1.svg',
-            color: kPrimaryColor,
+            color: Theme.of(context).iconTheme.color,
           ),
         ),
       ],
     );
     return Scaffold(
       appBar: appBar,
-      body: index != 4
-          ? screens[index]
-          : index != 5
-              ? screens[index]
-              : Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 30.0),
-                  child: screens[index],
-                ),
+      body: index != 3
+          ? Container(
+              padding: EdgeInsets.symmetric(vertical: 8.0),
+              decoration: BoxDecoration(
+                color: Provider.of<ThemeProvider>(context).themeMode ==
+                        ThemeMode.dark
+                    ? Theme.of(context).primaryColor
+                    // ? Color.fromRGBO(5, 35, 61, 1)
+                    : Theme.of(context).scaffoldBackgroundColor,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: screens[index],
+            )
+          : screens[index],
       bottomNavigationBar: BottomAppBar(
+        // color: scaffoldTheme,
         clipBehavior: Clip.antiAliasWithSaveLayer,
         // color: kSecondaryColor,
         child: Row(
@@ -134,7 +138,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             ),
                             child: SvgPicture.asset(
                               'assets/icons/chat.5.svg',
-                              color: kPrimaryColor,
+                              color: Theme.of(context).iconTheme.color,
                             ),
                           )
                         : Badge(
@@ -150,7 +154,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             ),
                             child: SvgPicture.asset(
                               'assets/icons/chat.6.svg',
-                              color: kPrimaryColor,
+                              color: Theme.of(context).iconTheme.color,
                             ),
                           ),
                     Spacer(),
@@ -158,7 +162,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       'Chats',
                       style: TextStyle(
                         fontSize: 7,
-                        fontFamily: 'Comfortaa_bold',
+                        // color: kPrimaryColor,
                       ),
                     ),
                   ],
@@ -177,18 +181,18 @@ class _MyHomePageState extends State<MyHomePage> {
                   index == 1
                       ? SvgPicture.asset(
                           'assets/icons/plus.3.svg',
-                          color: kPrimaryColor,
+                          color: Theme.of(context).iconTheme.color,
                         )
                       : SvgPicture.asset(
                           'assets/icons/plus.1.svg',
-                          color: kPrimaryColor,
+                          color: Theme.of(context).iconTheme.color,
                         ),
                   Spacer(),
                   Text(
                     'Status',
                     style: TextStyle(
                       fontSize: 7,
-                      fontFamily: 'Comfortaa_bold',
+                      // color: Theme.of(context).iconTheme.color,
                     ),
                   ),
                 ],
@@ -206,18 +210,18 @@ class _MyHomePageState extends State<MyHomePage> {
                   index == 2
                       ? SvgPicture.asset(
                           'assets/icons/search.6.svg',
-                          color: kPrimaryColor,
+                          color: Theme.of(context).iconTheme.color,
                         )
                       : SvgPicture.asset(
                           'assets/icons/search.svg',
-                          color: kPrimaryColor,
+                          color: Theme.of(context).iconTheme.color,
                         ),
                   Spacer(),
                   Text(
                     'Search',
                     style: TextStyle(
                       fontSize: 7,
-                      fontFamily: 'Comfortaa_bold',
+                      // color: kPrimaryColor,
                     ),
                   ),
                 ],
@@ -235,18 +239,18 @@ class _MyHomePageState extends State<MyHomePage> {
                   index == 3
                       ? SvgPicture.asset(
                           'assets/icons/profile.3.svg',
-                          color: kPrimaryColor,
+                          color: Theme.of(context).iconTheme.color,
                         )
                       : SvgPicture.asset(
                           'assets/icons/profile.4.svg',
-                          color: kPrimaryColor,
+                          color: Theme.of(context).iconTheme.color,
                         ),
                   Spacer(),
                   Text(
                     'Account',
                     style: TextStyle(
                       fontSize: 7,
-                      fontFamily: 'Comfortaa_bold',
+                      // color: kPrimaryColor,
                     ),
                   ),
                 ],

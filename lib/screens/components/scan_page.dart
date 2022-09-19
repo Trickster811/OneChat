@@ -2,7 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:one_chat/contants.dart';
+import 'package:one_chat/main.dart';
+import 'package:one_chat/screens/chat_page.dart';
+import 'package:one_chat/screens/components/chat_pages/chat_space.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 class ScanScreen extends StatefulWidget {
@@ -40,7 +42,7 @@ class _ScanScreenState extends State<ScanScreen> {
         title: Text(
           'Connect',
           style: TextStyle(
-            color: kPrimaryColor,
+            color: Theme.of(context).iconTheme.color!,
             fontSize: 25,
             fontFamily: 'Comfortaa_bold',
           ),
@@ -67,7 +69,7 @@ class _ScanScreenState extends State<ScanScreen> {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16),
       decoration: BoxDecoration(
-        color: Colors.white24,
+        color: Colors.white54,
         borderRadius: BorderRadius.circular(8),
       ),
       child: Row(
@@ -82,7 +84,7 @@ class _ScanScreenState extends State<ScanScreen> {
             },
             icon: SvgPicture.asset(
               'assets/icons/plus.1.svg',
-              color: kPrimaryColor,
+              color: Theme.of(context).iconTheme.color!,
             ),
           ),
           IconButton(
@@ -92,7 +94,7 @@ class _ScanScreenState extends State<ScanScreen> {
             },
             icon: SvgPicture.asset(
               'assets/icons/camera.1.svg',
-              color: kPrimaryColor,
+              color: Theme.of(context).iconTheme.color!,
             ),
           ),
         ],
@@ -103,7 +105,7 @@ class _ScanScreenState extends State<ScanScreen> {
   Widget buildResult() => Container(
         padding: EdgeInsets.all(12),
         decoration: BoxDecoration(
-            color: Colors.white24, borderRadius: BorderRadius.circular(8)),
+            color: Colors.white54, borderRadius: BorderRadius.circular(8)),
         child: Text(
           barcode != null ? 'Result : ${barcode!.code}' : 'Scan to connect',
           maxLines: 3,
@@ -115,10 +117,10 @@ class _ScanScreenState extends State<ScanScreen> {
       key: qrKey,
       onQRViewCreated: onQRViewCreated,
       overlay: QrScannerOverlayShape(
-        borderColor: kPrimaryColor,
+        borderColor: Theme.of(context).iconTheme.color!,
         borderRadius: 20,
-        borderLength: 30,
-        borderWidth: 20,
+        borderLength: 40,
+        borderWidth: 10,
         cutOutSize: MediaQuery.of(context).size.width * 0.8,
       ),
     );
@@ -131,6 +133,20 @@ class _ScanScreenState extends State<ScanScreen> {
     controller.scannedDataStream.listen((barcode) {
       setState(() {
         this.barcode = barcode;
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: ((context) => ChatSpace(
+                  conversationInfo: ConversationInfo(
+                    image: 'assets/images/1.png',
+                    username: '${barcode.code}',
+                    message: 'Ecris fort!!! Je suis dans les bruits bro',
+                    time: '7:45 PM',
+                    badge: '02',
+                  ),
+                )),
+          ),
+        );
       });
     });
   }

@@ -23,7 +23,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 228, 228, 228),
+      // backgroundColor: Color.fromARGB(255, 228, 228, 228),
       body: initScreen(context),
     );
   }
@@ -46,10 +46,10 @@ class _LoadingScreenState extends State<LoadingScreen> {
     return Stack(
       children: [
         Positioned(
-          right: -MediaQuery.of(context).size.width,
+          right: -MediaQuery.of(context).size.width * 0.8,
           bottom: 0,
           child: SvgPicture.asset(
-            'assets/images/cloud.svg',
+            'assets/images/one_chat_logo.svg',
             color: Colors.white.withOpacity(0.4),
             // colorBlendMode: BlendMode.modulate,
             // width: MediaQuery.of(context).size.width * 3,
@@ -63,7 +63,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
               children: [
                 Spacer(),
                 SvgPicture.asset(
-                  'assets/images/1_Cloud_logo.svg',
+                  'assets/images/one_chat_logo.svg',
                   height: 75,
                   width: 75,
                 ),
@@ -71,7 +71,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
                   height: 10,
                 ),
                 Text(
-                  'One Cloud',
+                  'One Chat',
                   style: TextStyle(
                     fontSize: 15,
                     fontFamily: 'Comfortaa_bold',
@@ -85,7 +85,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
                   style: TextStyle(
                     fontSize: 10,
                     fontFamily: 'Comfortaa_bold',
-                    color: Colors.black45,
+                    // color: Colors.black45,
                   ),
                 ),
                 SizedBox(
