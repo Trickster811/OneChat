@@ -73,7 +73,7 @@ class FingerPrintScanner {
     }
   }
 
-  static Future<bool> authenticate() async {
+  static Future<bool> authentication() async {
     final isAvailable = await hasBiometrics();
     if (!isAvailable) return false;
 

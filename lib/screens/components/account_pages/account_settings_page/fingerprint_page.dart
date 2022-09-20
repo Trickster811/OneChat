@@ -117,8 +117,8 @@ class _PatternScreenState extends State<PatternScreen> {
                           child: InkWell(
                             onTap: () async {
                               // fingerPrintConfiguration();
-                              // final isAvailable =
-                              //     await FingerPrintScanner.hasBiometrics();
+                              final isAvailable =
+                                  await FingerPrintScanner.hasBiometrics();
                               // final biometrics =
                               //     FingerPrintScanner.getBiometrics();
                               // final hasFingerPrint = biometrics.contains(BiometricType.fingerprint);
@@ -146,7 +146,7 @@ class _PatternScreenState extends State<PatternScreen> {
                                           ),
                                         ),
                                       ),
-                                      // builText('Biometrics', isAvailable),
+                                      builText('Biometrics', isAvailable),
                                       // builText('FingerPrint', hasFingerPrint),
                                     ],
                                   ),
@@ -167,7 +167,7 @@ class _PatternScreenState extends State<PatternScreen> {
                                   ],
                                 ),
                               );
-                              FingerPrintScanner.authenticate();
+                              // FingerPrintScanner.authentication();
                             },
                             child: Text(
                               'Check Availablity',
