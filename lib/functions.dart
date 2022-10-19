@@ -23,12 +23,15 @@ class UsualFunctions {
   static PopupMenuItem _buildPopMenuItem(BuildContext context, List item) {
     return PopupMenuItem(
       child: InkWell(
-        onTap: () => Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: ((context) => item[2]),
-          ),
-        ),
+        onTap: () {
+          Navigator.pop(context);
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: ((context) => item[2]),
+            ),
+          );
+        },
         child: Row(
           // mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -65,7 +68,15 @@ class FingerPrintScanner {
     }
   }
 
-  static Future<List<BiometricType>> getBiometrics()async {
+  static Future<bool> isBiometricSupported() async {
+    try {
+      return await _auth.isDeviceSupported();
+    } on PlatformException catch (e) {
+      return false;
+    }
+  }
+
+  static Future<List<BiometricType>> getBiometrics() async {
     try {
       return await _auth.getAvailableBiometrics();
     } on PlatformException catch (e) {
@@ -75,16 +86,25 @@ class FingerPrintScanner {
 
   static Future<bool> authentication() async {
     final isAvailable = await hasBiometrics();
-    if (!isAvailable) return false;
+    final isbBiometricSupported = await isBiometricSupported();
+    if (!isAvailable && !isbBiometricSupported) return false;
 
     try {
       return await _auth.authenticate(
-          localizedReason: 'Scan your fingerprint to authenticate',
-          options: AuthenticationOptions(
-            stickyAuth: true,
-          ));
+        localizedReason: 'Scan your fingerprint to authenticate',
+        options: AuthenticationOptions(
+          stickyAuth: true,
+        ),
+      );
     } on PlatformException catch (e) {
+      print(e);
       return false;
     }
   }
+}
+
+class Config{
+  static final String apiKey = "ega5cqgrdrth";
+
+  static final String tokenH = "7wwhnccww44je594h9zvbwatv2xge49wuryhj63wyfnxc9ufkd2afqe44yt3zzub";
 }

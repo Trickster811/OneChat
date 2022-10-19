@@ -291,7 +291,10 @@ class SettingsScreen extends StatelessWidget {
                   ? BoxDecoration(
                       border: Border(
                         bottom: BorderSide(
-                          color: Theme.of(context).iconTheme.color!,
+                          color: Theme.of(context)
+                              .iconTheme
+                              .color!
+                              .withOpacity(0.4),
                         ),
                       ),
                     )
@@ -311,7 +314,7 @@ class SettingsScreen extends StatelessWidget {
                     'assets/icons/arrow-right-2.4.svg',
                     height: 20,
                     width: 20,
-                    color: Theme.of(context).iconTheme.color,
+                    color: Theme.of(context).iconTheme.color!.withOpacity(0.7),
                   ),
                 ],
               ),

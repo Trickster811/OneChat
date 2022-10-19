@@ -101,7 +101,7 @@ class MyProfileScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text('Gender:'),
-                          Text('Male'),
+                          Text('Female'),
                         ],
                       ),
                     ),
@@ -170,7 +170,7 @@ class MyProfileScreen extends StatelessWidget {
                   ),
                 ),
                 child: QrImage(
-                  data: username,
+                  data: username + 'one_chat_app_username',
                   eyeStyle: QrEyeStyle(eyeShape: QrEyeShape.circle),
                   dataModuleStyle: QrDataModuleStyle(
                       dataModuleShape: QrDataModuleShape.circle),

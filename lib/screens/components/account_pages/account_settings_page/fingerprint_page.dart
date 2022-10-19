@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -116,12 +118,21 @@ class _PatternScreenState extends State<PatternScreen> {
                           ),
                           child: InkWell(
                             onTap: () async {
+                              Directory newDirectory =
+                                  await Directory("/sdcard/One Chat")
+                                      .create(recursive: true);
+                              print(newDirectory);
                               // fingerPrintConfiguration();
                               final isAvailable =
                                   await FingerPrintScanner.hasBiometrics();
-                              // final biometrics =
-                              //     FingerPrintScanner.getBiometrics();
-                              // final hasFingerPrint = biometrics.contains(BiometricType.fingerprint);
+                              final isBiometricSupported =
+                                  await FingerPrintScanner
+                                      .isBiometricSupported();
+                              final biometrics =
+                                  await FingerPrintScanner.getBiometrics();
+                              final hasFingerPrint = biometrics
+                                  .contains(BiometricType.fingerprint);
+                              print(hasFingerPrint);
                               showCupertinoModalPopup(
                                 context: context,
                                 builder: (context) => CupertinoActionSheet(
@@ -137,29 +148,49 @@ class _PatternScreenState extends State<PatternScreen> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Center(
-                                        child: Text(
-                                          'Here are available biometrics type on your phone',
-                                          style: TextStyle(
-                                            // fontSize: 14,
-                                            fontFamily: 'Comfortaa_bold',
+                                      Padding(
+                                        padding: EdgeInsets.only(bottom: 8.0),
+                                        child: Center(
+                                          child: Text(
+                                            'Here are available biometrics type on your phone',
+                                            style: TextStyle(
+                                              // fontSize: 14,
+                                              fontFamily: 'Comfortaa_bold',
+                                            ),
                                           ),
                                         ),
                                       ),
-                                      builText('Biometrics', isAvailable),
-                                      // builText('FingerPrint', hasFingerPrint),
+                                      builText(
+                                          'Biometrics Supported', isAvailable),
+                                      SizedBox(
+                                        height: 5,
+                                      ),
+                                      builText(
+                                          'Can Check Biometrics', isAvailable),
+                                      SizedBox(
+                                        height: 5,
+                                      ),
+                                      builText('FingerPrint', hasFingerPrint),
                                     ],
                                   ),
                                   actions: [
                                     CupertinoActionSheetAction(
                                       // onPressed: () => imageGallerypicker(ImageSource.camera, context),
-                                      onPressed: () =>
-                                          Navigator.of(context).pop(),
+                                      onPressed: () async {
+                                        Navigator.of(context).pop();
+                                        final isAuthenticated =
+                                            await FingerPrintScanner
+                                                .authentication();
+                                        if (isAuthenticated) {
+                                          fingerPrintConfiguration();
+                                        }
+                                      },
                                       child: Text(
                                         'Ok',
                                         style: TextStyle(
                                           color:
                                               Theme.of(context).iconTheme.color,
+                                          fontSize: 16,
                                           fontFamily: 'Comfortaa_bold',
                                         ),
                                       ),
@@ -187,24 +218,23 @@ class _PatternScreenState extends State<PatternScreen> {
     );
   }
 
-  builText(String title, bool checked) {
-    Row(
-      children: [
-        checked
-            ? SvgPicture.asset(
-                'assets/icons/fingerprint.svg',
-                color: Theme.of(context).iconTheme.color,
-              )
-            : SvgPicture.asset(
-                'assets/icons/fingerprint.svg',
-                color: Theme.of(context).iconTheme.color,
-              ),
-        Text(
-          title,
-        ),
-      ],
-    );
-  }
+  Widget builText(String title, bool checked) => Row(
+        children: [
+          checked
+              ? SvgPicture.asset(
+                  'assets/icons/tick-square.svg',
+                  color: Theme.of(context).iconTheme.color,
+                )
+              : SvgPicture.asset(
+                  'assets/icons/close-square.4.svg',
+                  color: Theme.of(context).iconTheme.color,
+                ),
+          SizedBox(width: 15),
+          Text(
+            title,
+          ),
+        ],
+      );
 
   fingerPrintConfiguration() {
     return showCupertinoModalPopup(
@@ -246,7 +276,7 @@ class _PatternScreenState extends State<PatternScreen> {
             // onPressed: () => imageGallerypicker(ImageSource.camera, context),
             onPressed: () => Navigator.of(context).pop(),
             child: Text(
-              'Cancel',
+              'Ok',
               style: TextStyle(
                 color: Theme.of(context).iconTheme.color,
                 fontFamily: 'Comfortaa_bold',

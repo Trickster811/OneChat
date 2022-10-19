@@ -12,10 +12,11 @@ import 'package:one_chat/screens/components/scan_page.dart';
 import 'package:one_chat/screens/search_page.dart';
 import 'package:one_chat/screens/storie_page.dart';
 import 'package:provider/provider.dart';
+import 'package:stream_chat_flutter/stream_chat_flutter.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({
-    Key? key,
+    Key? key, 
   }) : super(key: key);
 
   @override
@@ -27,7 +28,7 @@ class _MyHomePageState extends State<MyHomePage> {
   double appBarHeightSize = 0;
 
   final screens = [
-    ChatScreen(),
+    StorieScreen(),
     StorieScreen(),
     SearchScreen(),
     AccountScreen(),
@@ -57,7 +58,7 @@ class _MyHomePageState extends State<MyHomePage> {
       AboutScreen(),
     ],
   ];
-
+  final inputController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     AppBar appBar = AppBar(
@@ -104,7 +105,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     : Theme.of(context).scaffoldBackgroundColor,
                 borderRadius: BorderRadius.circular(20),
               ),
-              child: screens[index],
+              child: index == 0 ? ChatScreen() : screens[index],
             )
           : screens[index],
       bottomNavigationBar: BottomAppBar(

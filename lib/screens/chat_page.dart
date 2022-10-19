@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:one_chat/main.dart';
 import 'package:one_chat/screens/components/chat_pages/chat_space.dart';
+import 'package:stream_chat_flutter/stream_chat_flutter.dart';
 
 class ConversationInfo {
   final String image, username, message, time, badge;
@@ -17,10 +18,35 @@ class ConversationInfo {
   });
 }
 
-class ChatScreen extends StatelessWidget {
+class ChatScreen extends StatefulWidget {
   const ChatScreen({
     Key? key,
   }) : super(key: key);
+
+  @override
+  State<ChatScreen> createState() => _ChatScreenState();
+}
+
+class _ChatScreenState extends State<ChatScreen> {
+  final inputController = TextEditingController();
+
+  int index = 0;
+
+  late final _listController = StreamChannelListController(
+    client: StreamChat.of(context).client,
+    filter: Filter.in_(
+      'members',
+      [StreamChat.of(context).currentUser!.id],
+    ),
+    sort: const [SortOption('last_message_at')],
+    limit: 20,
+  );
+
+  @override
+  void dispose() {
+    _listController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -98,13 +124,162 @@ class ChatScreen extends StatelessWidget {
       ),
     ];
 
+    // return StreamChannelListView(
+    //     controller: _listController,
+    //     itemBuilder: _channelTileBuilder,
+    //     onChannelTap: (channel) {
+    //       Navigator.of(context).push(
+    //         MaterialPageRoute(
+    //           builder: (context) {
+    //             return StreamChannel(
+    //               channel: channel,
+    //               child: ChannelPage(),
+    //             );
+    //           },
+    //         ),
+    //       );
+    //     });
+
     return SingleChildScrollView(
       child: Column(
         children: [
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 10.0),
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(100.0),
+                ),
+              ),
+              padding: EdgeInsets.symmetric(horizontal: 8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Flexible(
+                    child: Container(
+                      height: 40,
+                      child: TextField(
+                        controller: inputController,
+                        onChanged: (String value) {
+                          setState(() {
+                            if (value != '') {
+                              index = 1;
+                            } else {
+                              index = 0;
+                            }
+                          });
+                          print(value);
+                        },
+                        onSubmitted: (String text) {},
+                        cursorWidth: 1.0,
+                        cursorColor: Theme.of(context).iconTheme.color,
+                        decoration: InputDecoration(
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Theme.of(context)
+                                  .iconTheme
+                                  .color!
+                                  .withOpacity(0.8),
+                            ),
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(1000.0),
+                            ),
+                          ),
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Theme.of(context)
+                                  .iconTheme
+                                  .color!
+                                  .withOpacity(0.8),
+                            ),
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(1000.0),
+                            ),
+                            // gapPadding: 2.0,
+                          ),
+                          contentPadding: EdgeInsets.symmetric(
+                            vertical: 2.0,
+                            horizontal: 8.0,
+                          ),
+                          hintText: 'type a message',
+                          hintStyle: TextStyle(
+                            // color: kPrimaryColor,
+                            fontFamily: 'Comfortaa_light',
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  index == 0
+                      ? IconButton(
+                          onPressed: () {
+                            // pickImage(ImageSource.camera);
+                          },
+                          icon: SvgPicture.asset(
+                            'assets/icons/search.svg',
+                            color: Theme.of(context).iconTheme.color,
+                          ),
+                        )
+                      : IconButton(
+                          onPressed: () {},
+                          icon: SvgPicture.asset(
+                            'assets/icons/send.3.svg',
+                            color: Theme.of(context).iconTheme.color,
+                            height: 40,
+                            width: 40,
+                          ),
+                        ),
+                ],
+              ),
+            ),
+          ),
           for (var item in conversationInfo)
             conversationBuilder(context, screenWidth, item),
         ],
       ),
+    );
+  }
+
+  Widget _channelTileBuilder(BuildContext context, List<Channel> channels,
+      int index, StreamChannelListTile defaultChannelTile) {
+    final channel = channels[index];
+    final lastMessage = channel.state?.messages.reversed.firstWhere(
+      (message) => !message.isDeleted,
+    );
+
+    final subtitle = lastMessage == null ? 'nothing yet' : lastMessage.text!;
+    final opacity = (channel.state?.unreadCount ?? 0) > 0 ? 1.0 : 0.5;
+
+    final theme = StreamChatTheme.of(context);
+
+    return ListTile(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => StreamChannel(
+              channel: channel,
+              child: const ChannelPage(),
+            ),
+          ),
+        );
+      },
+      leading: StreamChannelAvatar(
+        channel: channel,
+      ),
+      title: StreamChannelName(
+        channel: channel,
+        textStyle: theme.channelPreviewTheme.titleStyle!.copyWith(
+          color: theme.colorTheme.textHighEmphasis.withOpacity(opacity),
+        ),
+      ),
+      subtitle: Text(subtitle),
+      trailing: channel.state!.unreadCount > 0
+          ? CircleAvatar(
+              radius: 10,
+              child: Text(channel.state!.unreadCount.toString()),
+            )
+          : const SizedBox(),
     );
   }
 
@@ -195,6 +370,27 @@ class ChatScreen extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class ChannelPage extends StatelessWidget {
+  const ChannelPage({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: const StreamChannelHeader(),
+      body: Column(
+        children: const <Widget>[
+          Expanded(
+            child: StreamMessageListView(),
+          ),
+          StreamMessageInput(),
+        ],
       ),
     );
   }

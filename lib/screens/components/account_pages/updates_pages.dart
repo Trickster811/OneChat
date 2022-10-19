@@ -26,7 +26,7 @@ class UpdateScreen extends StatelessWidget {
           children: [
             SvgPicture.asset(
               'assets/images/1_Cloud_logo.svg',
-              color: Colors.black26,
+              color: Theme.of(context).iconTheme.color,
               height: 75,
               width: 75,
             ),
@@ -35,7 +35,6 @@ class UpdateScreen extends StatelessWidget {
               style: TextStyle(
                 fontFamily: 'Comfortaa_bold',
                 fontSize: 20,
-                color: Colors.black26,
               ),
             ),
           ],

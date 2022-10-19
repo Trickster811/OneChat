@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:one_chat/constant.dart';
 import 'package:one_chat/main.dart';
+import 'package:provider/provider.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({
@@ -24,7 +26,6 @@ class _SearchScreenState extends State<SearchScreen> {
           padding: EdgeInsets.symmetric(vertical: 10.0),
           child: Container(
             decoration: BoxDecoration(
-              color: Theme.of(context).primaryColor,
               borderRadius: BorderRadius.all(
                 Radius.circular(100.0),
               ),
@@ -113,7 +114,10 @@ class _SearchScreenState extends State<SearchScreen> {
         ),
         Container(
           decoration: BoxDecoration(
-            color: Theme.of(context).scaffoldBackgroundColor,
+            color:
+                Provider.of<ThemeProvider>(context).themeMode == ThemeMode.dark
+                    ? Theme.of(context).scaffoldBackgroundColor
+                    : Theme.of(context).primaryColor,
             borderRadius: BorderRadius.all(
               Radius.circular(10.0),
             ),

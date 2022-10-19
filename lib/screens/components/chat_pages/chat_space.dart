@@ -8,8 +8,11 @@ import 'package:grouped_list/grouped_list.dart';
 
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:one_chat/constant.dart';
 import 'package:one_chat/main.dart';
 import 'package:one_chat/screens/chat_page.dart';
+import 'package:provider/provider.dart';
+import 'package:stream_chat_flutter/stream_chat_flutter.dart';
 
 class ChatSpace extends StatefulWidget {
   final ConversationInfo conversationInfo;
@@ -27,7 +30,17 @@ class _ChatSpaceState extends State<ChatSpace> {
   int index = 0;
   List<Message> messages = [
     Message(
-      text: 'Yes sure',
+      text: 'Morning',
+      date: DateTime.now().subtract(Duration(minutes: 1)),
+      isSentByMe: false,
+    ),
+    Message(
+      text: "What's up?",
+      date: DateTime.now().subtract(Duration(minutes: 2)),
+      isSentByMe: true,
+    ),
+    Message(
+      text: 'What a good day to go outside ggggggg!!',
       date: DateTime.now().subtract(Duration(minutes: 1)),
       isSentByMe: false,
     ),
@@ -37,17 +50,7 @@ class _ChatSpaceState extends State<ChatSpace> {
       isSentByMe: true,
     ),
     Message(
-      text: 'Yes sure',
-      date: DateTime.now().subtract(Duration(minutes: 1)),
-      isSentByMe: false,
-    ),
-    Message(
-      text: 'Yes sure',
-      date: DateTime.now().subtract(Duration(minutes: 1)),
-      isSentByMe: true,
-    ),
-    Message(
-      text: 'Yes sure',
+      text: 'Wanna join us today',
       date: DateTime.now().subtract(Duration(minutes: 1)),
       isSentByMe: false,
     ),
@@ -92,228 +95,262 @@ class _ChatSpaceState extends State<ChatSpace> {
 
     return Scaffold(
       // backgroundColor: Colors.amberAccent,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        automaticallyImplyLeading: false,
-        leading: IconButton(
-          onPressed: () => Navigator.maybePop(context),
-          icon: SvgPicture.asset(
-            'assets/icons/arrow-left-2.2.svg',
-            color: Theme.of(context).iconTheme.color!,
-          ),
-        ),
-        title: Row(
-          children: [
-            ClipOval(
-              child: Image.asset(
-                widget.conversationInfo.image,
-                fit: BoxFit.cover,
-                height: 40,
-                width: 40,
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: 8.0,
-              ),
-              child: Text(
-                widget.conversationInfo.username,
-                style: TextStyle(
-                  // color: kPrimaryColor,
-                  fontSize: 15,
-                  fontFamily: 'Comfortaa_bold',
-                ),
-              ),
-            ),
-          ],
-        ),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: SvgPicture.asset(
-              'assets/icons/search.svg',
-              color: Theme.of(context).iconTheme.color!,
-            ),
-          ),
-          IconButton(
-            onPressed: () {},
-            icon: SvgPicture.asset(
-              'assets/icons/more-circle.1.svg',
-              color: Theme.of(context).iconTheme.color!,
-            ),
-          ),
-        ],
-      ),
+      // appBar: AppBar(
+      //   backgroundColor: Colors.transparent,
+      //   elevation: 0,
+      //   automaticallyImplyLeading: false,
+      //   leading: IconButton(
+      //     onPressed: () => Navigator.maybePop(context),
+      //     icon: SvgPicture.asset(
+      //       'assets/icons/arrow-left-2.2.svg',
+      //       color: Theme.of(context).iconTheme.color!,
+      //     ),
+      //   ),
+      //   title: Row(
+      //     children: [
+      //       ClipOval(
+      //         child: Image.asset(
+      //           widget.conversationInfo.image,
+      //           fit: BoxFit.cover,
+      //           height: 40,
+      //           width: 40,
+      //         ),
+      //       ),
+      //       Padding(
+      //         padding: EdgeInsets.symmetric(
+      //           horizontal: 8.0,
+      //         ),
+      //         child: Column(
+      //           crossAxisAlignment: CrossAxisAlignment.start,
+      //           mainAxisAlignment: MainAxisAlignment.center,
+      //           children: <Widget>[
+      //             Text(
+      //               widget.conversationInfo.username,
+      //               style: TextStyle(
+      //                 // color: kPrimaryColor,
+      //                 fontSize: 15,
+      //                 fontFamily: 'Comfortaa_bold',
+      //               ),
+      //             ),
+      //             SizedBox(
+      //               height: 6,
+      //             ),
+      //             Text(
+      //               "Online",
+      //               style: TextStyle(color: Colors.grey.shade600, fontSize: 13),
+      //             ),
+      //           ],
+      //         ),
+      //       ),
+      //     ],
+      //   ),
+      //   actions: [
+      //     IconButton(
+      //       onPressed: () {},
+      //       icon: SvgPicture.asset(
+      //         'assets/icons/search.svg',
+      //         color: Theme.of(context).iconTheme.color!,
+      //       ),
+      //     ),
+      //     IconButton(
+      //       onPressed: () {},
+      //       icon: SvgPicture.asset(
+      //         'assets/icons/more-circle.1.svg',
+      //         color: Theme.of(context).iconTheme.color!,
+      //       ),
+      //     ),
+      //   ],
+      // ),
+      appBar: StreamChannelHeader(),
       body: Column(
         children: [
+          // Expanded(
+          //   child: Container(
+          //     child: GroupedListView<Message, DateTime>(
+          //       padding: EdgeInsets.all(8.0),
+          //       elements: messages,
+          //       groupBy: (message) => DateTime(2022),
+          //       groupHeaderBuilder: (Message message) => SizedBox(
+          //         height: 30,
+          //         child: Center(
+          //           child: Card(
+          //             color: Theme.of(context).primaryColor,
+          //             child: Padding(
+          //               padding: EdgeInsets.all(2.0),
+          //               child: Text(
+          //                 DateFormat.yMMMd().format(message.date),
+          //                 style: TextStyle(
+          //                   // color: kPrimaryColor,
+          //                   fontFamily: 'Comfortaa_light',
+          //                 ),
+          //               ),
+          //             ),
+          //           ),
+          //         ),
+          //       ),
+          //       itemBuilder: (context, Message message) => Align(
+          //         alignment: message.isSentByMe
+          //             ? Alignment.centerRight
+          //             : Alignment.centerLeft,
+          //         child: Padding(
+          //           padding: EdgeInsets.symmetric(vertical: 2.0),
+          //           child: Column(
+          //             crossAxisAlignment: message.isSentByMe
+          //                 ? CrossAxisAlignment.end
+          //                 : CrossAxisAlignment.start,
+          //             children: [
+          //               Container(
+          //                 padding: EdgeInsets.all(5.0),
+          //                 margin: EdgeInsets.symmetric(vertical: 5.0),
+          //                 decoration: BoxDecoration(
+          //                   borderRadius:
+          //                       BorderRadius.all(Radius.circular(1000.0)),
+          //                   color: message.isSentByMe
+          //                       ? Theme.of(context).primaryColor
+          //                       : Theme.of(context).iconTheme.color,
+          //                 ),
+          //                 child: Padding(
+          //                   padding: EdgeInsets.all(5.0),
+          //                   child: Text(
+          //                     message.text,
+          //                     style: TextStyle(
+          //                       color: !message.isSentByMe
+          //                           ? Provider.of<ThemeProvider>(context)
+          //                                       .themeMode ==
+          //                                   ThemeMode.light
+          //                               ? Colors.white
+          //                               : Colors.black
+          //                           : Theme.of(context).iconTheme.color,
+          //                       fontFamily: 'Comfortaa_regular',
+          //                     ),
+          //                   ),
+          //                 ),
+          //               ),
+          //               Text(
+          //                 '7:36 PM',
+          //                 style: TextStyle(
+          //                   // color: kPrimaryColor,
+          //                   fontSize: 10,
+          //                 ),
+          //               ),
+          //             ],
+          //           ),
+          //         ),
+          //       ),
+          //     ),
+          //   ),
+          // ),
+          // Container(
+          //   // color: Colors.white,
+          //   child: Row(
+          //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          //     children: [
+          //       IconButton(
+          //         onPressed: () {},
+          //         icon: SvgPicture.asset(
+          //           'assets/icons/category.4.svg',
+          //           color: Theme.of(context).iconTheme.color!,
+          //         ),
+          //       ),
+          //       Flexible(
+          //         child: Container(
+          //           height: 30,
+          //           child: TextField(
+          //             controller: inputController,
+          //             onChanged: (String value) {
+          //               setState(() {
+          //                 if (value != '') {
+          //                   index = 1;
+          //                 } else {
+          //                   index = 0;
+          //                 }
+          //               });
+          //               print(value);
+          //             },
+          //             onSubmitted: (String text) {},
+          //             cursorWidth: 1.0,
+          //             cursorColor: Theme.of(context).iconTheme.color,
+          //             decoration: InputDecoration(
+          //               focusedBorder: OutlineInputBorder(
+          //                 borderSide: BorderSide(
+          //                   color: Theme.of(context)
+          //                       .iconTheme
+          //                       .color!
+          //                       .withOpacity(0.8),
+          //                 ),
+          //                 borderRadius: BorderRadius.all(
+          //                   Radius.circular(1000.0),
+          //                 ),
+          //               ),
+          //               border: OutlineInputBorder(
+          //                 borderSide: BorderSide(
+          //                   color: Theme.of(context)
+          //                       .iconTheme
+          //                       .color!
+          //                       .withOpacity(0.8),
+          //                 ),
+          //                 borderRadius: BorderRadius.all(
+          //                   Radius.circular(1000.0),
+          //                 ),
+          //                 // gapPadding: 2.0,
+          //               ),
+          //               contentPadding: EdgeInsets.symmetric(
+          //                 vertical: 2.0,
+          //                 horizontal: 8.0,
+          //               ),
+          //               hintText: 'type a message',
+          //               hintStyle: TextStyle(
+          //                 // color: kPrimaryColor,
+          //                 fontFamily: 'Comfortaa_light',
+          //               ),
+          //             ),
+          //           ),
+          //         ),
+          //       ),
+          //       index == 0
+          //           ? IconButton(
+          //               onPressed: () {
+          //                 pickImage(ImageSource.camera);
+          //               },
+          //               icon: SvgPicture.asset(
+          //                 'assets/icons/camera.2.svg',
+          //                 color: Theme.of(context).iconTheme.color!,
+          //               ),
+          //             )
+          //           : IconButton(
+          //               onPressed: () {
+          //                 final message = Message(
+          //                   text: inputController.text,
+          //                   date: DateTime.now(),
+          //                   isSentByMe: true,
+          //                 );
+          //                 setState(() {
+          //                   messages.add(message);
+          //                   inputController.clear();
+          //                   index = 0;
+          //                 });
+          //               },
+          //               icon: SvgPicture.asset(
+          //                 'assets/icons/send.3.svg',
+          //                 color: Theme.of(context).iconTheme.color!,
+          //               ),
+          //             ),
+          //       index == 0
+          //           ? IconButton(
+          //               onPressed: () {},
+          //               icon: SvgPicture.asset(
+          //                 'assets/icons/voice.svg',
+          //                 color: Theme.of(context).iconTheme.color!,
+          //               ),
+          //             )
+          //           : Container(),
+          //     ],
+          //   ),
+          // ),
           Expanded(
-            child: Container(
-              child: GroupedListView<Message, DateTime>(
-                padding: EdgeInsets.all(8.0),
-                elements: messages,
-                groupBy: (message) => DateTime(2022),
-                groupHeaderBuilder: (Message message) => SizedBox(
-                  height: 30,
-                  child: Center(
-                    child: Card(
-                      color: Theme.of(context).primaryColor,
-                      child: Padding(
-                        padding: EdgeInsets.all(2.0),
-                        child: Text(
-                          DateFormat.yMMMd().format(message.date),
-                          style: TextStyle(
-                            // color: kPrimaryColor,
-                            fontFamily: 'Comfortaa_light',
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                itemBuilder: (context, Message message) => Align(
-                  alignment: message.isSentByMe
-                      ? Alignment.centerRight
-                      : Alignment.centerLeft,
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: 2.0),
-                    child: Column(
-                      crossAxisAlignment: message.isSentByMe
-                          ? CrossAxisAlignment.end
-                          : CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(8.0)),
-                            border: Border.all(
-                              color: Theme.of(context).primaryColor,
-                            ),
-                          ),
-                          child: Padding(
-                            padding: EdgeInsets.all(5.0),
-                            child: Text(message.text,
-                                style: TextStyle(
-                                  // color: kPrimaryColor,
-                                  fontFamily: 'Comfortaa_regular',
-                                )),
-                          ),
-                        ),
-                        Text(
-                          '7:36 PM',
-                          style: TextStyle(
-                            // color: kPrimaryColor,
-                            fontSize: 10,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
+            child: StreamMessageListView(),
           ),
-          Container(
-            // color: Colors.white,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                IconButton(
-                  onPressed: () {},
-                  icon: SvgPicture.asset(
-                    'assets/icons/category.4.svg',
-                    color: Theme.of(context).iconTheme.color!,
-                  ),
-                ),
-                Flexible(
-                  child: Container(
-                    height: 30,
-                    child: TextField(
-                      controller: inputController,
-                      onChanged: (String value) {
-                        setState(() {
-                          if (value != '') {
-                            index = 1;
-                          } else {
-                            index = 0;
-                          }
-                        });
-                        print(value);
-                      },
-                      onSubmitted: (String text) {},
-                      cursorWidth: 1.0,
-                      cursorColor: Theme.of(context).iconTheme.color,
-                      decoration: InputDecoration(
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Theme.of(context).iconTheme.color!.withOpacity(0.8),
-                          ),
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(1000.0),
-                          ),
-                        ),
-                        border: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Theme.of(context).iconTheme.color!.withOpacity(0.8),
-                          ),
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(1000.0),
-                          ),
-                          // gapPadding: 2.0,
-                        ),
-                        contentPadding: EdgeInsets.symmetric(
-                          vertical: 2.0,
-                          horizontal: 8.0,
-                        ),
-                        hintText: 'type a message',
-                        hintStyle: TextStyle(
-                          // color: kPrimaryColor,
-                          fontFamily: 'Comfortaa_light',
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                index == 0
-                    ? IconButton(
-                        onPressed: () {
-                          pickImage(ImageSource.camera);
-                        },
-                        icon: SvgPicture.asset(
-                          'assets/icons/camera.2.svg',
-                          color: Theme.of(context).iconTheme.color!,
-                        ),
-                      )
-                    : IconButton(
-                        onPressed: () {
-                          final message = Message(
-                            text: inputController.text,
-                            date: DateTime.now(),
-                            isSentByMe: true,
-                          );
-                          setState(() {
-                            messages.add(message);
-                            inputController.clear();
-                            index = 0;
-                          });
-                        },
-                        icon: SvgPicture.asset(
-                          'assets/icons/send.3.svg',
-                          color: Theme.of(context).iconTheme.color!,
-                        ),
-                      ),
-                index == 0
-                    ? IconButton(
-                        onPressed: () {},
-                        icon: SvgPicture.asset(
-                          'assets/icons/voice.svg',
-                          color: Theme.of(context).iconTheme.color!,
-                        ),
-                      )
-                    : Container(),
-              ],
-            ),
-          ),
+          StreamMessageInput(),
         ],
       ),
     );

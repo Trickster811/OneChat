@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:getwidget/getwidget.dart';
 import 'package:one_chat/constant.dart';
 import 'package:one_chat/main.dart';
 import 'package:provider/provider.dart';
@@ -42,97 +43,93 @@ class _ThemeScreenState extends State<ThemeScreen> {
           ),
           child: Column(
             children: [
-              Row(
-                // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    child: Container(
-                      // color: Colors.red,
-                      height: 50,
-                      padding: EdgeInsets.all(8.0),
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).primaryColor,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Change the theme',
-                            style: TextStyle(
-                              fontSize: 15,
-                              // color: kPrimaryColor,
-                            ),
-                          ),
-                          ChangeThemeModeButton(),
-                          // InkWell(
-                          //   onTap: () async {
-                          //     final perfs =
-                          //         await SharedPreferences.getInstance();
-                          //     setState(() {
-                          //       if (index == 0) {
-                          //         index = 1;
-                          //       } else {
-                          //         index = 0;
-                          //       }
-                          //     });
-                          //     if (index == 0) {
-                          //       await perfs.setInt('isdark', 0);
-                          //     } else {
-                          //       await perfs.setInt('isdark', 1);
-                          //     }
-                          //     final int? coo = perfs.getInt('isdark');
-                          //     print(coo);
-                          //   },
-                          //   child: Container(
-                          //     padding: EdgeInsets.all(2.0),
-                          //     width: 55,
-                          //     height: 30,
-                          //     decoration: index == 0
-                          //         ? BoxDecoration(
-                          //             color: kPrimaryColor,
-                          //             borderRadius: BorderRadius.circular(20),
-                          //           )
-                          //         : BoxDecoration(
-                          //             borderRadius: BorderRadius.circular(20),
-                          //             border: Border.all(
-                          //               color:
-                          //                   Color.fromARGB(255, 170, 170, 170),
-                          //               width: 0.1,
-                          //             ),
-                          //             // color: Color.fromARGB(255, 238, 238, 238),
-                          //             gradient: RadialGradient(
-                          //               radius: 3,
-                          //               colors: [
-                          //                 Colors.white,
-                          //                 Color.fromARGB(255, 160, 160, 160),
-                          //               ],
-                          //             ),
-                          //           ),
-                          //     child: Row(
-                          //       mainAxisAlignment: index == 0
-                          //           ? MainAxisAlignment.start
-                          //           : MainAxisAlignment.end,
-                          //       children: [
-                          //         Container(
-                          //           width: 25,
-                          //           height: 30,
-                          //           decoration: BoxDecoration(
-                          //             color: index == 0
-                          //                 ? Colors.white
-                          //                 : containerTheme,
-                          //             borderRadius: BorderRadius.circular(20),
-                          //           ),
-                          //         ),
-                          //       ],
-                          //     ),
-                          //   ),
-                          // )
-                        ],
+              Container(
+                padding: EdgeInsets.symmetric(
+                  vertical: 10.0,
+                  horizontal: 8.0,
+                ),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).primaryColor,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Flexible(
+                      child: Text(
+                        'Change the theme',
+                        style: TextStyle(
+                          fontSize: 15,
+                          // color: kPrimaryColor,
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                    ChangeThemeModeButton(),
+                    // InkWell(
+                    //   onTap: () async {
+                    //     final perfs =
+                    //         await SharedPreferences.getInstance();
+                    //     setState(() {
+                    //       if (index == 0) {
+                    //         index = 1;
+                    //       } else {
+                    //         index = 0;
+                    //       }
+                    //     });
+                    //     if (index == 0) {
+                    //       await perfs.setInt('isdark', 0);
+                    //     } else {
+                    //       await perfs.setInt('isdark', 1);
+                    //     }
+                    //     final int? coo = perfs.getInt('isdark');
+                    //     print(coo);
+                    //   },
+                    //   child: Container(
+                    //     padding: EdgeInsets.all(2.0),
+                    //     width: 55,
+                    //     height: 30,
+                    //     decoration: index == 0
+                    //         ? BoxDecoration(
+                    //             color: kPrimaryColor,
+                    //             borderRadius: BorderRadius.circular(20),
+                    //           )
+                    //         : BoxDecoration(
+                    //             borderRadius: BorderRadius.circular(20),
+                    //             border: Border.all(
+                    //               color:
+                    //                   Color.fromARGB(255, 170, 170, 170),
+                    //               width: 0.1,
+                    //             ),
+                    //             // color: Color.fromARGB(255, 238, 238, 238),
+                    //             gradient: RadialGradient(
+                    //               radius: 3,
+                    //               colors: [
+                    //                 Colors.white,
+                    //                 Color.fromARGB(255, 160, 160, 160),
+                    //               ],
+                    //             ),
+                    //           ),
+                    //     child: Row(
+                    //       mainAxisAlignment: index == 0
+                    //           ? MainAxisAlignment.start
+                    //           : MainAxisAlignment.end,
+                    //       children: [
+                    //         Container(
+                    //           width: 25,
+                    //           height: 30,
+                    //           decoration: BoxDecoration(
+                    //             color: index == 0
+                    //                 ? Colors.white
+                    //                 : containerTheme,
+                    //             borderRadius: BorderRadius.circular(20),
+                    //           ),
+                    //         ),
+                    //       ],
+                    //     ),
+                    //   ),
+                    // )
+                  ],
+                ),
               ),
             ],
           ),
@@ -146,13 +143,15 @@ class ChangeThemeModeButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
-    return Switch.adaptive(
+    return GFToggle(
       value: themeProvider.isDarkMode,
       onChanged: (value) {
         final provider = Provider.of<ThemeProvider>(context, listen: false);
-        provider.toggleTheme(value);
+        provider.toggleTheme(value!);
       },
-      activeColor: Theme.of(context).iconTheme.color,
+      enabledTrackColor: Colors.blue, // Theme.of(context).iconTheme.color,
+      enabledThumbColor: Colors.white,
+      type: GFToggleType.ios,
     );
   }
 }

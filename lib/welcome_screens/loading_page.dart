@@ -3,10 +3,11 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:one_chat/welcome_screens/start_screen.dart';
+import 'package:stream_chat_flutter/stream_chat_flutter.dart';
 
 class LoadingScreen extends StatefulWidget {
   const LoadingScreen({
-    Key? key,
+    Key? key, 
   }) : super(key: key);
 
   @override
