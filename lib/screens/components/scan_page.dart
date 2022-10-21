@@ -140,10 +140,9 @@ class _ScanScreenState extends State<ScanScreen> {
                   conversationInfo: ConversationInfo(
                     image: 'assets/images/1.png',
                     username: '${barcode.code}',
-                    message: 'Ecris fort!!! Je suis dans les bruits bro',
-                    time: '7:45 PM',
+                    message: [],
                     badge: '02',
-                  ),
+                  ),message: [],
                 )),
           ),
         );

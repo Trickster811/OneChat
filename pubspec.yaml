@@ -53,6 +53,7 @@ dependencies:
   getwidget:
   permission_handler:
   url_launcher:
+  flutter_emoji:
   # package to manage chat box
   stream_chat_flutter:
   # dependencies to manage local database

@@ -1,22 +1,92 @@
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intl/intl.dart';
 import 'package:one_chat/main.dart';
 import 'package:one_chat/screens/components/chat_pages/chat_space.dart';
 import 'package:stream_chat_flutter/stream_chat_flutter.dart';
 
 class ConversationInfo {
-  final String image, username, message, time, badge;
+  final String image, username, badge;
+  final List message;
 
   const ConversationInfo({
     Key? key,
     required this.image,
     required this.username,
     required this.message,
-    required this.time,
     required this.badge,
   });
 }
+
+class Message {
+  final String text;
+  final DateTime date;
+  final bool isSentByMe;
+  const Message({
+    required this.text,
+    required this.date,
+    required this.isSentByMe,
+  });
+}
+
+List<Message> messages = [
+  Message(
+    text: 'Hey bro!!',
+    date: DateTime.now().subtract(Duration(minutes: 1)),
+    isSentByMe: false,
+  ),
+  Message(
+    text: "What's up?",
+    date: DateTime.now().subtract(Duration(minutes: 2)),
+    isSentByMe: true,
+  ),
+  Message(
+    text: 'What a good day to go outside ggggggg!!',
+    date: DateTime.now().subtract(Duration(minutes: 1)),
+    isSentByMe: false,
+  ),
+  Message(
+    text: 'Yes sure',
+    date: DateTime.now().subtract(Duration(minutes: 1)),
+    isSentByMe: true,
+  ),
+  Message(
+    text: 'Wanna join us today',
+    date: DateTime.now().subtract(Duration(minutes: 1)),
+    isSentByMe: false,
+  ),
+  Message(
+    text: 'Yes sure',
+    date: DateTime.now().subtract(Duration(minutes: 1)),
+    isSentByMe: false,
+  ),
+  Message(
+    text: 'Yes sure',
+    date: DateTime.now().subtract(Duration(minutes: 1)),
+    isSentByMe: true,
+  ),
+  Message(
+    text: 'Yes sure',
+    date: DateTime.now().subtract(Duration(minutes: 1)),
+    isSentByMe: false,
+  ),
+  Message(
+    text: 'Yes sure',
+    date: DateTime.now().subtract(Duration(minutes: 1)),
+    isSentByMe: false,
+  ),
+  Message(
+    text: 'Yes sure',
+    date: DateTime.now().subtract(Duration(minutes: 1)),
+    isSentByMe: false,
+  ),
+  Message(
+    text: 'Yes sure',
+    date: DateTime.now().subtract(Duration(minutes: 1)),
+    isSentByMe: true,
+  ),
+].reversed.toList();
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen({
@@ -51,75 +121,66 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
+
     final List conversationInfo = [
       ConversationInfo(
         image: 'assets/images/1.png',
         username: '@Ulrich',
-        message: 'Ecris fort!!! Je suis dans les bruits bro',
-        time: '7:45 PM',
+        message: messages,
         badge: '02',
       ),
       ConversationInfo(
         image: 'assets/images/6.png',
         username: '@Youmix',
-        message: 'Je passe chez toi ce soir',
-        time: '7:45 PM',
+        message: messages,
         badge: '10',
       ),
       ConversationInfo(
         image: 'assets/images/girl_studying_with_music.png',
         username: '@Julie',
-        message: 'Salut',
-        time: '7:45 PM',
+        message: messages,
         badge: '07',
       ),
       ConversationInfo(
         image: 'assets/images/4.png',
         username: '@Nancy',
-        message: 'Cc ma puce!!',
-        time: '7:45 PM',
+        message: messages,
         badge: '15',
       ),
       ConversationInfo(
         image: 'assets/images/2.png',
         username: '@Johannes',
-        message: 'Bonjour!',
-        time: '7:45 PM',
+        message: messages,
         badge: '04',
       ),
       ConversationInfo(
         image: 'assets/images/5.png',
         username: '@Bro',
-        message: 'Go kass',
-        time: '7:45 PM',
+        message: messages,
         badge: '02',
       ),
       ConversationInfo(
         image: 'assets/images/3.png',
         username: '@Manou',
-        message: 'Gars รงa a cuit!! run seulement',
-        time: '7:45 PM',
+        message: messages,
         badge: '10',
       ),
       ConversationInfo(
         image: 'assets/images/7.png',
         username: '@Julienne',
-        message: 'Salut',
-        time: '7:45 PM',
+        message: messages,
         badge: '07',
       ),
       ConversationInfo(
         image: 'assets/images/8.png',
         username: '@Junior',
-        message: 'Yo odk',
-        time: '7:45 PM',
+        message: messages,
         badge: '15',
       ),
       ConversationInfo(
         image: 'assets/images/10.png',
         username: '@Anne',
-        message: 'Bonjour!',
-        time: '7:45 PM',
+        message: messages,
         badge: '04',
       ),
     ];
@@ -292,7 +353,11 @@ class _ChatScreenState extends State<ChatScreen> {
       onTap: () => Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => ChatSpace(conversationInfo: item)),
+          builder: (context) => ChatSpace(
+            conversationInfo: item,
+            message: messages,
+          ),
+        ),
       ),
       child: Padding(
         padding: EdgeInsets.symmetric(
@@ -333,7 +398,7 @@ class _ChatScreenState extends State<ChatScreen> {
                     // Spacer(),
 
                     Text(
-                      item.message,
+                      item.message.last.text,
                       style: TextStyle(
                           // color: kPrimaryColor,
                           ),
@@ -345,13 +410,15 @@ class _ChatScreenState extends State<ChatScreen> {
             ),
             Column(
               children: [
-                Text(item.time),
+                Text(
+                  DateFormat.Hm().format(item.message.last.date),
+                ),
                 Badge(
                   animationType: BadgeAnimationType.scale,
                   badgeColor: Colors.blueAccent,
                   position: BadgePosition.center(),
                   badgeContent: Text(
-                    item.badge,
+                    item.message.length.toString(),
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w500,

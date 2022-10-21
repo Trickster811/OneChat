@@ -16,7 +16,7 @@ import 'package:stream_chat_flutter/stream_chat_flutter.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({
-    Key? key, 
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -102,14 +102,15 @@ class _MyHomePageState extends State<MyHomePage> {
                         ThemeMode.dark
                     ? Theme.of(context).primaryColor
                     // ? Color.fromRGBO(5, 35, 61, 1)
-                    : Theme.of(context).scaffoldBackgroundColor,
+                    : Theme.of(context).primaryColor,
                 borderRadius: BorderRadius.circular(20),
               ),
               child: index == 0 ? ChatScreen() : screens[index],
             )
           : screens[index],
       bottomNavigationBar: BottomAppBar(
-        // color: scaffoldTheme,
+        color: Colors.transparent,
+        elevation: 0,
         clipBehavior: Clip.antiAliasWithSaveLayer,
         // color: kSecondaryColor,
         child: Row(
@@ -180,13 +181,37 @@ class _MyHomePageState extends State<MyHomePage> {
               icon: Column(
                 children: [
                   index == 1
-                      ? SvgPicture.asset(
-                          'assets/icons/plus.3.svg',
-                          color: Theme.of(context).iconTheme.color,
+                      ? Badge(
+                          animationType: BadgeAnimationType.scale,
+                          badgeColor: Colors.blueAccent,
+                          // position: BadgePosition.center(),
+                          badgeContent: Text(
+                            '9',
+                            style: TextStyle(
+                                fontSize: 10,
+                                color: Colors.white,
+                                fontWeight: FontWeight.w500),
+                          ),
+                          child: SvgPicture.asset(
+                            'assets/icons/plus.3.svg',
+                            color: Theme.of(context).iconTheme.color,
+                          ),
                         )
-                      : SvgPicture.asset(
-                          'assets/icons/plus.1.svg',
-                          color: Theme.of(context).iconTheme.color,
+                      : Badge(
+                          animationType: BadgeAnimationType.scale,
+                          badgeColor: Colors.blueAccent,
+                          // position: BadgePosition.center(),
+                          badgeContent: Text(
+                            '9',
+                            style: TextStyle(
+                                fontSize: 10,
+                                color: Colors.white,
+                                fontWeight: FontWeight.w500),
+                          ),
+                          child: SvgPicture.asset(
+                            'assets/icons/plus.1.svg',
+                            color: Theme.of(context).iconTheme.color,
+                          ),
                         ),
                   Spacer(),
                   Text(
