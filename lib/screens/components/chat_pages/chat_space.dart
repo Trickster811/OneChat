@@ -169,8 +169,8 @@ class _ChatSpaceState extends State<ChatSpace> {
                       onLongPress: () {
                         showMenu(
                           context: context,
-                          position:
-                              RelativeRect.fromLTRB(0, screenHeight / 4, 0, 0),
+                          position: RelativeRect.fromLTRB(
+                              0, screenHeight / 2.5, 0, 0),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.all(
                               Radius.circular(10.0),
@@ -178,9 +178,9 @@ class _ChatSpaceState extends State<ChatSpace> {
                           ),
                           items: [
                             PopupMenuItem(
-                              child: Padding(
-                                padding: EdgeInsets.all(20.0),
-                                child: Center(
+                              child: Center(
+                                child: Padding(
+                                  padding: EdgeInsets.all(20.0),
                                   child: Column(
                                     children: [
                                       ClipOval(
@@ -321,9 +321,9 @@ class _ChatSpaceState extends State<ChatSpace> {
                               onLongPress: () {
                                 // final RenderBox overlay =
                                 //     Overlay.of(context)!.context.findRenderObject();
-                                final RenderBox box = context
-                                    .findRenderObject() as RenderBox;
-                                
+                                final RenderBox box =
+                                    context.findRenderObject() as RenderBox;
+
                                 // final RelativeRect position = RelativeRect.fromRect(
                                 //   Rect.fromPoints(
                                 //       box.localToGlobal(Offset(0, 65),
@@ -337,8 +337,7 @@ class _ChatSpaceState extends State<ChatSpace> {
 
                                 showMenu(
                                   context: context,
-                                  position: RelativeRect.fromLTRB(
-                                      0, 0, 0, 0),
+                                  position: RelativeRect.fromLTRB(0, 0, 0, 0),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.all(
                                       Radius.circular(10.0),

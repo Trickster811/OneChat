@@ -11,6 +11,7 @@ import 'package:one_chat/screens/components/account_pages/settings_page.dart';
 import 'package:one_chat/screens/components/scan_page.dart';
 import 'package:one_chat/screens/search_page.dart';
 import 'package:one_chat/screens/storie_page.dart';
+import 'package:one_chat/screens/test.dart';
 import 'package:provider/provider.dart';
 import 'package:stream_chat_flutter/stream_chat_flutter.dart';
 
@@ -41,27 +42,29 @@ class _MyHomePageState extends State<MyHomePage> {
     'Account',
   ];
 
-  
   final inputController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     List<List> menuItemList = [
-    [
-      'assets/icons/scan.svg',
-      'Scan to connect',
-      ScanScreen(appBarHeightSize: appBarHeightSize,),
-    ],
-    [
-      'assets/icons/setting.2.svg',
-      'Settings',
-      SettingsScreen(),
-    ],
-    [
-      'assets/icons/info-square.4.svg',
-      'About',
-      AboutScreen(),
-    ],
-  ];
+      [
+        'assets/icons/scan.svg',
+        'Scan to connect',
+        ScanScreen(
+          appBarHeightSize: appBarHeightSize,
+        ),
+      ],
+      [
+        'assets/icons/setting.2.svg',
+        'Settings',
+        SettingsScreen(),
+      ],
+      [
+        'assets/icons/info-square.4.svg',
+        'About',
+        // AboutScreen(),
+        Joachim(),
+      ],
+    ];
     AppBar appBar = AppBar(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       elevation: 0,
@@ -84,7 +87,6 @@ class _MyHomePageState extends State<MyHomePage> {
             : Container(),
         IconButton(
           onPressed: () {
-            
             UsualFunctions.openDialog(context, menuItemList, appBarHeightSize);
           },
           icon: SvgPicture.asset(
@@ -107,7 +109,11 @@ class _MyHomePageState extends State<MyHomePage> {
                     : Theme.of(context).primaryColor,
                 borderRadius: BorderRadius.circular(20),
               ),
-              child: index == 0 ? ChatScreen(appBarHeightSize: appBarHeightSize,) : screens[index],
+              child: index == 0
+                  ? ChatScreen(
+                      appBarHeightSize: appBarHeightSize,
+                    )
+                  : screens[index],
             )
           : screens[index],
       bottomNavigationBar: BottomAppBar(
