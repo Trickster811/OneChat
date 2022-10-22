@@ -42,7 +42,8 @@ List<Message> messages = [
     isSentByMe: true,
   ),
   Message(
-    text: 'What a good day to go outside ggggggg!!',
+    text:
+        'What a good day to go outside hgcgoahehiohfqbfioeohiappvviovbeskbdv ggggggg!!',
     date: DateTime.now().subtract(Duration(minutes: 1)),
     isSentByMe: false,
   ),
@@ -89,8 +90,10 @@ List<Message> messages = [
 ].reversed.toList();
 
 class ChatScreen extends StatefulWidget {
+  final double appBarHeightSize;
   const ChatScreen({
     Key? key,
+    required this.appBarHeightSize,
   }) : super(key: key);
 
   @override
@@ -347,7 +350,7 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget conversationBuilder(
     BuildContext context,
     double screenWidth,
-    @required ConversationInfo item,
+    ConversationInfo item,
   ) {
     return InkWell(
       onTap: () => Navigator.push(
@@ -356,6 +359,7 @@ class _ChatScreenState extends State<ChatScreen> {
           builder: (context) => ChatSpace(
             conversationInfo: item,
             message: messages,
+            appBarHeightSize: widget.appBarHeightSize,
           ),
         ),
       ),
@@ -378,12 +382,13 @@ class _ChatScreenState extends State<ChatScreen> {
               child: Container(
                 padding: EdgeInsets.symmetric(
                   horizontal: 8.0,
+                  vertical: 4.5,
                 ),
-                height: (screenWidth / 100) * 15,
+                height: 50,
                 // width: (screenWidth / 100) * 65,
                 // color: Colors.red,
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // Spacer(),

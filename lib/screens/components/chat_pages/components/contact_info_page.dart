@@ -259,17 +259,19 @@ class _ContactInfoPageScreenState extends State<ContactInfoPageScreen> {
                           onTap: () {},
                           child: Container(
                             padding: EdgeInsets.only(bottom: 5.0),
-                            width: double.maxFinite,
-                            decoration: BoxDecoration(
-                                border: Border(bottom: BorderSide())),
+                            // width: double.maxFinite,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                    'Block ${widget.conversationInfo.username}'),
+                                  'Block ${widget.conversationInfo.username}',
+                                  style: TextStyle(
+                                    color: Colors.red,
+                                  ),
+                                ),
                                 SvgPicture.asset(
                                   'assets/icons/hide.svg',
-                                  color: Theme.of(context).iconTheme.color,
+                                  color: Colors.red,
                                 ),
                               ],
                             ),
@@ -279,17 +281,35 @@ class _ContactInfoPageScreenState extends State<ContactInfoPageScreen> {
                           onTap: () {},
                           child: Container(
                             padding: EdgeInsets.symmetric(vertical: 10.0),
-                            width: double.maxFinite,
+                            // width: double.maxFinite,
                             decoration: BoxDecoration(
-                                border: Border(bottom: BorderSide())),
+                              border: Border(
+                                top: BorderSide(
+                                  color: Theme.of(context)
+                                      .iconTheme
+                                      .color!
+                                      .withOpacity(0.4),
+                                ),
+                                bottom: BorderSide(
+                                  color: Theme.of(context)
+                                      .iconTheme
+                                      .color!
+                                      .withOpacity(0.4),
+                                ),
+                              ),
+                            ),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                    'Report ${widget.conversationInfo.username}'),
+                                  'Report ${widget.conversationInfo.username}',
+                                  style: TextStyle(
+                                    color: Colors.red,
+                                  ),
+                                ),
                                 SvgPicture.asset(
                                   'assets/icons/shield-fail.4.svg',
-                                  color: Theme.of(context).iconTheme.color,
+                                  color: Colors.red,
                                 ),
                               ],
                             ),
@@ -299,15 +319,19 @@ class _ContactInfoPageScreenState extends State<ContactInfoPageScreen> {
                           onTap: () {},
                           child: Container(
                             padding: EdgeInsets.only(top: 5.0),
-                            width: double.maxFinite,
+                            // width: double.maxFinite,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                    'Diconnect from ${widget.conversationInfo.username}'),
+                                  'Diconnect from ${widget.conversationInfo.username}',
+                                  style: TextStyle(
+                                    color: Colors.red,
+                                  ),
+                                ),
                                 SvgPicture.asset(
                                   'assets/icons/delete.3.svg',
-                                  color: Theme.of(context).iconTheme.color,
+                                  color: Colors.red,
                                 ),
                               ],
                             ),

@@ -81,7 +81,7 @@ class AboutScreen extends StatelessWidget {
                     height: 10,
                   ),
                   Text(
-                    'Work Social Network',
+                    'Social Media Network',
                     style: TextStyle(
                       fontSize: 10,
                       fontFamily: 'Comfortaa_bold',

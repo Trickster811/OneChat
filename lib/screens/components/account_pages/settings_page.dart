@@ -142,7 +142,7 @@ class SettingsScreen extends StatelessWidget {
                       child: Column(
                         children: [
                           for (final element in accountItem_1)
-                            s_element(context, element, accountItem_1),
+                            subSettingsElement(context, element, accountItem_1),
                         ],
                       ),
                     ),
@@ -177,7 +177,7 @@ class SettingsScreen extends StatelessWidget {
                       child: Column(
                         children: [
                           for (final element in accountItem_2)
-                            s_element(context, element, accountItem_2),
+                            subSettingsElement(context, element, accountItem_2),
                         ],
                       ),
                     ),
@@ -212,7 +212,7 @@ class SettingsScreen extends StatelessWidget {
                       child: Column(
                         children: [
                           for (final element in accountItem_3)
-                            s_element(context, element, accountItem_3),
+                            subSettingsElement(context, element, accountItem_3),
                         ],
                       ),
                     ),
@@ -247,7 +247,7 @@ class SettingsScreen extends StatelessWidget {
                       child: Column(
                         children: [
                           for (final element in accountItem_4)
-                            s_element(context, element, accountItem_4),
+                            subSettingsElement(context, element, accountItem_4),
                         ],
                       ),
                     ),
@@ -261,7 +261,7 @@ class SettingsScreen extends StatelessWidget {
     );
   }
 
-  Widget s_element(BuildContext context, AccountSetting element,
+  Widget subSettingsElement(BuildContext context, AccountSetting element,
       List<AccountSetting> accountItem) {
     return InkWell(
       onTap: () => Navigator.push(

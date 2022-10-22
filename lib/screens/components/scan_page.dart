@@ -8,6 +8,9 @@ import 'package:one_chat/screens/components/chat_pages/chat_space.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 class ScanScreen extends StatefulWidget {
+  final double appBarHeightSize;
+
+  const ScanScreen({Key? key, required this.appBarHeightSize}):super(key: key);
   @override
   State<ScanScreen> createState() => _ScanScreenState();
 }
@@ -143,6 +146,7 @@ class _ScanScreenState extends State<ScanScreen> {
                     message: [],
                     badge: '02',
                   ),message: [],
+                  appBarHeightSize: widget.appBarHeightSize,
                 )),
           ),
         );

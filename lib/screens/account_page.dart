@@ -146,7 +146,7 @@ class AccountScreen extends StatelessWidget {
                     child: Column(
                       children: [
                         for (final element in accountItem_1)
-                          settings_element(context, element, accountItem_1),
+                          settingsElement(context, element, accountItem_1),
                       ],
                     ),
                   ),
@@ -189,7 +189,7 @@ class AccountScreen extends StatelessWidget {
                     child: Column(
                       children: [
                         for (final element in accountItem_2)
-                          settings_element(context, element, accountItem_2),
+                          settingsElement(context, element, accountItem_2),
                       ],
                     ),
                   ),
@@ -202,7 +202,7 @@ class AccountScreen extends StatelessWidget {
     );
   }
 
-  Widget settings_element(BuildContext context, AccountSetting element,
+  Widget settingsElement(BuildContext context, AccountSetting element,
       List<AccountSetting> accountItem) {
     return InkWell(
       onTap: () => Navigator.push(

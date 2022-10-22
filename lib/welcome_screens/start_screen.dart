@@ -41,11 +41,15 @@ class _MyHomePageState extends State<MyHomePage> {
     'Account',
   ];
 
-  List<List> menuItemList = [
+  
+  final inputController = TextEditingController();
+  @override
+  Widget build(BuildContext context) {
+    List<List> menuItemList = [
     [
       'assets/icons/scan.svg',
       'Scan to connect',
-      ScanScreen(),
+      ScanScreen(appBarHeightSize: appBarHeightSize,),
     ],
     [
       'assets/icons/setting.2.svg',
@@ -58,9 +62,6 @@ class _MyHomePageState extends State<MyHomePage> {
       AboutScreen(),
     ],
   ];
-  final inputController = TextEditingController();
-  @override
-  Widget build(BuildContext context) {
     AppBar appBar = AppBar(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       elevation: 0,
@@ -83,6 +84,7 @@ class _MyHomePageState extends State<MyHomePage> {
             : Container(),
         IconButton(
           onPressed: () {
+            
             UsualFunctions.openDialog(context, menuItemList, appBarHeightSize);
           },
           icon: SvgPicture.asset(
@@ -105,7 +107,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     : Theme.of(context).primaryColor,
                 borderRadius: BorderRadius.circular(20),
               ),
-              child: index == 0 ? ChatScreen() : screens[index],
+              child: index == 0 ? ChatScreen(appBarHeightSize: appBarHeightSize,) : screens[index],
             )
           : screens[index],
       bottomNavigationBar: BottomAppBar(
