@@ -11,7 +11,6 @@ import 'package:one_chat/screens/components/account_pages/settings_page.dart';
 import 'package:one_chat/screens/components/scan_page.dart';
 import 'package:one_chat/screens/search_page.dart';
 import 'package:one_chat/screens/storie_page.dart';
-import 'package:one_chat/screens/test.dart';
 import 'package:provider/provider.dart';
 import 'package:stream_chat_flutter/stream_chat_flutter.dart';
 
@@ -61,8 +60,7 @@ class _MyHomePageState extends State<MyHomePage> {
       [
         'assets/icons/info-square.4.svg',
         'About',
-        // AboutScreen(),
-        Joachim(),
+        AboutScreen(),
       ],
     ];
     AppBar appBar = AppBar(

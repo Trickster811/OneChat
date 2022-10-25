@@ -20,7 +20,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: '>=2.18.1 <3.0.0'
+  sdk: '>=2.18.2 <3.0.0'
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -54,6 +54,7 @@ dependencies:
   permission_handler:
   url_launcher:
   flutter_emoji:
+  focused_menu:
   # package to manage chat box
   stream_chat_flutter:
   # dependencies to manage local database
@@ -92,6 +93,7 @@ flutter:
     - assets/images/
     - assets/icons/
 
+
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 
@@ -113,6 +115,6 @@ flutter:
     - family: Comfortaa_bold
       fonts:
         - asset: assets/fonts/Comfortaa-Bold.ttf
-  #
+        
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

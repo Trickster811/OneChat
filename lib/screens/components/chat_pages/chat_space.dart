@@ -5,13 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_emoji/flutter_emoji.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:focused_menu/focused_menu.dart';
+import 'package:focused_menu/modals.dart';
 import 'package:grouped_list/grouped_list.dart';
 
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:one_chat/constant.dart';
 import 'package:one_chat/functions.dart';
-import 'package:one_chat/main.dart';
 import 'package:one_chat/screens/chat_page.dart';
 import 'package:one_chat/screens/components/account_pages/about_page.dart';
 import 'package:one_chat/screens/components/account_pages/settings_page.dart';
@@ -275,275 +276,313 @@ class _ChatSpaceState extends State<ChatSpace> {
                 ),
                 Expanded(
                   child: GroupedListView<Message, DateTime>(
-                      padding: EdgeInsets.all(8.0),
-                      useStickyGroupSeparators: true,
-                      floatingHeader: true,
-                      elements: messages,
-                      groupBy: (message) => DateTime(
-                            message.date.year,
-                            message.date.month,
-                            message.date.day,
-                          ),
-                      groupHeaderBuilder: (Message message) => SizedBox(
-                            height: 40,
-                            child: Center(
-                              child: Card(
-                                color: Theme.of(context).primaryColor,
-                                child: Padding(
-                                  padding: EdgeInsets.all(8.0),
-                                  child: Text(
-                                    DateFormat.yMMMd().format(message.date),
-                                    style: TextStyle(
-                                      // color: kPrimaryColor,
-                                      fontFamily: 'Comfortaa_light',
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                      itemBuilder: (context, Message message) {
-                        GlobalKey key = GlobalKey();
-
-                        return Align(
-                          alignment: message.isSentByMe
-                              ? Alignment.centerRight
-                              : Alignment.centerLeft,
+                    padding: EdgeInsets.all(8.0),
+                    useStickyGroupSeparators: true,
+                    floatingHeader: true,
+                    elements: messages,
+                    groupBy: (message) => DateTime(
+                      message.date.year,
+                      message.date.month,
+                      message.date.day,
+                    ),
+                    groupHeaderBuilder: (Message message) => SizedBox(
+                      height: 40,
+                      child: Center(
+                        child: Card(
+                          color: Theme.of(context).primaryColor,
                           child: Padding(
-                            padding: EdgeInsets.fromLTRB(
-                              message.isSentByMe ? 64.0 : 8.0,
-                              4.0,
-                              message.isSentByMe ? 8.0 : 64.0,
-                              4.0,
-                            ),
-                            child: GestureDetector(
-                              key: key,
-                              onLongPress: () {
-                                // final RenderBox overlay =
-                                //     Overlay.of(context)!.context.findRenderObject();
-                                final RenderBox box =
-                                    context.findRenderObject() as RenderBox;
-
-                                // final RelativeRect position = RelativeRect.fromRect(
-                                //   Rect.fromPoints(
-                                //       box.localToGlobal(Offset(0, 65),
-                                //           ancestor: overlay),
-                                //       box.localToGlobal(
-                                //           box.size.bottomRight(Offset.zero) +
-                                //               Offset(-50, 0),
-                                //           ancestor: overlay)),
-                                //   Offset.zero & overlay.size,
-                                // );
-
-                                showMenu(
-                                  context: context,
-                                  position: RelativeRect.fromLTRB(0, 0, 0, 0),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(10.0),
-                                    ),
-                                  ),
-                                  items: [
-                                    PopupMenuItem(
-                                      child: menuChild(),
-                                    ),
-                                  ],
-                                );
-                                showCupertinoModalPopup(
-                                  context: context,
-                                  builder: (context) => CupertinoActionSheet(
-                                    actions: [
-                                      CupertinoActionSheetAction(
-                                        onPressed: () {},
-                                        child: menuChildBuilder(
-                                            'assets/icons/arrow-left-square.2.svg',
-                                            'Reply'),
-                                      ),
-                                      CupertinoActionSheetAction(
-                                        onPressed: () {},
-                                        child: menuChildBuilder(
-                                            'assets/icons/paper.3.svg', 'Copy'),
-                                      ),
-                                      CupertinoActionSheetAction(
-                                        onPressed: () {},
-                                        child: menuChildBuilder(
-                                            'assets/icons/arrow-right-square.3.svg',
-                                            'Forward'),
-                                      ),
-                                      CupertinoActionSheetAction(
-                                        onPressed: () {},
-                                        child: menuChildBuilder(
-                                            'assets/icons/danger-circle.svg',
-                                            'Report'),
-                                      ),
-                                      CupertinoActionSheetAction(
-                                        onPressed: () {},
-                                        child: menuChildBuilder(
-                                            'assets/icons/delete.4.svg',
-                                            'Delete'),
-                                      ),
-                                      CupertinoActionSheetAction(
-                                        onPressed: () {},
-                                        child: menuChildBuilder(
-                                            'assets/icons/arrow-down-circle.2.svg',
-                                            'Select'),
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              },
-                              child: Container(
-                                padding: EdgeInsets.all(5.0),
-                                margin: EdgeInsets.symmetric(vertical: 5.0),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(15.0),
-                                    topRight: Radius.circular(15.0),
-                                    bottomLeft: message.isSentByMe
-                                        ? Radius.circular(15.0)
-                                        : Radius.circular(0.0),
-                                    bottomRight: message.isSentByMe
-                                        ? Radius.circular(0.0)
-                                        : Radius.circular(15.0),
-                                  ),
-                                  // border: Border.all(
-                                  //   color: message.isSentByMe
-                                  //       ? Theme.of(context).primaryColor
-                                  //       : Theme.of(context).iconTheme.color!,
-                                  // ),
-                                  color: message.isSentByMe
-                                      ? Theme.of(context).primaryColor
-                                      : Theme.of(context).iconTheme.color,
-                                ),
-                                child: Stack(
-                                  children: [
-                                    message.isSentByMe
-                                        ? Positioned(
-                                            right: 0,
-                                            bottom: 0,
-                                            child: Padding(
-                                              padding: EdgeInsets.symmetric(
-                                                  horizontal: 5.0),
-                                              child: Row(
-                                                children: [
-                                                  Text(
-                                                    DateFormat.Hm()
-                                                        .format(message.date),
-                                                    style: TextStyle(
-                                                      // color: kPrimaryColor,
-                                                      fontSize: 9,
-                                                      color: !message.isSentByMe
-                                                          ? Provider.of<ThemeProvider>(
-                                                                          context)
-                                                                      .themeMode ==
-                                                                  ThemeMode
-                                                                      .light
-                                                              ? Colors.white
-                                                              : Colors.black
-                                                          : Theme.of(context)
-                                                              .iconTheme
-                                                              .color,
-                                                    ),
-                                                  ),
-                                                  SizedBox(
-                                                    width: 5,
-                                                  ),
-                                                  message.isSentByMe
-                                                      ? SvgPicture.asset(
-                                                          'assets/images/one_chat_logo.svg',
-                                                          height: 10,
-                                                        )
-                                                      : SvgPicture.asset(
-                                                          'assets/images/one_chat_logo.svg',
-                                                          height: 10,
-                                                          color: Colors.white,
-                                                        ),
-                                                ],
-                                              ),
-                                            ),
-                                          )
-                                        : Positioned(
-                                            left: 0,
-                                            bottom: 0,
-                                            child: Padding(
-                                              padding: EdgeInsets.symmetric(
-                                                  horizontal: 5.0),
-                                              child: Row(
-                                                children: [
-                                                  Text(
-                                                    DateFormat.Hm()
-                                                        .format(message.date),
-                                                    style: TextStyle(
-                                                      // color: kPrimaryColor,
-                                                      fontSize: 9,
-                                                      color: !message.isSentByMe
-                                                          ? Provider.of<ThemeProvider>(
-                                                                          context)
-                                                                      .themeMode ==
-                                                                  ThemeMode
-                                                                      .light
-                                                              ? Colors.white
-                                                              : Colors.black
-                                                          : Theme.of(context)
-                                                              .iconTheme
-                                                              .color,
-                                                    ),
-                                                  ),
-                                                  // Text(
-                                                  //   ' | ',
-                                                  //   style: TextStyle(
-                                                  //     // color: kPrimaryColor,
-                                                  //     fontSize: 8,
-                                                  //     color: !message.isSentByMe
-                                                  //         ? Provider.of<ThemeProvider>(
-                                                  //                         context)
-                                                  //                     .themeMode ==
-                                                  //                 ThemeMode.light
-                                                  //             ? Colors.white
-                                                  //             : Colors.black
-                                                  //         : Theme.of(context)
-                                                  //             .iconTheme
-                                                  //             .color,
-                                                  //   ),
-                                                  // ),
-                                                  // SvgPicture.asset(
-                                                  //   'assets/images/one_chat_logo.svg',
-                                                  //   height: 10,
-                                                  // ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                    SafeArea(
-                                      child: Padding(
-                                        padding: EdgeInsets.symmetric(
-                                          vertical: 10.0,
-                                          horizontal: 5.0,
-                                        ),
-                                        child: Text(
-                                          message.text,
-                                          style: TextStyle(
-                                            color: !message.isSentByMe
-                                                ? Provider.of<ThemeProvider>(
-                                                                context)
-                                                            .themeMode ==
-                                                        ThemeMode.light
-                                                    ? Colors.white
-                                                    : Colors.black
-                                                : Theme.of(context)
-                                                    .iconTheme
-                                                    .color,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                            padding: EdgeInsets.all(8.0),
+                            child: Text(
+                              DateFormat.yMMMd().format(message.date),
+                              style: TextStyle(
+                                // color: kPrimaryColor,
+                                fontFamily: 'Comfortaa_light',
                               ),
                             ),
                           ),
-                        );
-                      }),
+                        ),
+                      ),
+                    ),
+                    itemBuilder: (context, Message message) => Align(
+                      alignment: message.isSentByMe
+                          ? Alignment.centerRight
+                          : Alignment.centerLeft,
+                      child: Padding(
+                        padding: EdgeInsets.fromLTRB(
+                          message.isSentByMe ? 64.0 : 8.0,
+                          4.0,
+                          message.isSentByMe ? 8.0 : 64.0,
+                          4.0,
+                        ),
+                        child: FocusedMenuHolder(
+                          menuItems: [
+                            FocusedMenuItem(
+                              title: Text(
+                                'Reply',
+                              ),
+                              backgroundColor: Colors.transparent,
+                              onPressed: () => messageSnackbar(),
+                            ),
+                            FocusedMenuItem(
+                              title: Text(
+                                'Copy',
+                              ),
+                              backgroundColor: Colors.transparent,
+                              onPressed: () => messageSnackbar(),
+                            ),
+                            FocusedMenuItem(
+                              title: Text(
+                                'Forward',
+                              ),
+                              backgroundColor: Colors.transparent,
+                              onPressed: () => messageSnackbar(),
+                            ),
+                            FocusedMenuItem(
+                              title: Text(
+                                'Report',
+                              ),
+                              backgroundColor: Colors.transparent,
+                              onPressed: () => messageSnackbar(),
+                            ),
+                            FocusedMenuItem(
+                              title: Text(
+                                'Delete',
+                                style: TextStyle(color: Colors.redAccent),
+                              ),
+                              backgroundColor: Colors.transparent,
+                              onPressed: () => messageSnackbar(),
+                            ),
+                            FocusedMenuItem(
+                              title: Text(
+                                'Select',
+                              ),
+                              backgroundColor: Colors.transparent,
+                              onPressed: () => messageSnackbar(),
+                            ),
+                          ],
+                          // duration: Duration(seconds: 0),
+                          animateMenuItems: true,
+                          openWithTap: true,
+                          onPressed: () {},
+                          menuWidth: MediaQuery.of(context).size.width * 0.5,
+                          menuOffset: 8,
+                          menuItemExtent: 40,
+                          menuBoxDecoration: BoxDecoration(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(10.0)),
+                            color: Colors.grey.withOpacity(0.6),
+                          ),
+                          blurSize: 8,
+                          child: FocusedMenuHolder(
+                            menuItems: [
+                              FocusedMenuItem(
+                                title: Text(
+                                  'Reply',
+                                ),
+                                backgroundColor: Colors.transparent,
+                                onPressed: () => messageSnackbar(),
+                              ),
+                              FocusedMenuItem(
+                                title: Text(
+                                  'Copy',
+                                ),
+                                backgroundColor: Colors.transparent,
+                                onPressed: () => messageSnackbar(),
+                              ),
+                              FocusedMenuItem(
+                                title: Text(
+                                  'Forward',
+                                ),
+                                backgroundColor: Colors.transparent,
+                                onPressed: () => messageSnackbar(),
+                              ),
+                              FocusedMenuItem(
+                                title: Text(
+                                  'Report',
+                                ),
+                                backgroundColor: Colors.transparent,
+                                onPressed: () => messageSnackbar(),
+                              ),
+                              FocusedMenuItem(
+                                title: Text(
+                                  'Delete',
+                                  style: TextStyle(color: Colors.redAccent),
+                                ),
+                                backgroundColor: Colors.transparent,
+                                onPressed: () => messageSnackbar(),
+                              ),
+                              FocusedMenuItem(
+                                title: Text(
+                                  'Select',
+                                ),
+                                backgroundColor: Colors.transparent,
+                                onPressed: () => messageSnackbar(),
+                              ),
+                            ],
+                            // duration: Duration(seconds: 0),
+                            animateMenuItems: true,
+                            openWithTap: true,
+                            onPressed: () {},
+                            menuWidth: MediaQuery.of(context).size.width * 0.5,
+                            menuOffset: 8,
+                            menuItemExtent: 40,
+                            menuBoxDecoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10.0)),
+                              color: Colors.grey.withOpacity(0.6),
+                            ),
+                            blurSize: 8,
+                            child: Container(
+                              padding: EdgeInsets.all(5.0),
+                              margin: EdgeInsets.symmetric(vertical: 5.0),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.only(
+                                  bottomLeft: Radius.circular(15.0),
+                                  bottomRight: Radius.circular(15.0),
+                                  topLeft: message.isSentByMe
+                                      ? Radius.circular(15.0)
+                                      : Radius.circular(0.0),
+                                  topRight: message.isSentByMe
+                                      ? Radius.circular(0.0)
+                                      : Radius.circular(15.0),
+                                ),
+                                // border: Border.all(
+                                //   color: message.isSentByMe
+                                //       ? Theme.of(context).primaryColor
+                                //       : Theme.of(context).iconTheme.color!,
+                                // ),
+                                color: message.isSentByMe
+                                    ? Theme.of(context).primaryColor
+                                    : Theme.of(context).iconTheme.color,
+                              ),
+                              child: Stack(
+                                children: [
+                                  message.isSentByMe
+                                      ? Positioned(
+                                          right: 0,
+                                          bottom: 0,
+                                          child: Padding(
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 5.0),
+                                            child: Row(
+                                              children: [
+                                                Text(
+                                                  DateFormat.Hm()
+                                                      .format(message.date),
+                                                  style: TextStyle(
+                                                    // color: kPrimaryColor,
+                                                    fontSize: 9,
+                                                    color: !message.isSentByMe
+                                                        ? Provider.of<ThemeProvider>(
+                                                                        context)
+                                                                    .themeMode ==
+                                                                ThemeMode.light
+                                                            ? Colors.white
+                                                            : Colors.black
+                                                        : Theme.of(context)
+                                                            .iconTheme
+                                                            .color,
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  width: 5,
+                                                ),
+                                                message.isSentByMe
+                                                    ? SvgPicture.asset(
+                                                        'assets/images/one_chat_logo.svg',
+                                                        height: 10,
+                                                      )
+                                                    : SvgPicture.asset(
+                                                        'assets/images/one_chat_logo.svg',
+                                                        height: 10,
+                                                        color: Colors.white,
+                                                      ),
+                                              ],
+                                            ),
+                                          ),
+                                        )
+                                      : Positioned(
+                                          left: 0,
+                                          bottom: 0,
+                                          child: Padding(
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 5.0),
+                                            child: Row(
+                                              children: [
+                                                Text(
+                                                  DateFormat.Hm()
+                                                      .format(message.date),
+                                                  style: TextStyle(
+                                                    // color: kPrimaryColor,
+                                                    fontSize: 9,
+                                                    color: !message.isSentByMe
+                                                        ? Provider.of<ThemeProvider>(
+                                                                        context)
+                                                                    .themeMode ==
+                                                                ThemeMode.light
+                                                            ? Colors.white
+                                                            : Colors.black
+                                                        : Theme.of(context)
+                                                            .iconTheme
+                                                            .color,
+                                                  ),
+                                                ),
+                                                // Text(
+                                                //   ' | ',
+                                                //   style: TextStyle(
+                                                //     // color: kPrimaryColor,
+                                                //     fontSize: 8,
+                                                //     color: !message.isSentByMe
+                                                //         ? Provider.of<ThemeProvider>(
+                                                //                         context)
+                                                //                     .themeMode ==
+                                                //                 ThemeMode.light
+                                                //             ? Colors.white
+                                                //             : Colors.black
+                                                //         : Theme.of(context)
+                                                //             .iconTheme
+                                                //             .color,
+                                                //   ),
+                                                // ),
+                                                // SvgPicture.asset(
+                                                //   'assets/images/one_chat_logo.svg',
+                                                //   height: 10,
+                                                // ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                  SafeArea(
+                                    child: Padding(
+                                      padding: EdgeInsets.symmetric(
+                                        vertical: 10.0,
+                                        horizontal: 5.0,
+                                      ),
+                                      child: Text(
+                                        message.text,
+                                        style: TextStyle(
+                                          color: !message.isSentByMe
+                                              ? Provider.of<ThemeProvider>(
+                                                              context)
+                                                          .themeMode ==
+                                                      ThemeMode.light
+                                                  ? Colors.white
+                                                  : Colors.black
+                                              : Theme.of(context)
+                                                  .iconTheme
+                                                  .color,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
                 Container(
                   color: Colors.black,
@@ -741,24 +780,25 @@ class _ChatSpaceState extends State<ChatSpace> {
     );
   }
 
-  Widget menuChildBuilder(String icon, String text) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          text,
-          style: TextStyle(
-            fontSize: 16,
-            color: Theme.of(context).colorScheme.secondary,
+  Future messageSnackbar() async => ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: Colors.grey,
+          elevation: 0,
+          behavior: SnackBarBehavior.floating,
+          // animation: Tween(begin: 12.0, end: 50.0),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
+          duration: Duration(milliseconds: 3000),
+          content: Container(
+            // margin: EdgeInsets.all(2),
+            child: Text(
+              'Selected: Favorite',
+              textAlign: TextAlign.center,
+            ),
           ),
         ),
-        SvgPicture.asset(
-          icon,
-          color: Theme.of(context).iconTheme.color,
-        ),
-      ],
-    );
-  }
+      );
 
   Future pickImage(ImageSource source) async {
     try {
