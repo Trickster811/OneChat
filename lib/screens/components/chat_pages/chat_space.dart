@@ -17,7 +17,9 @@ import 'package:one_chat/screens/chat_page.dart';
 import 'package:one_chat/screens/components/account_pages/about_page.dart';
 import 'package:one_chat/screens/components/account_pages/settings_page.dart';
 import 'package:one_chat/screens/components/chat_pages/components/contact_info_page.dart';
+import 'package:one_chat/screens/components/chat_pages/components/forward_message_page.dart';
 import 'package:provider/provider.dart';
+import 'package:socket_client/socket_client.dart';
 
 class ChatSpace extends StatefulWidget {
   final ConversationInfo conversationInfo;
@@ -167,99 +169,105 @@ class _ChatSpaceState extends State<ChatSpace> {
                           ),
                         );
                       },
-                      onLongPress: () {
-                        showMenu(
-                          context: context,
-                          position: RelativeRect.fromLTRB(
-                              0, screenHeight / 2.5, 0, 0),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(10.0),
-                            ),
-                          ),
-                          items: [
-                            PopupMenuItem(
-                              child: Center(
-                                child: Padding(
-                                  padding: EdgeInsets.all(20.0),
-                                  child: Column(
-                                    children: [
-                                      ClipOval(
-                                        child: Image.asset(
-                                          widget.conversationInfo.image,
-                                          fit: BoxFit.cover,
-                                          height: 100,
-                                          width: 100,
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height: 6,
-                                      ),
-                                      Text(
-                                        "Online",
-                                        style: TextStyle(
-                                          color: Colors.grey.shade600,
-                                          fontSize: 13,
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height: 6,
-                                      ),
-                                      Text(
-                                        widget.conversationInfo.username,
-                                        style: TextStyle(
-                                          // color: kPrimaryColor,
-                                          fontSize: 20,
-                                          fontFamily: 'Comfortaa_bold',
-                                        ),
-                                      ),
-                                    ],
+                      onLongPress: () {},
+                      child: FocusedMenuHolder(
+                        menuItems: [
+                          FocusedMenuItem(
+                            title: Padding(
+                              padding: EdgeInsets.only(
+                                left: 18.0,
+                                bottom: 10.0,
+                              ),
+                              child: Column(
+                                children: [
+                                  ClipOval(
+                                    child: Image.asset(
+                                      widget.conversationInfo.image,
+                                      fit: BoxFit.cover,
+                                      height: 90,
+                                      width: 90,
+                                    ),
                                   ),
-                                ),
+                                  SizedBox(
+                                    height: 6,
+                                  ),
+                                  Text(
+                                    "Online",
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 13,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 6,
+                                  ),
+                                  Text(
+                                    widget.conversationInfo.username,
+                                    style: TextStyle(
+                                      // color: kPrimaryColor,
+                                      fontSize: 20,
+                                      fontFamily: 'Comfortaa_bold',
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            backgroundColor: Colors.transparent,
+                            onPressed: () {},
+                          ),
+                        ],
+                        // duration: Duration(seconds: 0),
+                        animateMenuItems: true,
+                        openWithTap: false,
+                        onPressed: () {},
+                        menuWidth: 200,
+                        menuOffset: MediaQuery.of(context).size.height * 0.30,
+                        menuItemExtent: 200,
+                        menuBoxDecoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                          color: Colors.grey.withOpacity(0.6),
+                        ),
+                        blurSize: 8,
+                        child: Row(
+                          children: [
+                            ClipOval(
+                              child: Image.asset(
+                                widget.conversationInfo.image,
+                                fit: BoxFit.cover,
+                                height: 40,
+                                width: 40,
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 8.0,
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Text(
+                                    widget.conversationInfo.username,
+                                    style: TextStyle(
+                                      // color: kPrimaryColor,
+                                      fontSize: 15,
+                                      fontFamily: 'Comfortaa_bold',
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 6,
+                                  ),
+                                  Text(
+                                    "Online",
+                                    style: TextStyle(
+                                        color: Colors.grey.shade600,
+                                        fontSize: 13),
+                                  ),
+                                ],
                               ),
                             ),
                           ],
-                        );
-                      },
-                      child: Row(
-                        children: [
-                          ClipOval(
-                            child: Image.asset(
-                              widget.conversationInfo.image,
-                              fit: BoxFit.cover,
-                              height: 40,
-                              width: 40,
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 8.0,
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Text(
-                                  widget.conversationInfo.username,
-                                  style: TextStyle(
-                                    // color: kPrimaryColor,
-                                    fontSize: 15,
-                                    fontFamily: 'Comfortaa_bold',
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 6,
-                                ),
-                                Text(
-                                  "Online",
-                                  style: TextStyle(
-                                      color: Colors.grey.shade600,
-                                      fontSize: 13),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
+                        ),
                       ),
                     ),
                     IconButton(
@@ -275,7 +283,7 @@ class _ChatSpaceState extends State<ChatSpace> {
                   ],
                 ),
                 Expanded(
-                  child: GroupedListView<Message, DateTime>(
+                  child: GroupedListView<MessageInfos, DateTime>(
                     padding: EdgeInsets.all(8.0),
                     useStickyGroupSeparators: true,
                     floatingHeader: true,
@@ -285,7 +293,7 @@ class _ChatSpaceState extends State<ChatSpace> {
                       message.date.month,
                       message.date.day,
                     ),
-                    groupHeaderBuilder: (Message message) => SizedBox(
+                    groupHeaderBuilder: (MessageInfos message) => SizedBox(
                       height: 40,
                       child: Center(
                         child: Card(
@@ -303,7 +311,7 @@ class _ChatSpaceState extends State<ChatSpace> {
                         ),
                       ),
                     ),
-                    itemBuilder: (context, Message message) => Align(
+                    itemBuilder: (context, MessageInfos message) => Align(
                       alignment: message.isSentByMe
                           ? Alignment.centerRight
                           : Alignment.centerLeft,
@@ -314,278 +322,166 @@ class _ChatSpaceState extends State<ChatSpace> {
                           message.isSentByMe ? 8.0 : 64.0,
                           4.0,
                         ),
-                        child: FocusedMenuHolder(
-                          menuItems: [
-                            FocusedMenuItem(
-                              title: Text(
-                                'Reply',
-                              ),
-                              backgroundColor: Colors.transparent,
-                              onPressed: () => messageSnackbar(),
-                            ),
-                            FocusedMenuItem(
-                              title: Text(
-                                'Copy',
-                              ),
-                              backgroundColor: Colors.transparent,
-                              onPressed: () => messageSnackbar(),
-                            ),
-                            FocusedMenuItem(
-                              title: Text(
-                                'Forward',
-                              ),
-                              backgroundColor: Colors.transparent,
-                              onPressed: () => messageSnackbar(),
-                            ),
-                            FocusedMenuItem(
-                              title: Text(
-                                'Report',
-                              ),
-                              backgroundColor: Colors.transparent,
-                              onPressed: () => messageSnackbar(),
-                            ),
-                            FocusedMenuItem(
-                              title: Text(
-                                'Delete',
-                                style: TextStyle(color: Colors.redAccent),
-                              ),
-                              backgroundColor: Colors.transparent,
-                              onPressed: () => messageSnackbar(),
-                            ),
-                            FocusedMenuItem(
-                              title: Text(
-                                'Select',
-                              ),
-                              backgroundColor: Colors.transparent,
-                              onPressed: () => messageSnackbar(),
-                            ),
-                          ],
-                          // duration: Duration(seconds: 0),
-                          animateMenuItems: true,
-                          openWithTap: true,
-                          onPressed: () {},
-                          menuWidth: MediaQuery.of(context).size.width * 0.5,
-                          menuOffset: 8,
-                          menuItemExtent: 40,
-                          menuBoxDecoration: BoxDecoration(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(10.0)),
-                            color: Colors.grey.withOpacity(0.6),
-                          ),
-                          blurSize: 8,
-                          child: FocusedMenuHolder(
-                            menuItems: [
-                              FocusedMenuItem(
-                                title: Text(
-                                  'Reply',
+                        child: Column(
+                          crossAxisAlignment: message.isSentByMe
+                              ? CrossAxisAlignment.end
+                              : CrossAxisAlignment.start,
+                          children: [
+                            FocusedMenuHolder(
+                              menuItems: [
+                                FocusedMenuItem(
+                                  title: Text(
+                                    'Reply',
+                                  ),
+                                  backgroundColor: Colors.transparent,
+                                  onPressed: () => messageSnackbar(),
                                 ),
-                                backgroundColor: Colors.transparent,
-                                onPressed: () => messageSnackbar(),
-                              ),
-                              FocusedMenuItem(
-                                title: Text(
-                                  'Copy',
+                                FocusedMenuItem(
+                                  title: Text(
+                                    'Copy',
+                                  ),
+                                  backgroundColor: Colors.transparent,
+                                  onPressed: () => messageSnackbar(),
                                 ),
-                                backgroundColor: Colors.transparent,
-                                onPressed: () => messageSnackbar(),
-                              ),
-                              FocusedMenuItem(
-                                title: Text(
-                                  'Forward',
-                                ),
-                                backgroundColor: Colors.transparent,
-                                onPressed: () => messageSnackbar(),
-                              ),
-                              FocusedMenuItem(
-                                title: Text(
-                                  'Report',
-                                ),
-                                backgroundColor: Colors.transparent,
-                                onPressed: () => messageSnackbar(),
-                              ),
-                              FocusedMenuItem(
-                                title: Text(
-                                  'Delete',
-                                  style: TextStyle(color: Colors.redAccent),
-                                ),
-                                backgroundColor: Colors.transparent,
-                                onPressed: () => messageSnackbar(),
-                              ),
-                              FocusedMenuItem(
-                                title: Text(
-                                  'Select',
-                                ),
-                                backgroundColor: Colors.transparent,
-                                onPressed: () => messageSnackbar(),
-                              ),
-                            ],
-                            // duration: Duration(seconds: 0),
-                            animateMenuItems: true,
-                            openWithTap: true,
-                            onPressed: () {},
-                            menuWidth: MediaQuery.of(context).size.width * 0.5,
-                            menuOffset: 8,
-                            menuItemExtent: 40,
-                            menuBoxDecoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10.0)),
-                              color: Colors.grey.withOpacity(0.6),
-                            ),
-                            blurSize: 8,
-                            child: Container(
-                              padding: EdgeInsets.all(5.0),
-                              margin: EdgeInsets.symmetric(vertical: 5.0),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.only(
-                                  bottomLeft: Radius.circular(15.0),
-                                  bottomRight: Radius.circular(15.0),
-                                  topLeft: message.isSentByMe
-                                      ? Radius.circular(15.0)
-                                      : Radius.circular(0.0),
-                                  topRight: message.isSentByMe
-                                      ? Radius.circular(0.0)
-                                      : Radius.circular(15.0),
-                                ),
-                                // border: Border.all(
-                                //   color: message.isSentByMe
-                                //       ? Theme.of(context).primaryColor
-                                //       : Theme.of(context).iconTheme.color!,
-                                // ),
-                                color: message.isSentByMe
-                                    ? Theme.of(context).primaryColor
-                                    : Theme.of(context).iconTheme.color,
-                              ),
-                              child: Stack(
-                                children: [
-                                  message.isSentByMe
-                                      ? Positioned(
-                                          right: 0,
-                                          bottom: 0,
-                                          child: Padding(
-                                            padding: EdgeInsets.symmetric(
-                                                horizontal: 5.0),
-                                            child: Row(
-                                              children: [
-                                                Text(
-                                                  DateFormat.Hm()
-                                                      .format(message.date),
-                                                  style: TextStyle(
-                                                    // color: kPrimaryColor,
-                                                    fontSize: 9,
-                                                    color: !message.isSentByMe
-                                                        ? Provider.of<ThemeProvider>(
-                                                                        context)
-                                                                    .themeMode ==
-                                                                ThemeMode.light
-                                                            ? Colors.white
-                                                            : Colors.black
-                                                        : Theme.of(context)
-                                                            .iconTheme
-                                                            .color,
-                                                  ),
-                                                ),
-                                                SizedBox(
-                                                  width: 5,
-                                                ),
-                                                message.isSentByMe
-                                                    ? SvgPicture.asset(
-                                                        'assets/images/one_chat_logo.svg',
-                                                        height: 10,
-                                                      )
-                                                    : SvgPicture.asset(
-                                                        'assets/images/one_chat_logo.svg',
-                                                        height: 10,
-                                                        color: Colors.white,
-                                                      ),
-                                              ],
-                                            ),
-                                          ),
-                                        )
-                                      : Positioned(
-                                          left: 0,
-                                          bottom: 0,
-                                          child: Padding(
-                                            padding: EdgeInsets.symmetric(
-                                                horizontal: 5.0),
-                                            child: Row(
-                                              children: [
-                                                Text(
-                                                  DateFormat.Hm()
-                                                      .format(message.date),
-                                                  style: TextStyle(
-                                                    // color: kPrimaryColor,
-                                                    fontSize: 9,
-                                                    color: !message.isSentByMe
-                                                        ? Provider.of<ThemeProvider>(
-                                                                        context)
-                                                                    .themeMode ==
-                                                                ThemeMode.light
-                                                            ? Colors.white
-                                                            : Colors.black
-                                                        : Theme.of(context)
-                                                            .iconTheme
-                                                            .color,
-                                                  ),
-                                                ),
-                                                // Text(
-                                                //   ' | ',
-                                                //   style: TextStyle(
-                                                //     // color: kPrimaryColor,
-                                                //     fontSize: 8,
-                                                //     color: !message.isSentByMe
-                                                //         ? Provider.of<ThemeProvider>(
-                                                //                         context)
-                                                //                     .themeMode ==
-                                                //                 ThemeMode.light
-                                                //             ? Colors.white
-                                                //             : Colors.black
-                                                //         : Theme.of(context)
-                                                //             .iconTheme
-                                                //             .color,
-                                                //   ),
-                                                // ),
-                                                // SvgPicture.asset(
-                                                //   'assets/images/one_chat_logo.svg',
-                                                //   height: 10,
-                                                // ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                  SafeArea(
-                                    child: Padding(
-                                      padding: EdgeInsets.symmetric(
-                                        vertical: 10.0,
-                                        horizontal: 5.0,
-                                      ),
-                                      child: Text(
-                                        message.text,
-                                        style: TextStyle(
-                                          color: !message.isSentByMe
-                                              ? Provider.of<ThemeProvider>(
-                                                              context)
-                                                          .themeMode ==
-                                                      ThemeMode.light
-                                                  ? Colors.white
-                                                  : Colors.black
-                                              : Theme.of(context)
-                                                  .iconTheme
-                                                  .color,
-                                        ),
-                                      ),
+                                FocusedMenuItem(
+                                  title: Text(
+                                    'Forward',
+                                  ),
+                                  backgroundColor: Colors.transparent,
+                                  onPressed: () => Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: ((context) =>
+                                          ForwardMessageScreen()),
                                     ),
                                   ),
-                                ],
+                                ),
+                                FocusedMenuItem(
+                                  title: Text(
+                                    'Report',
+                                  ),
+                                  backgroundColor: Colors.transparent,
+                                  onPressed: () => messageSnackbar(),
+                                ),
+                                FocusedMenuItem(
+                                  title: Text(
+                                    'Delete',
+                                    style: TextStyle(color: Colors.redAccent),
+                                  ),
+                                  backgroundColor: Colors.transparent,
+                                  onPressed: () {
+                                    setState(() {
+                                      messages.remove(message);
+                                    });
+                                  },
+                                ),
+                                FocusedMenuItem(
+                                  title: Text(
+                                    'Select',
+                                  ),
+                                  backgroundColor: Colors.transparent,
+                                  onPressed: () => messageSnackbar(),
+                                ),
+                              ],
+                              // duration: Duration(seconds: 0),
+                              animateMenuItems: true,
+                              openWithTap: true,
+                              onPressed: () {},
+                              menuWidth:
+                                  MediaQuery.of(context).size.width * 0.5,
+                              menuOffset: 8,
+                              menuItemExtent: 40,
+                              menuBoxDecoration: BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10.0)),
+                                color: Colors.grey,
+                              ),
+                              blurSize: 1,
+                              child: CustomPaint(
+                                painter: CustomChatBubble(
+                                  context: context,
+                                  isOwn: message.isSentByMe,
+                                ),
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(
+                                    vertical: 5.0,
+                                    horizontal: 5.0,
+                                  ),
+                                  child: Text(
+                                    message.text,
+                                    style: TextStyle(
+                                      color: !message.isSentByMe
+                                          ? Provider.of<ThemeProvider>(context)
+                                                      .themeMode ==
+                                                  ThemeMode.light
+                                              ? Colors.white
+                                              : Colors.black
+                                          : Theme.of(context).iconTheme.color,
+                                    ),
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Row(
+                              mainAxisAlignment: message.isSentByMe
+                                  ? MainAxisAlignment.end
+                                  : MainAxisAlignment.start,
+                              children: [
+                                Text(
+                                  DateFormat.Hm().format(message.date),
+                                  style: TextStyle(
+                                    fontSize: 9,
+                                    // color: !message.isSentByMe
+                                    //     ? Provider.of<ThemeProvider>(context)
+                                    //                 .themeMode ==
+                                    //             ThemeMode.light
+                                    //         ? Colors.white
+                                    //         : Colors.black
+                                    //     : Theme.of(context).iconTheme.color,
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 5,
+                                ),
+                                message.isSentByMe
+                                    ? SvgPicture.asset(
+                                        'assets/images/one_chat_logo.svg',
+                                        height: 10,
+                                      )
+                                    : SvgPicture.asset(
+                                        'assets/images/one_chat_logo.svg',
+                                        height: 10,
+                                        color: Colors.white,
+                                      ),
+                                message.isSentByMe
+                                    ? Text(
+                                        ' | ',
+                                        style: TextStyle(
+                                          fontSize: 9,
+                                        ),
+                                      )
+                                    : Container(),
+                                message.isSentByMe
+                                    ? Text(
+                                        'seen',
+                                        style: TextStyle(
+                                          fontSize: 9,
+                                        ),
+                                      )
+                                    : Container(),
+                              ],
+                            ),
+                          ],
                         ),
                       ),
                     ),
                   ),
                 ),
                 Container(
-                  color: Colors.black,
+                  color: Theme.of(context).scaffoldBackgroundColor,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
@@ -618,10 +514,10 @@ class _ChatSpaceState extends State<ChatSpace> {
                                           'assets/icons/heart.2.svg', 'Videos'),
                                     ),
                                     CupertinoActionSheetAction(
-                                        onPressed: () {},
-                                        child: categoryItemBuilder(
-                                            'assets/icons/heart.2.svg',
-                                            'Audio')),
+                                      onPressed: () {},
+                                      child: categoryItemBuilder(
+                                          'assets/icons/heart.2.svg', 'Audio'),
+                                    ),
                                   ],
                                 )),
                           );
@@ -698,7 +594,7 @@ class _ChatSpaceState extends State<ChatSpace> {
                             )
                           : IconButton(
                               onPressed: () {
-                                final message = Message(
+                                final message = MessageInfos(
                                   text: inputController.text,
                                   date: DateTime.now(),
                                   isSentByMe: true,
@@ -708,6 +604,7 @@ class _ChatSpaceState extends State<ChatSpace> {
                                   inputController.clear();
                                   index = 0;
                                 });
+                                sendMessage(message.text);
                               },
                               icon: SvgPicture.asset(
                                 'assets/icons/send.3.svg',
@@ -893,78 +790,124 @@ class EditPageScreen extends StatelessWidget {
               fit: BoxFit.cover,
             ),
           ),
-          Container(
-            // color: Colors.white,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Flexible(
-                  child: Container(
-                    height: 30,
-                    child: TextField(
-                      controller: inputController1,
-                      onChanged: (String value) {
-                        print(value);
-                      },
-                      onSubmitted: (String text) {},
-                      cursorWidth: 1.0,
-                      cursorColor: Colors.white,
-                      decoration: InputDecoration(
-                        focusColor: Colors.white,
-                        fillColor: Color.fromARGB(255, 255, 255, 255),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Colors.white.withOpacity(0.8),
-                          ),
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(1000.0),
-                          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Flexible(
+                child: Container(
+                  height: 30,
+                  child: TextField(
+                    controller: inputController1,
+                    onChanged: (String value) {
+                      print(value);
+                    },
+                    onSubmitted: (String text) {},
+                    cursorWidth: 1.0,
+                    cursorColor: Colors.white,
+                    decoration: InputDecoration(
+                      focusColor: Colors.white,
+                      fillColor: Color.fromARGB(255, 255, 255, 255),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Colors.white.withOpacity(0.8),
                         ),
-                        border: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Colors.white.withOpacity(0.8),
-                          ),
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(1000.0),
-                          ),
-                          // gapPadding: 2.0,
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(1000.0),
                         ),
-                        contentPadding: EdgeInsets.symmetric(
-                          vertical: 2.0,
-                          horizontal: 8.0,
+                      ),
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Colors.white.withOpacity(0.8),
                         ),
-                        hintText: 'type a message',
-                        hintStyle: TextStyle(
-                          // color: kPrimaryColor,
-                          fontFamily: 'Comfortaa_light',
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(1000.0),
                         ),
+                        // gapPadding: 2.0,
+                      ),
+                      contentPadding: EdgeInsets.symmetric(
+                        vertical: 2.0,
+                        horizontal: 8.0,
+                      ),
+                      hintText: 'type a message',
+                      hintStyle: TextStyle(
+                        // color: kPrimaryColor,
+                        fontFamily: 'Comfortaa_light',
                       ),
                     ),
                   ),
                 ),
-                IconButton(
-                  onPressed: () {
-                    // final message = Message(
-                    //   text: inputController.text,
-                    //   date: DateTime.now(),
-                    //   isSentByMe: true,
-                    // );
-                    // setState(() {
-                    //   messages.add(message);
-                    //   inputController.clear();
-                    //   index = 0;
-                    // });
-                  },
-                  icon: SvgPicture.asset(
-                    'assets/icons/send.3.svg',
-                    color: Colors.blue,
-                  ),
+              ),
+              IconButton(
+                onPressed: () {
+                  // final message = Message(
+                  //   text: inputController.text,
+                  //   date: DateTime.now(),
+                  //   isSentByMe: true,
+                  // );
+                  // setState(() {
+                  //   messages.add(message);
+                  //   inputController.clear();
+                  //   index = 0;
+                  // });
+                },
+                icon: SvgPicture.asset(
+                  'assets/icons/send.3.svg',
+                  color: Colors.blue,
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ],
       ),
     );
+  }
+}
+
+class CustomChatBubble extends CustomPainter {
+  const CustomChatBubble({
+    required this.context,
+    required this.isOwn,
+  });
+  final BuildContext context;
+  final bool isOwn;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = isOwn
+          ? Theme.of(context).primaryColor
+          : Theme.of(context).iconTheme.color ?? Colors.blue;
+
+    Path paintBubbleTail() {
+      Path path = Path();
+      if (!isOwn) {
+        path = Path()
+          ..moveTo(5, size.height - 5)
+          ..quadraticBezierTo(-2, size.height, -6, size.height - 2)
+          ..quadraticBezierTo(-2, size.height - 2, 0, size.height - 15);
+      }
+      if (isOwn) {
+        path = Path()
+          ..moveTo(size.width - 6, size.height - 4)
+          ..quadraticBezierTo(
+              size.width + 2, size.height, size.width + 6, size.height - 2)
+          ..quadraticBezierTo(
+              size.width + 2, size.height - 2, size.width, size.height - 15);
+      }
+      return path;
+    }
+
+    final RRect bubbleBody = RRect.fromRectAndRadius(
+        Rect.fromLTWH(0, 0, size.width, size.height), Radius.circular(16));
+    final Path bubbleTail = paintBubbleTail();
+
+    canvas.drawRRect(bubbleBody, paint);
+    canvas.drawPath(bubbleTail, paint);
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) {
+    // TODO: implement shouldRepaint
+    return true;
   }
 }

@@ -101,14 +101,14 @@ class StorieScreen extends StatelessWidget {
   Widget statusBuilder(
     BuildContext context,
     double screenWidth,
-    @required StatusInfo item,
+    StatusInfo item,
   ) {
     return InkWell(
       onTap: () {},
       child: Padding(
         padding: EdgeInsets.symmetric(
           horizontal: 10.0,
-          vertical: 5.0,
+          vertical: 2.0,
         ),
         child: Row(
           children: [
@@ -125,7 +125,7 @@ class StorieScreen extends StatelessWidget {
                 padding: EdgeInsets.symmetric(
                   horizontal: 8.0,
                 ),
-                height: (screenWidth / 100) * 15,
+                height: 50,
                 // width: (screenWidth / 100) * 65,
                 // color: Colors.red,
                 child: Column(

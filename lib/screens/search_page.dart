@@ -114,10 +114,7 @@ class _SearchScreenState extends State<SearchScreen> {
         ),
         Container(
           decoration: BoxDecoration(
-            color:
-                Provider.of<ThemeProvider>(context).themeMode == ThemeMode.dark
-                    ? Theme.of(context).scaffoldBackgroundColor
-                    : Theme.of(context).primaryColor,
+            color: Theme.of(context).scaffoldBackgroundColor,
             borderRadius: BorderRadius.all(
               Radius.circular(10.0),
             ),

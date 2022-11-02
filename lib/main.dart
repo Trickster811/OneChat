@@ -13,6 +13,7 @@ import 'package:one_chat/constant.dart';
 import 'package:one_chat/welcome_screens/loading_page.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
+import 'package:socket_client/socket_client.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,6 +21,9 @@ Future main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
+
+  await connectionTask();
+  
   // final client = StreamChatClient(
   //   Config.apiKey,
   //   logLevel: Level.INFO,
@@ -52,8 +56,13 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
+    // startConnection();
     appFolder();
   }
+
+  // startConnection() async {
+  //   await connectionTask();
+  // }
 
   appFolder() async {
     final status = await Permission.storage.request();

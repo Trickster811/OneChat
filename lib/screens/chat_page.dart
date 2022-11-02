@@ -2,8 +2,9 @@ import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
-import 'package:one_chat/main.dart';
 import 'package:one_chat/screens/components/chat_pages/chat_space.dart';
+import 'package:one_chat/screens/components/chat_pages/components/archived_conversation_page.dart';
+import 'package:socket_client/socket_client.dart';
 import 'package:stream_chat_flutter/stream_chat_flutter.dart';
 
 class ConversationInfo {
@@ -19,75 +20,131 @@ class ConversationInfo {
   });
 }
 
-class Message {
-  final String text;
-  final DateTime date;
-  final bool isSentByMe;
-  const Message({
-    required this.text,
-    required this.date,
-    required this.isSentByMe,
-  });
-}
 
-List<Message> messages = [
-  Message(
+
+List<MessageInfos> messages = [
+  MessageInfos(
     text: 'Hey bro!!',
     date: DateTime.now().subtract(Duration(minutes: 1)),
     isSentByMe: false,
   ),
-  Message(
+  MessageInfos(
     text: "What's up?",
     date: DateTime.now().subtract(Duration(minutes: 2)),
     isSentByMe: true,
   ),
-  Message(
+  MessageInfos(
     text:
         'What a good day to go outside hgcgoahehiohfqbfioeohiappvviovbeskbdv ggggggg!!',
     date: DateTime.now().subtract(Duration(minutes: 1)),
     isSentByMe: false,
   ),
-  Message(
+  MessageInfos(
     text: 'Yes sure',
     date: DateTime.now().subtract(Duration(minutes: 1)),
     isSentByMe: true,
   ),
-  Message(
+  MessageInfos(
     text: 'Wanna join us today',
     date: DateTime.now().subtract(Duration(minutes: 1)),
     isSentByMe: false,
   ),
-  Message(
+  MessageInfos(
     text: 'Yes sure',
     date: DateTime.now().subtract(Duration(minutes: 1)),
     isSentByMe: false,
   ),
-  Message(
+  MessageInfos(
     text: 'Yes sure',
     date: DateTime.now().subtract(Duration(minutes: 1)),
     isSentByMe: true,
   ),
-  Message(
+  MessageInfos(
     text: 'Yes sure',
     date: DateTime.now().subtract(Duration(minutes: 1)),
     isSentByMe: false,
   ),
-  Message(
+  MessageInfos(
     text: 'Yes sure',
     date: DateTime.now().subtract(Duration(minutes: 1)),
     isSentByMe: false,
   ),
-  Message(
+  MessageInfos(
     text: 'Yes sure',
     date: DateTime.now().subtract(Duration(minutes: 1)),
     isSentByMe: false,
   ),
-  Message(
+  MessageInfos(
     text: 'Yes sure',
     date: DateTime.now().subtract(Duration(minutes: 1)),
     isSentByMe: true,
   ),
 ].reversed.toList();
+
+List archivedConversationInfo = [];
+
+List conversationInfo = [
+  ConversationInfo(
+    image: 'assets/images/1.png',
+    username: '@Ulrich',
+    message: messages,
+    badge: '02',
+  ),
+  ConversationInfo(
+    image: 'assets/images/6.png',
+    username: '@Youmix',
+    message: messages,
+    badge: '10',
+  ),
+  ConversationInfo(
+    image: 'assets/images/girl_studying_with_music.png',
+    username: '@Julie',
+    message: messages,
+    badge: '07',
+  ),
+  ConversationInfo(
+    image: 'assets/images/4.png',
+    username: '@Nancy',
+    message: messages,
+    badge: '15',
+  ),
+  ConversationInfo(
+    image: 'assets/images/2.png',
+    username: '@Johannes',
+    message: messages,
+    badge: '04',
+  ),
+  ConversationInfo(
+    image: 'assets/images/5.png',
+    username: '@Bro',
+    message: messages,
+    badge: '02',
+  ),
+  ConversationInfo(
+    image: 'assets/images/3.png',
+    username: '@Manou',
+    message: messages,
+    badge: '10',
+  ),
+  ConversationInfo(
+    image: 'assets/images/7.png',
+    username: '@Julienne',
+    message: messages,
+    badge: '07',
+  ),
+  ConversationInfo(
+    image: 'assets/images/8.png',
+    username: '@Junior',
+    message: messages,
+    badge: '15',
+  ),
+  ConversationInfo(
+    image: 'assets/images/10.png',
+    username: '@Anne',
+    message: messages,
+    badge: '04',
+  ),
+];
 
 class ChatScreen extends StatefulWidget {
   final double appBarHeightSize;
@@ -124,69 +181,6 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-
-    final List conversationInfo = [
-      ConversationInfo(
-        image: 'assets/images/1.png',
-        username: '@Ulrich',
-        message: messages,
-        badge: '02',
-      ),
-      ConversationInfo(
-        image: 'assets/images/6.png',
-        username: '@Youmix',
-        message: messages,
-        badge: '10',
-      ),
-      ConversationInfo(
-        image: 'assets/images/girl_studying_with_music.png',
-        username: '@Julie',
-        message: messages,
-        badge: '07',
-      ),
-      ConversationInfo(
-        image: 'assets/images/4.png',
-        username: '@Nancy',
-        message: messages,
-        badge: '15',
-      ),
-      ConversationInfo(
-        image: 'assets/images/2.png',
-        username: '@Johannes',
-        message: messages,
-        badge: '04',
-      ),
-      ConversationInfo(
-        image: 'assets/images/5.png',
-        username: '@Bro',
-        message: messages,
-        badge: '02',
-      ),
-      ConversationInfo(
-        image: 'assets/images/3.png',
-        username: '@Manou',
-        message: messages,
-        badge: '10',
-      ),
-      ConversationInfo(
-        image: 'assets/images/7.png',
-        username: '@Julienne',
-        message: messages,
-        badge: '07',
-      ),
-      ConversationInfo(
-        image: 'assets/images/8.png',
-        username: '@Junior',
-        message: messages,
-        badge: '15',
-      ),
-      ConversationInfo(
-        image: 'assets/images/10.png',
-        username: '@Anne',
-        message: messages,
-        badge: '04',
-      ),
-    ];
 
     // return StreamChannelListView(
     //     controller: _listController,
@@ -297,8 +291,118 @@ class _ChatScreenState extends State<ChatScreen> {
               ),
             ),
           ),
+          archivedConversationInfo.length > 0
+              ? InkWell(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ArchivedConversationScreen(
+                              appBarHeightSize: widget.appBarHeightSize),
+                        ));
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).scaffoldBackgroundColor,
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 20.0,
+                      ),
+                      child: Row(
+                        children: [
+                          SvgPicture.asset(
+                            'assets/icons/download.2.svg',
+                            color: Theme.of(context).iconTheme.color,
+                            // height: 30,
+                            // width: 30,
+                          ),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          Expanded(
+                            child: SizedBox(
+                              height: 70,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'Archived',
+                                    style: TextStyle(
+                                      // color: kPrimaryColor,
+                                      fontSize: 15,
+                                      fontFamily: 'Comfortaa_regular',
+                                    ),
+                                  ),
+                                  SvgPicture.asset(
+                                    'assets/icons/arrow-right-circle.4.svg',
+                                    height: 20,
+                                    width: 20,
+                                    color: Theme.of(context)
+                                        .iconTheme
+                                        .color!
+                                        .withOpacity(0.7),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                )
+              : Container(),
           for (var item in conversationInfo)
-            conversationBuilder(context, screenWidth, item),
+            Dismissible(
+                key: ValueKey<int>(conversationInfo.indexOf(item)),
+                direction: DismissDirection.horizontal,
+                secondaryBackground: Container(
+                  color: Colors.red,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      SvgPicture.asset(
+                        'assets/icons/delete.3.svg',
+                        color: Colors.white,
+                        height: 30,
+                        width: 30,
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                    ],
+                  ),
+                ),
+                background: Container(
+                  color: Colors.blue,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        width: 10,
+                      ),
+                      SvgPicture.asset(
+                        'assets/icons/download.2.svg',
+                        color: Colors.white,
+                        height: 30,
+                        width: 30,
+                      ),
+                    ],
+                  ),
+                ),
+                onDismissed: (DismissDirection direction) => setState(
+                      () {
+                        if (direction == DismissDirection.endToStart) {
+                          conversationInfo.remove(item);
+                        } else {
+                          conversationInfo.remove(item);
+                          archivedConversationInfo.add(item);
+                        }
+                      },
+                    ),
+                child: conversationBuilder(context, screenWidth, item)),
         ],
       ),
     );
@@ -404,9 +508,6 @@ class _ChatScreenState extends State<ChatScreen> {
 
                     Text(
                       item.message.last.text,
-                      style: TextStyle(
-                          // color: kPrimaryColor,
-                          ),
                     ),
                     // Spacer(),
                   ],

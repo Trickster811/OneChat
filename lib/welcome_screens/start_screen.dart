@@ -99,6 +99,7 @@ class _MyHomePageState extends State<MyHomePage> {
       body: index != 3
           ? Container(
               padding: EdgeInsets.symmetric(vertical: 8.0),
+              height: MediaQuery.of(context).size.height,
               decoration: BoxDecoration(
                 color: Provider.of<ThemeProvider>(context).themeMode ==
                         ThemeMode.dark

@@ -14,7 +14,7 @@ class AboutScreen extends StatelessWidget {
   final Uri _linkedIn =
       Uri.parse('https://cm.linkedin.com/in/joachim-nedaouka-0b43b2228');
   final Uri _youtube =
-      Uri.parse('https://www.youtube.com/channel/UCaurOaNV4pAqDOhrpdxsZXA');
+      Uri.parse('https://www.youtube.com/@macnight_nj');
 
   Future<void> _launchUrl(Uri _url) async {
     await launchUrl(

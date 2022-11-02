@@ -31,6 +31,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  
+  # Socket Client Application to connect users to server
+  socket_client:
+    path: socket_client
 
 
   # The following adds the Cupertino Icons font to your application.
