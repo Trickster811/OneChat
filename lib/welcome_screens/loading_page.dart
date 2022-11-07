@@ -2,12 +2,13 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:one_chat/welcome_screens/auth/sign_in_page.dart';
 import 'package:one_chat/welcome_screens/start_screen.dart';
-import 'package:stream_chat_flutter/stream_chat_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoadingScreen extends StatefulWidget {
   const LoadingScreen({
-    Key? key, 
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -15,10 +16,27 @@ class LoadingScreen extends StatefulWidget {
 }
 
 class _LoadingScreenState extends State<LoadingScreen> {
+  Future<bool?> firstTimeApp() async {
+    final perfs = await SharedPreferences.getInstance();
+    final isFirst = perfs.getBool('first_time');
+    // print('joachim, the get value is:>>' + isFirst.toString());
+    return isFirst;
+  }
+
   @override
   void initState() {
     super.initState();
-    startTime();
+    // startTime();
+    start();
+  }
+
+  start() async {
+    bool? first_time = await firstTimeApp();
+    if (first_time != null && !first_time) {
+      startTime();
+    } else {
+      startTime1();
+    }
   }
 
   @override
@@ -34,11 +52,25 @@ class _LoadingScreenState extends State<LoadingScreen> {
     return new Timer(duration, route);
   }
 
+  startTime1() async {
+    var duration = new Duration(seconds: 5);
+    return new Timer(duration, route1);
+  }
+
   route() {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
         builder: (context) => MyHomePage(),
+      ),
+    );
+  }
+
+  route1() {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => SignInScreen(),
       ),
     );
   }

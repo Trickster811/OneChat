@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:one_chat/screens/chat_page.dart';
 import 'package:one_chat/screens/components/chat_pages/chat_space.dart';
+import 'package:socket_client/socket_client.dart';
 
 class ArchivedConversationScreen extends StatefulWidget {
   final double appBarHeightSize;
@@ -48,7 +49,7 @@ class _ArchivedConversationScreenState
           children: [
             for (var item in archivedConversationInfo)
               Dismissible(
-                  key: ValueKey<int>(conversationInfo.indexOf(item)),
+                  key: ValueKey<int>(oneChatMessages.indexOf(item)),
                   direction: DismissDirection.horizontal,
                   secondaryBackground: Container(
                     color: Colors.red,
@@ -87,8 +88,8 @@ class _ArchivedConversationScreenState
                   onDismissed: (DismissDirection direction) => setState(
                         () {
                           direction == DismissDirection.endToStart
-                              ? conversationInfo.remove(item)
-                              : conversationInfo.indexOf(item);
+                              ? oneChatMessages.remove(item)
+                              : oneChatMessages.indexOf(item);
                         },
                       ),
                   child: conversationBuilder(context, screenWidth, item)),
@@ -101,7 +102,7 @@ class _ArchivedConversationScreenState
   Widget conversationBuilder(
     BuildContext context,
     double screenWidth,
-    ConversationInfo item,
+    MessageDetails item,
   ) {
     return InkWell(
       onTap: () => Navigator.push(
@@ -123,7 +124,7 @@ class _ArchivedConversationScreenState
           children: [
             ClipOval(
               child: Image.asset(
-                item.image,
+                item.sender.image,
                 fit: BoxFit.cover,
                 height: 50,
                 width: 50,
@@ -144,7 +145,7 @@ class _ArchivedConversationScreenState
                   children: [
                     // Spacer(),
                     Text(
-                      item.username,
+                      item.sender.name,
                       style: TextStyle(
                         // color: kPrimaryColor,
                         fontSize: 15,

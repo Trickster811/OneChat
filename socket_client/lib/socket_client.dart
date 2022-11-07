@@ -3,25 +3,26 @@ import 'dart:typed_data';
 
 late Socket socket;
 
-
 class ChatClient {
   final Socket socket;
   final String address;
   final int port;
   late String name;
+  late String image;
 
   ChatClient({
     required this.socket,
     required this.address,
     required this.port,
     required this.name,
+    required this.image,
   });
 }
 
 class MessageDetails {
   final ChatClient sender;
   final ChatClient receiver;
-  final MessageInfos message;
+  final List<MessageInfos> message;
 
   const MessageDetails({
     required this.sender,
@@ -41,50 +42,8 @@ class MessageInfos {
   });
 }
 
-List<MessageInfos> receivedMessages = [];
-List<MessageInfos> sentMessages = [];
-
-
-void onConnection(Socket socket) {
-  socket.write("Joachim||_one_chat");
-
-  socket.listen(
-    // handle data from the server
-    (Uint8List data) async {
-      print(String.fromCharCodes(data));
-    },
-    onError: errorHandler,
-    onDone: () => doneHandler(socket),
-    cancelOnError: false,
-  );
-}
-
-void dataHandler(data) {
-  // print(String.fromCharCodes(data).trim());
-  // handle data from the server
-
-  (Uint8List data) async {
-    print(String.fromCharCodes(data).trim());
-  };
-}
-
-void errorHandler(error, StackTrace trace) {
-  print(
-      "Coucou !!!!!\n::::::::::::::::Here is the error::::::::::::\n$error\n:::::::::::::");
-}
-
-void doneHandler(Socket socket) {
-  print('Good job Server!!!');
-  // socket.destroy();
-  connectionTask();
-  // exit(0);
-}
-
-Future<void> sendMessage(String data) async {
-  // stdin.readLineSync();
-  socket.write('$data||_one_chat_message\n');
-  await Future.delayed(Duration(milliseconds: 500));
-}
+List<MessageDetails> oneChatMessages = [];
+List<String> userInfos = [];
 
 connectionTask() async {
   try {
@@ -111,4 +70,63 @@ connectionTask() async {
     print(
         ":::::::::::::\nAn error occured when executing the client socket application\nHere's the error\n::::::::::::::\n$e\n:::::::::::::");
   }
+}
+
+void onConnection(Socket socket) {
+  // socket.write("Joachim||_one_chat");
+
+  socket.listen(
+    // handle data from the server
+    dataHandler,
+    onError: errorHandler,
+    onDone: () => doneHandler(socket),
+    cancelOnError: false,
+  );
+}
+
+void dataHandler(data) {
+  // print(String.fromCharCodes(data).trim());
+  // handle data from the server
+
+  (Uint8List data) async {
+    // if (List.from(data) is List<String>) {
+    final message = String.fromCharCodes(data);
+    if (message.contains('|')) {
+      final int i = message.indexOf('|');
+
+      final sender = message.substring(message.length - i);
+      final sms = message.substring(0, i);
+
+      final info = MessageInfos(
+        text: sms,
+        date: DateTime.now(),
+        isSentByMe: false,
+      );
+
+      final int index =
+          oneChatMessages.indexWhere((item) => item.sender.name == sender);
+
+      oneChatMessages[index].message.add(info);
+    } else {
+      userInfos.add(message);
+    }
+  };
+}
+
+void errorHandler(error, StackTrace trace) {
+  print(
+      "Coucou !!!!!\n::::::::::::::::Here is the error::::::::::::\n$error\n:::::::::::::");
+}
+
+void doneHandler(Socket socket) {
+  print('Good job Server!!!');
+  // socket.destroy();
+  connectionTask();
+  // exit(0);
+}
+
+Future<void> sendMessage(String data, List receiver) async {
+  // stdin.readLineSync();
+  socket.write('$data||$receiver\n');
+  await Future.delayed(Duration(milliseconds: 500));
 }

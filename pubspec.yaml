@@ -59,8 +59,6 @@ dependencies:
   url_launcher:
   flutter_emoji:
   focused_menu:
-  # package to manage chat box
-  stream_chat_flutter:
   # dependencies to manage local database
   hive:
   hive_flutter:

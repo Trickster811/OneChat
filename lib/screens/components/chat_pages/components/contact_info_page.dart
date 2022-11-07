@@ -4,9 +4,10 @@ import 'package:getwidget/components/toggle/gf_toggle.dart';
 import 'package:getwidget/types/gf_toggle_type.dart';
 import 'package:one_chat/screens/chat_page.dart';
 import 'package:one_chat/screens/components/chat_pages/components/view_profile_picture.dart';
+import 'package:socket_client/socket_client.dart';
 
 class ContactInfoPageScreen extends StatefulWidget {
-  final ConversationInfo conversationInfo;
+  final MessageDetails conversationInfo;
 
   const ContactInfoPageScreen({
     Key? key,
@@ -68,7 +69,7 @@ class _ContactInfoPageScreenState extends State<ContactInfoPageScreen> {
                       },
                       child: ClipOval(
                         child: Image.asset(
-                          widget.conversationInfo.image,
+                          widget.conversationInfo.sender.image,
                           fit: BoxFit.cover,
                           height: 100,
                           width: 100,
@@ -80,7 +81,7 @@ class _ContactInfoPageScreenState extends State<ContactInfoPageScreen> {
                     height: 20,
                   ),
                   Text(
-                    widget.conversationInfo.username,
+                    widget.conversationInfo.sender.name,
                     style: TextStyle(
                       // color: kPrimaryColor,
                       fontSize: 25,
@@ -264,7 +265,7 @@ class _ContactInfoPageScreenState extends State<ContactInfoPageScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  'Block ${widget.conversationInfo.username}',
+                                  'Block ${widget.conversationInfo.sender.name}',
                                   style: TextStyle(
                                     color: Colors.red,
                                   ),
@@ -302,7 +303,7 @@ class _ContactInfoPageScreenState extends State<ContactInfoPageScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  'Report ${widget.conversationInfo.username}',
+                                  'Report ${widget.conversationInfo.sender.name}',
                                   style: TextStyle(
                                     color: Colors.red,
                                   ),
@@ -324,7 +325,7 @@ class _ContactInfoPageScreenState extends State<ContactInfoPageScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  'Diconnect from ${widget.conversationInfo.username}',
+                                  'Diconnect from ${widget.conversationInfo.sender.name}',
                                   style: TextStyle(
                                     color: Colors.red,
                                   ),

@@ -136,20 +136,20 @@ class _ScanScreenState extends State<ScanScreen> {
     controller.scannedDataStream.listen((barcode) {
       setState(() {
         this.barcode = barcode;
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: ((context) => ChatSpace(
-                  conversationInfo: ConversationInfo(
-                    image: 'assets/images/1.png',
-                    username: '${barcode.code}',
-                    message: [],
-                    badge: '02',
-                  ),message: [],
-                  appBarHeightSize: widget.appBarHeightSize,
-                )),
-          ),
-        );
+        // Navigator.push(
+        //   context,
+        //   MaterialPageRoute(
+        //     builder: ((context) => ChatSpace(
+        //           conversationInfo: ConversationInfo(
+        //             image: 'assets/images/1.png',
+        //             username: '${barcode.code}',
+        //             message: [],
+        //             badge: '02',
+        //           ),message: [],
+        //           appBarHeightSize: widget.appBarHeightSize,
+        //         )),
+        //   ),
+        // );
       });
     });
   }

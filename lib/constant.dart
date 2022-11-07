@@ -52,6 +52,14 @@ class UserSimplePreferences {
   static Future setTheme(int isDark) async {
     await _preferences.setInt(themeMode, isDark);
   }
-
+  
   static int? getTheme() => _preferences.getInt(themeMode);
+
+  static Future setUserInfo(List<String> userInfo) async {
+    await _preferences.setStringList('userInfo', userInfo);
+  }
+
+  static List<String> getUserInfo() => _preferences.getStringList('userInfo')!;
+
+  
 }

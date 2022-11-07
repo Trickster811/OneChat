@@ -23,7 +23,7 @@ Future main() async {
   ]);
 
   await connectionTask();
-  
+
   // final client = StreamChatClient(
   //   Config.apiKey,
   //   logLevel: Level.INFO,
@@ -70,21 +70,28 @@ class _MyAppState extends State<MyApp> {
       print('Allowed');
 
       // bool directoryExists = await Directory('/sdcard/One Chat/One_Chat Media').exists();
-      if (!await Directory('/sdcard/One Chat/One_Chat Media').exists())
+      if (!await Directory('/sdcard/One Chat').exists()) {
+        await Directory('/sdcard/One Chat').create(recursive: true);
+      }
+      if (!await Directory('/sdcard/One Chat/One_Chat Media').exists()) {
         await Directory('/sdcard/One Chat/One_Chat Media')
             .create(recursive: true);
+      }
       if (!await Directory('/sdcard/One Chat/One_Chat Media/One_Chat Images')
-          .exists())
+          .exists()) {
         await Directory('/sdcard/One Chat/One_Chat Media/One_Chat Images')
             .create(recursive: true);
+      }
       if (!await Directory('/sdcard/One Chat/One_Chat Media/One_Chat Documents')
-          .exists())
+          .exists()) {
         await Directory('/sdcard/One Chat/One_Chat Media/One_Chat Documents')
             .create(recursive: true);
+      }
       if (!await Directory('/sdcard/One Chat/One_Chat Media/One_Chat Videos')
-          .exists())
+          .exists()) {
         await Directory('/sdcard/One Chat/One_Chat Media/One_Chat Videos')
             .create(recursive: true);
+      }
     } else {
       print('Denied');
     }

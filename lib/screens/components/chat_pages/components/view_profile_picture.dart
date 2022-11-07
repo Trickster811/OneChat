@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:one_chat/screens/chat_page.dart';
+import 'package:socket_client/socket_client.dart';
 
 class ViewProfilePicScreen extends StatelessWidget {
-  final ConversationInfo conversationInfo;
+  final MessageDetails conversationInfo;
 
   const ViewProfilePicScreen({
     Key? key,
@@ -29,7 +29,7 @@ class ViewProfilePicScreen extends StatelessWidget {
           width: double.maxFinite,
           height: 400,
           child: Image.asset(
-            conversationInfo.image,
+            conversationInfo.sender.image,
             fit: BoxFit.contain,
           ),
         ),

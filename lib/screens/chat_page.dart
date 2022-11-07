@@ -4,8 +4,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:one_chat/screens/components/chat_pages/chat_space.dart';
 import 'package:one_chat/screens/components/chat_pages/components/archived_conversation_page.dart';
+import 'package:one_chat/screens/components/contacts_page.dart';
+import 'package:one_chat/screens/components/scan_page.dart';
 import 'package:socket_client/socket_client.dart';
-import 'package:stream_chat_flutter/stream_chat_flutter.dart';
 
 class ConversationInfo {
   final String image, username, badge;
@@ -19,8 +20,6 @@ class ConversationInfo {
     required this.badge,
   });
 }
-
-
 
 List<MessageInfos> messages = [
   MessageInfos(
@@ -83,7 +82,7 @@ List<MessageInfos> messages = [
 
 List archivedConversationInfo = [];
 
-List conversationInfo = [
+List conversationInfos = [
   ConversationInfo(
     image: 'assets/images/1.png',
     username: '@Ulrich',
@@ -162,22 +161,6 @@ class _ChatScreenState extends State<ChatScreen> {
 
   int index = 0;
 
-  late final _listController = StreamChannelListController(
-    client: StreamChat.of(context).client,
-    filter: Filter.in_(
-      'members',
-      [StreamChat.of(context).currentUser!.id],
-    ),
-    sort: const [SortOption('last_message_at')],
-    limit: 20,
-  );
-
-  @override
-  void dispose() {
-    _listController.dispose();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
@@ -198,263 +181,222 @@ class _ChatScreenState extends State<ChatScreen> {
     //       );
     //     });
 
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          Padding(
-            padding: EdgeInsets.symmetric(vertical: 10.0),
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(100.0),
+    return oneChatMessages.isEmpty
+        ? Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Start Chatting Now',
+                style: TextStyle(
+                  // color: kPrimaryColor,
+                  fontFamily: 'Comfortaa_bold',
+                  fontSize: 25,
                 ),
               ),
-              padding: EdgeInsets.symmetric(horizontal: 8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              SizedBox(
+                height: 20,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Flexible(
-                    child: Container(
-                      height: 40,
-                      child: TextField(
-                        controller: inputController,
-                        onChanged: (String value) {
-                          setState(() {
-                            if (value != '') {
-                              index = 1;
-                            } else {
-                              index = 0;
-                            }
-                          });
-                          print(value);
-                        },
-                        onSubmitted: (String text) {},
-                        cursorWidth: 1.0,
-                        cursorColor: Theme.of(context).iconTheme.color,
-                        decoration: InputDecoration(
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Theme.of(context)
-                                  .iconTheme
-                                  .color!
-                                  .withOpacity(0.8),
-                            ),
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(1000.0),
-                            ),
-                          ),
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Theme.of(context)
-                                  .iconTheme
-                                  .color!
-                                  .withOpacity(0.8),
-                            ),
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(1000.0),
-                            ),
-                            // gapPadding: 2.0,
-                          ),
-                          contentPadding: EdgeInsets.symmetric(
-                            vertical: 2.0,
-                            horizontal: 8.0,
-                          ),
-                          hintText: 'type a message',
-                          hintStyle: TextStyle(
-                            // color: kPrimaryColor,
-                            fontFamily: 'Comfortaa_light',
-                          ),
-                        ),
-                      ),
-                    ),
+                  SvgPicture.asset(
+                    'assets/icons/arrow-down.6.svg',
+                    color: Theme.of(context).iconTheme.color,
+                    // height: 75,
+                    // width: 75,
                   ),
-                  index == 0
-                      ? IconButton(
-                          onPressed: () {
-                            // pickImage(ImageSource.camera);
-                          },
-                          icon: SvgPicture.asset(
-                            'assets/icons/search.svg',
-                            color: Theme.of(context).iconTheme.color,
-                          ),
-                        )
-                      : IconButton(
-                          onPressed: () {},
-                          icon: SvgPicture.asset(
-                            'assets/icons/send.3.svg',
-                            color: Theme.of(context).iconTheme.color,
-                            height: 40,
-                            width: 40,
-                          ),
-                        ),
+                  SvgPicture.asset(
+                    'assets/icons/arrow-down.6.svg',
+                    color: Theme.of(context).iconTheme.color,
+                    // height: 75,
+                    // width: 75,
+                  ),
                 ],
               ),
-            ),
-          ),
-          archivedConversationInfo.length > 0
-              ? InkWell(
-                  onTap: () {
-                    Navigator.push(
+              SizedBox(
+                height: 20,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => ArchivedConversationScreen(
-                              appBarHeightSize: widget.appBarHeightSize),
-                        ));
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).scaffoldBackgroundColor,
-                    ),
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 20.0,
+                          builder: ((context) => ContactsScreen()),
+                        ),
+                      );
+                    },
+                    child: ClipOval(
+                      child: Container(
+                        color: Colors.blue,
+                        padding: EdgeInsets.all(15.0),
+                        child: SvgPicture.asset(
+                          'assets/icons/plus.6.svg',
+                          color: Theme.of(context).iconTheme.color,
+                          // height: 75,
+                          // width: 75,
+                        ),
                       ),
-                      child: Row(
-                        children: [
-                          SvgPicture.asset(
-                            'assets/icons/download.2.svg',
-                            color: Theme.of(context).iconTheme.color,
-                            // height: 30,
-                            // width: 30,
+                    ),
+                  ),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ScanScreen(
+                              appBarHeightSize: widget.appBarHeightSize),
+                        ),
+                      );
+                    },
+                    child: ClipOval(
+                      child: Container(
+                        color: Colors.blue,
+                        padding: EdgeInsets.all(15.0),
+                        child: SvgPicture.asset(
+                          'assets/icons/scan.svg',
+                          color: Theme.of(context).iconTheme.color,
+                          // height: 75,
+                          // width: 75,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              )
+            ],
+          )
+        : SingleChildScrollView(
+            child: Column(
+              children: [
+                archivedConversationInfo.isNotEmpty
+                    ? InkWell(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    ArchivedConversationScreen(
+                                        appBarHeightSize:
+                                            widget.appBarHeightSize),
+                              ));
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Theme.of(context).scaffoldBackgroundColor,
                           ),
-                          SizedBox(
-                            width: 20,
-                          ),
-                          Expanded(
-                            child: SizedBox(
-                              height: 70,
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    'Archived',
-                                    style: TextStyle(
-                                      // color: kPrimaryColor,
-                                      fontSize: 15,
-                                      fontFamily: 'Comfortaa_regular',
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 20.0,
+                            ),
+                            child: Row(
+                              children: [
+                                SvgPicture.asset(
+                                  'assets/icons/download.2.svg',
+                                  color: Theme.of(context).iconTheme.color,
+                                  // height: 30,
+                                  // width: 30,
+                                ),
+                                SizedBox(
+                                  width: 20,
+                                ),
+                                Expanded(
+                                  child: SizedBox(
+                                    height: 70,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          'Archived',
+                                          style: TextStyle(
+                                            // color: kPrimaryColor,
+                                            fontSize: 15,
+                                            fontFamily: 'Comfortaa_regular',
+                                          ),
+                                        ),
+                                        SvgPicture.asset(
+                                          'assets/icons/arrow-right-circle.4.svg',
+                                          height: 20,
+                                          width: 20,
+                                          color: Theme.of(context)
+                                              .iconTheme
+                                              .color!
+                                              .withOpacity(0.7),
+                                        ),
+                                      ],
                                     ),
                                   ),
-                                  SvgPicture.asset(
-                                    'assets/icons/arrow-right-circle.4.svg',
-                                    height: 20,
-                                    width: 20,
-                                    color: Theme.of(context)
-                                        .iconTheme
-                                        .color!
-                                        .withOpacity(0.7),
-                                  ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
                           ),
-                        ],
+                        ),
+                      )
+                    : Container(),
+                for (var item in oneChatMessages)
+                  Dismissible(
+                      key: ValueKey<int>(oneChatMessages.indexOf(item)),
+                      direction: DismissDirection.horizontal,
+                      secondaryBackground: Container(
+                        color: Colors.red,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            SvgPicture.asset(
+                              'assets/icons/delete.3.svg',
+                              color: Colors.white,
+                              height: 30,
+                              width: 30,
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  ),
-                )
-              : Container(),
-          for (var item in conversationInfo)
-            Dismissible(
-                key: ValueKey<int>(conversationInfo.indexOf(item)),
-                direction: DismissDirection.horizontal,
-                secondaryBackground: Container(
-                  color: Colors.red,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      SvgPicture.asset(
-                        'assets/icons/delete.3.svg',
-                        color: Colors.white,
-                        height: 30,
-                        width: 30,
+                      background: Container(
+                        color: Colors.blue,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            SizedBox(
+                              width: 10,
+                            ),
+                            SvgPicture.asset(
+                              'assets/icons/download.2.svg',
+                              color: Colors.white,
+                              height: 30,
+                              width: 30,
+                            ),
+                          ],
+                        ),
                       ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                    ],
-                  ),
-                ),
-                background: Container(
-                  color: Colors.blue,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        width: 10,
-                      ),
-                      SvgPicture.asset(
-                        'assets/icons/download.2.svg',
-                        color: Colors.white,
-                        height: 30,
-                        width: 30,
-                      ),
-                    ],
-                  ),
-                ),
-                onDismissed: (DismissDirection direction) => setState(
-                      () {
-                        if (direction == DismissDirection.endToStart) {
-                          conversationInfo.remove(item);
-                        } else {
-                          conversationInfo.remove(item);
-                          archivedConversationInfo.add(item);
-                        }
-                      },
-                    ),
-                child: conversationBuilder(context, screenWidth, item)),
-        ],
-      ),
-    );
-  }
-
-  Widget _channelTileBuilder(BuildContext context, List<Channel> channels,
-      int index, StreamChannelListTile defaultChannelTile) {
-    final channel = channels[index];
-    final lastMessage = channel.state?.messages.reversed.firstWhere(
-      (message) => !message.isDeleted,
-    );
-
-    final subtitle = lastMessage == null ? 'nothing yet' : lastMessage.text!;
-    final opacity = (channel.state?.unreadCount ?? 0) > 0 ? 1.0 : 0.5;
-
-    final theme = StreamChatTheme.of(context);
-
-    return ListTile(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (_) => StreamChannel(
-              channel: channel,
-              child: const ChannelPage(),
+                      onDismissed: (DismissDirection direction) => setState(
+                            () {
+                              if (direction == DismissDirection.endToStart) {
+                                oneChatMessages.remove(item);
+                              } else {
+                                oneChatMessages.remove(item);
+                                archivedConversationInfo.add(item);
+                              }
+                            },
+                          ),
+                      child: conversationBuilder(context, screenWidth, item)),
+              ],
             ),
-          ),
-        );
-      },
-      leading: StreamChannelAvatar(
-        channel: channel,
-      ),
-      title: StreamChannelName(
-        channel: channel,
-        textStyle: theme.channelPreviewTheme.titleStyle!.copyWith(
-          color: theme.colorTheme.textHighEmphasis.withOpacity(opacity),
-        ),
-      ),
-      subtitle: Text(subtitle),
-      trailing: channel.state!.unreadCount > 0
-          ? CircleAvatar(
-              radius: 10,
-              child: Text(channel.state!.unreadCount.toString()),
-            )
-          : const SizedBox(),
-    );
+          );
   }
 
   Widget conversationBuilder(
     BuildContext context,
     double screenWidth,
-    ConversationInfo item,
+    MessageDetails item,
   ) {
     return InkWell(
       onTap: () => Navigator.push(
@@ -476,7 +418,7 @@ class _ChatScreenState extends State<ChatScreen> {
           children: [
             ClipOval(
               child: Image.asset(
-                item.image,
+                item.sender.image,
                 fit: BoxFit.cover,
                 height: 50,
                 width: 50,
@@ -497,7 +439,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   children: [
                     // Spacer(),
                     Text(
-                      item.username,
+                      item.sender.name,
                       style: TextStyle(
                         // color: kPrimaryColor,
                         fontSize: 15,
@@ -543,27 +485,6 @@ class _ChatScreenState extends State<ChatScreen> {
             ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class ChannelPage extends StatelessWidget {
-  const ChannelPage({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: const StreamChannelHeader(),
-      body: Column(
-        children: const <Widget>[
-          Expanded(
-            child: StreamMessageListView(),
-          ),
-          StreamMessageInput(),
-        ],
       ),
     );
   }

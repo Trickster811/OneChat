@@ -12,7 +12,6 @@ import 'package:one_chat/screens/components/scan_page.dart';
 import 'package:one_chat/screens/search_page.dart';
 import 'package:one_chat/screens/storie_page.dart';
 import 'package:provider/provider.dart';
-import 'package:stream_chat_flutter/stream_chat_flutter.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({
@@ -66,6 +65,7 @@ class _MyHomePageState extends State<MyHomePage> {
     AppBar appBar = AppBar(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       elevation: 0,
+      automaticallyImplyLeading: false,
       title: Text(
         screenName[index],
         style: TextStyle(
@@ -100,6 +100,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ? Container(
               padding: EdgeInsets.symmetric(vertical: 8.0),
               height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
                 color: Provider.of<ThemeProvider>(context).themeMode ==
                         ThemeMode.dark

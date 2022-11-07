@@ -22,7 +22,7 @@ import 'package:provider/provider.dart';
 import 'package:socket_client/socket_client.dart';
 
 class ChatSpace extends StatefulWidget {
-  final ConversationInfo conversationInfo;
+  final MessageDetails conversationInfo;
   final List message;
   final double appBarHeightSize;
 
@@ -182,7 +182,7 @@ class _ChatSpaceState extends State<ChatSpace> {
                                 children: [
                                   ClipOval(
                                     child: Image.asset(
-                                      widget.conversationInfo.image,
+                                      widget.conversationInfo.sender.image,
                                       fit: BoxFit.cover,
                                       height: 90,
                                       width: 90,
@@ -202,7 +202,7 @@ class _ChatSpaceState extends State<ChatSpace> {
                                     height: 6,
                                   ),
                                   Text(
-                                    widget.conversationInfo.username,
+                                    widget.conversationInfo.sender.name,
                                     style: TextStyle(
                                       // color: kPrimaryColor,
                                       fontSize: 20,
@@ -232,7 +232,7 @@ class _ChatSpaceState extends State<ChatSpace> {
                           children: [
                             ClipOval(
                               child: Image.asset(
-                                widget.conversationInfo.image,
+                                widget.conversationInfo.sender.image,
                                 fit: BoxFit.cover,
                                 height: 40,
                                 width: 40,
@@ -247,7 +247,7 @@ class _ChatSpaceState extends State<ChatSpace> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
                                   Text(
-                                    widget.conversationInfo.username,
+                                    widget.conversationInfo.sender.name,
                                     style: TextStyle(
                                       // color: kPrimaryColor,
                                       fontSize: 15,
@@ -604,7 +604,10 @@ class _ChatSpaceState extends State<ChatSpace> {
                                   inputController.clear();
                                   index = 0;
                                 });
-                                sendMessage(message.text);
+                                sendMessage(
+                                  inputController.text,
+                                  [widget.conversationInfo.sender.name],
+                                );
                               },
                               icon: SvgPicture.asset(
                                 'assets/icons/send.3.svg',
