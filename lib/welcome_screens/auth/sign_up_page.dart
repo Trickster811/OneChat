@@ -11,7 +11,11 @@ import 'package:one_chat/welcome_screens/start_screen.dart';
 import 'package:socket_client/socket_client.dart';
 
 class SignUpScreen extends StatefulWidget {
-  const SignUpScreen({Key? key}) : super(key: key);
+  final List<String>? userInfo;
+  const SignUpScreen({
+    Key? key,
+    required this.userInfo,
+  }) : super(key: key);
 
   @override
   State<SignUpScreen> createState() => _SignUpScreenState();
@@ -49,6 +53,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
     return Scaffold(
       // appBar: appBar,
+      backgroundColor: Colors.white,
       body: Stack(
         children: [
           Positioned(
@@ -66,7 +71,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             child: BackdropFilter(
               filter: ImageFilter.blur(sigmaX: 6, sigmaY: 6),
               child: Container(
-                color: Colors.grey.withOpacity(0.7),
+                color: Colors.black.withOpacity(0.5),
                 child: Padding(
                   padding: EdgeInsets.symmetric(
                     horizontal: 8.0,
@@ -119,24 +124,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 decoration: InputDecoration(
                                   icon: SvgPicture.asset(
                                     'assets/icons/profile.4.svg',
-                                    color: Theme.of(context)
-                                        .scaffoldBackgroundColor,
+                                    color: Colors.white,
                                   ),
                                   enabledBorder: UnderlineInputBorder(
                                     borderSide: BorderSide(
-                                      color: Theme.of(context)
-                                          .scaffoldBackgroundColor,
+                                      color: Colors.white,
                                     ),
                                   ),
                                   focusedBorder: UnderlineInputBorder(
                                     borderSide: BorderSide(
-                                      color: Theme.of(context)
-                                          .scaffoldBackgroundColor,
+                                      color: Colors.white,
                                     ),
                                   ),
                                   hintStyle: TextStyle(
-                                    color: Theme.of(context)
-                                        .scaffoldBackgroundColor,
+                                    color: Colors.white,
                                   ),
                                   hintText: 'enter your username',
                                 ),
@@ -168,24 +169,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 decoration: InputDecoration(
                                   icon: SvgPicture.asset(
                                     'assets/icons/call.1.svg',
-                                    color: Theme.of(context)
-                                        .scaffoldBackgroundColor,
+                                    color: Colors.white,
                                   ),
                                   enabledBorder: UnderlineInputBorder(
                                     borderSide: BorderSide(
-                                      color: Theme.of(context)
-                                          .scaffoldBackgroundColor,
+                                      color: Colors.white,
                                     ),
                                   ),
                                   focusedBorder: UnderlineInputBorder(
                                     borderSide: BorderSide(
-                                      color: Theme.of(context)
-                                          .scaffoldBackgroundColor,
+                                      color: Colors.white,
                                     ),
                                   ),
                                   hintStyle: TextStyle(
-                                    color: Theme.of(context)
-                                        .scaffoldBackgroundColor,
+                                    color: Colors.white,
                                   ),
                                   hintText: 'enter your phone',
                                 ),
@@ -213,24 +210,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 decoration: InputDecoration(
                                   icon: SvgPicture.asset(
                                     'assets/icons/message.svg',
-                                    color: Theme.of(context)
-                                        .scaffoldBackgroundColor,
+                                    color: Colors.white,
                                   ),
                                   enabledBorder: UnderlineInputBorder(
                                     borderSide: BorderSide(
-                                      color: Theme.of(context)
-                                          .scaffoldBackgroundColor,
+                                      color: Colors.white,
                                     ),
                                   ),
                                   focusedBorder: UnderlineInputBorder(
                                     borderSide: BorderSide(
-                                      color: Theme.of(context)
-                                          .scaffoldBackgroundColor,
+                                      color: Colors.white,
                                     ),
                                   ),
                                   hintStyle: TextStyle(
-                                    color: Theme.of(context)
-                                        .scaffoldBackgroundColor,
+                                    color: Colors.white,
                                   ),
                                   hintText: 'enter your email',
                                 ),
@@ -258,24 +251,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 decoration: InputDecoration(
                                   icon: SvgPicture.asset(
                                     'assets/icons/lock.6.svg',
-                                    color: Theme.of(context)
-                                        .scaffoldBackgroundColor,
+                                    color: Colors.white,
                                   ),
                                   enabledBorder: UnderlineInputBorder(
                                     borderSide: BorderSide(
-                                      color: Theme.of(context)
-                                          .scaffoldBackgroundColor,
+                                      color: Colors.white,
                                     ),
                                   ),
                                   focusedBorder: UnderlineInputBorder(
                                     borderSide: BorderSide(
-                                      color: Theme.of(context)
-                                          .scaffoldBackgroundColor,
+                                      color: Colors.white,
                                     ),
                                   ),
                                   hintStyle: TextStyle(
-                                    color: Theme.of(context)
-                                        .scaffoldBackgroundColor,
+                                    color: Colors.white,
                                   ),
                                   hintText: 'enter your password',
                                 ),
@@ -298,7 +287,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 padding: EdgeInsets.all(12.0),
                                 alignment: Alignment.center,
                                 decoration: BoxDecoration(
-                                  color: Theme.of(context).primaryColor,
+                                  color: Colors.white,
                                   borderRadius: BorderRadius.circular(10000),
                                 ),
                                 width: double.maxFinite,
@@ -307,7 +296,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     Navigator.pushReplacement(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => MyHomePage(),
+                                        builder: (context) => MyHomePage(
+                                          userInfo: widget.userInfo,
+                                        ),
                                       ),
                                     );
                                     // if (_dropdownFormKey.currentState!
@@ -348,6 +339,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     'Connect',
                                     style: TextStyle(
                                       fontSize: 14,
+                                      color: Color.fromRGBO(5, 35, 61, 1),
                                     ),
                                   ),
                                 ),
@@ -375,7 +367,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: ((context) => SignInScreen()),
+                                  builder: ((context) => SignInScreen(
+                                        userInfo: widget.userInfo,
+                                      )),
                                 ),
                               );
                             },

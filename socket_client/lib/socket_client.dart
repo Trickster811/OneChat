@@ -43,23 +43,33 @@ class MessageInfos {
 }
 
 List<MessageDetails> oneChatMessages = [];
-List<String> userInfos = [];
+List<String?> userInfos = [];
 
 connectionTask() async {
   try {
+    socket = await Socket.connect('192.168.43.254', 4698);
+
+    // return socket;
+  } catch (e) {
+    print('Go Kass');
+    connectionTask();
+  }
+}
+
+connectionTask1() async {
+  try {
     Socket.connect("192.168.43.254", 4698).then((Socket sock) {
       socket = sock;
-      onConnection(sock);
+      // onConnection(sock);
       // final String test = 'It Works bro';
-      // return test;
     }).catchError((e) {
       print(
           ":::::::::::::\nUnable to connect to a server with the given port\n::::::::::::::\n$e\n:::::::::::::\n");
       // exit(1);
-      connectionTask();
+      connectionTask1();
     });
 
-    // socket = await Socket.connect("localhost", 4698);
+    return socket;
 
     //Connect standard in to the socket
 

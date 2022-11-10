@@ -24,18 +24,7 @@ Future main() async {
 
   await connectionTask();
 
-  // final client = StreamChatClient(
-  //   Config.apiKey,
-  //   logLevel: Level.INFO,
-  // );
-  // await client.connectUser(
-  //   User(id: 'macnight'),
-  //   '''eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMTIxMjM3NCJ9.CtaL7U95w0-7xHXuL2sMizg2ioPxMIRMiJlHQ-YD5uA''',
-  // );
-
-  // final channel = client.channel('messaging', id: 'godevs');
-
-  // await channel.watch();
+  // onConnection(socket);
 
   // await Hive.initFlutter();
   await UserSimplePreferences.init();
@@ -53,10 +42,13 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  List<String>? userInfo;
+
   @override
   void initState() {
     super.initState();
     // startConnection();
+    userInfo = UserSimplePreferences.getUserInfo();
     appFolder();
   }
 
@@ -66,6 +58,7 @@ class _MyAppState extends State<MyApp> {
 
   appFolder() async {
     final status = await Permission.storage.request();
+
     if (status == PermissionStatus.granted) {
       print('Allowed');
 
@@ -114,7 +107,9 @@ class _MyAppState extends State<MyApp> {
           themeMode: themeProvider.themeMode,
           theme: MyThemes.lightTheme,
           darkTheme: MyThemes.darkTheme,
-          home: LoadingScreen(),
+          home: LoadingScreen(
+            userInfo: userInfo,
+          ),
         );
       },
     );

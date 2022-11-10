@@ -9,7 +9,18 @@ import 'package:one_chat/screens/components/account_pages/policy_page.dart';
 import 'package:one_chat/screens/components/account_pages/settings_page.dart';
 import 'package:one_chat/screens/components/account_pages/updates_pages.dart';
 
-class AccountScreen extends StatelessWidget {
+class AccountScreen extends StatefulWidget {
+  final List<String>? userInfo;
+  const AccountScreen({
+    Key? key,
+    required this.userInfo,
+  }) : super(key: key);
+
+  @override
+  State<AccountScreen> createState() => _AccountScreenState();
+}
+
+class _AccountScreenState extends State<AccountScreen> {
   final screens = [
     MyDataScreen(),
     MyProfileScreen(username: '@julie_Queen'),
@@ -100,7 +111,7 @@ class AccountScreen extends StatelessWidget {
           ),
           Center(
             child: Text(
-              '@julie_Queen',
+              widget.userInfo![0],
               style: TextStyle(
                 // color: kPrimaryColor,
                 fontSize: 25,

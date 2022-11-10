@@ -118,10 +118,10 @@ class _PatternScreenState extends State<PatternScreen> {
                           ),
                           child: InkWell(
                             onTap: () async {
-                              Directory newDirectory =
-                                  await Directory("/sdcard/One Chat")
-                                      .create(recursive: true);
-                              print(newDirectory);
+                              // Directory newDirectory =
+                              //     await Directory("/sdcard/One Chat")
+                              //         .create(recursive: true);
+                              // print(newDirectory);
                               // fingerPrintConfiguration();
                               final isAvailable =
                                   await FingerPrintScanner.hasBiometrics();

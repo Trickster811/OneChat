@@ -1,6 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:form_field_validator/form_field_validator.dart';
+import 'package:one_chat/constant.dart';
 import 'package:one_chat/main.dart';
 
 class PasswordScreen extends StatefulWidget {
@@ -17,7 +19,7 @@ class PasswordScreen extends StatefulWidget {
 
 class _PasswordScreenState extends State<PasswordScreen> {
   bool _radioValue = false;
-  int id = 1; 
+  int id = 1;
   // Variables to get user entries
   final my_con_1 = TextEditingController();
   final my_con_2 = TextEditingController();
@@ -195,7 +197,51 @@ class _PasswordScreenState extends State<PasswordScreen> {
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: InkWell(
-                            onTap: () {},
+                            onTap: () {
+                              if (_dropdownFormKey.currentState!.validate()) {
+                                if (my_con_1.text == my_con_2.text) {
+                                  UserSimplePreferences
+                                      .setPasswordSecurityDetails(
+                                    my_con_1.text,
+                                  );
+                                  UserSimplePreferences.setPasswordSecurity(
+                                      true);
+                                } else {
+                                  showCupertinoModalPopup(
+                                    context: context,
+                                    builder: (context) => CupertinoActionSheet(
+                                      title: Text(
+                                        'Error',
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          color: Colors.red,
+                                        ),
+                                      ),
+                                      message: Text(
+                                        "Password doesn't match\nPlease retry!!",
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                      actions: [
+                                        CupertinoActionSheetAction(
+                                          // onPressed: () => imageGallerypicker(ImageSource.camera, context),
+                                          onPressed: () {
+                                            my_con_2.clear();
+                                          },
+                                          child: Text(
+                                            'Retry',
+                                            style: TextStyle(
+                                              fontSize: 14,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                }
+                              }
+                            },
                             child: Text(
                               'Set Password',
                               style: TextStyle(

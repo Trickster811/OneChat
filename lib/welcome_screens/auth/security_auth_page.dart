@@ -12,24 +12,22 @@ import 'package:one_chat/welcome_screens/auth/sign_up_page.dart';
 import 'package:one_chat/welcome_screens/start_screen.dart';
 import 'package:socket_client/socket_client.dart';
 
-class SignInScreen extends StatefulWidget {
+class SecurityAuthScreen extends StatefulWidget {
   final List<String>? userInfo;
-  const SignInScreen({
+  const SecurityAuthScreen({
     Key? key,
     required this.userInfo,
   }) : super(key: key);
 
   @override
-  State<SignInScreen> createState() => _SignInScreenState();
+  State<SecurityAuthScreen> createState() => _SecurityAuthScreenState();
 }
 
-class _SignInScreenState extends State<SignInScreen> {
+class _SecurityAuthScreenState extends State<SecurityAuthScreen> {
   String? username;
 
   // Variables to get user entries
   final my_con_1 = TextEditingController();
-
-  final my_con_2 = TextEditingController();
 
   // Form key
   final _dropdownFormKey = GlobalKey<FormState>();
@@ -40,7 +38,7 @@ class _SignInScreenState extends State<SignInScreen> {
       backgroundColor: Colors.transparent,
       elevation: 0,
       title: Text(
-        'Sign In',
+        'Authentification',
         style: TextStyle(
           color: Colors.white,
           fontSize: 25,
@@ -96,7 +94,7 @@ class _SignInScreenState extends State<SignInScreen> {
                       Spacer(),
                       // Spacer(),
                       Text(
-                        'Login into\nyour account',
+                        'Authencate\nyour self',
                         style: TextStyle(
                           fontSize: 30,
                           color: Colors.white,
@@ -108,69 +106,6 @@ class _SignInScreenState extends State<SignInScreen> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            // Padding(
-                            //   padding: EdgeInsets.only(bottom: 8.0),
-                            //   child: Text(
-                            //     'Username',
-                            //     style: TextStyle(
-                            //       color:
-                            //           Colors.white,
-                            //     ),
-                            //   ),
-                            // ),
-                            Padding(
-                              padding: EdgeInsets.all(4.0),
-                              child: TextFormField(
-                                style: TextStyle(
-                                  fontSize: 13,
-                                  color: Colors.white,
-                                ),
-                                cursorColor: Colors.white,
-                                decoration: InputDecoration(
-                                  icon: SvgPicture.asset(
-                                    'assets/icons/profile.4.svg',
-                                    color: Colors.white,
-                                  ),
-                                  enabledBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                  focusedBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                  hintText: 'enter your username',
-                                  hintStyle: TextStyle(
-                                    color: Colors.white,
-                                  ),
-                                ),
-                                // value: dropdownvalue_1,
-                                controller: my_con_1,
-                                onChanged: (text) {
-                                  setState(() {
-                                    username = '@$text';
-                                  });
-                                },
-                                validator: RequiredValidator(
-                                  errorText: 'Please enter your username',
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            // Padding(
-                            //   padding: EdgeInsets.only(bottom: 8.0),
-                            //   child: Text(
-                            //     'Password',
-                            //     style: TextStyle(
-                            //       color:
-                            //           Colors.white,
-                            //     ),
-                            //   ),
-                            // ),
                             Padding(
                               padding: EdgeInsets.all(4.0),
                               child: TextFormField(
@@ -201,7 +136,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                   ),
                                 ),
                                 // value: dropdownvalue_1,
-                                controller: my_con_2,
+                                controller: my_con_1,
                                 validator: RequiredValidator(
                                   errorText: 'Please enter your password',
                                 ),
@@ -227,66 +162,52 @@ class _SignInScreenState extends State<SignInScreen> {
                                   onTap: () {
                                     if (_dropdownFormKey.currentState!
                                         .validate()) {
-                                      socket.write(
-                                          "@${my_con_1.text}||_one_chat");
-
-                                      showCupertinoModalPopup(
-                                        context: context,
-                                        builder: (context) =>
-                                            CupertinoActionSheet(
-                                          title: Text(
-                                            'Succes!!',
-                                            style: TextStyle(
-                                              fontSize: 14,
-                                            ),
+                                      final String passwordSecurity =
+                                          UserSimplePreferences
+                                              .getPasswordSecurityDetails();
+                                      if (passwordSecurity == my_con_1.text) {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => MyHomePage(
+                                                userInfo: widget.userInfo),
                                           ),
-                                          message: StreamBuilder(
-                                            stream: socket,
-                                            builder: (context, snapshot) {
-                                              UserSimplePreferences
-                                                  .setUserInfo([
-                                                String.fromCharCodes(
-                                                    snapshot.data!),
-                                                my_con_2.text,
-                                              ]);
-                                              UserSimplePreferences
-                                                  .setFirstTime(true);
-
-                                              return Text(
-                                                snapshot.hasData
-                                                    ? 'Your informations have been well validated!!\nUser <<<===>>> ${String.fromCharCodes(snapshot.data!)}'
-                                                    : 'Nothing bro!!',
-                                                style: TextStyle(
-                                                  fontSize: 14,
-                                                ),
-                                              );
-                                            },
-                                          ),
-                                          actions: [
-                                            CupertinoActionSheetAction(
-                                              // onPressed: () => imageGallerypicker(ImageSource.camera, context),
-                                              onPressed: () {
-                                                Navigator.pushReplacement(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder: ((context) =>
-                                                        MyHomePage(
-                                                          userInfo:
-                                                              widget.userInfo,
-                                                        )),
-                                                  ),
-                                                );
-                                              },
-                                              child: Text(
-                                                'Ok',
-                                                style: TextStyle(
-                                                  fontSize: 14,
-                                                ),
+                                        );
+                                      } else {
+                                        showCupertinoModalPopup(
+                                          context: context,
+                                          builder: (context) =>
+                                              CupertinoActionSheet(
+                                            title: Text(
+                                              'Error',
+                                              style: TextStyle(
+                                                fontSize: 14,
+                                                color: Colors.red,
                                               ),
                                             ),
-                                          ],
-                                        ),
-                                      );
+                                            message: Text(
+                                              "Password incorrect!!",
+                                              style: TextStyle(
+                                                fontSize: 14,
+                                              ),
+                                            ),
+                                            actions: [
+                                              CupertinoActionSheetAction(
+                                                // onPressed: () => imageGallerypicker(ImageSource.camera, context),
+                                                onPressed: () {
+                                                  my_con_1.clear();
+                                                },
+                                                child: Text(
+                                                  'Retry',
+                                                  style: TextStyle(
+                                                    fontSize: 14,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      }
                                     }
                                   },
                                   child: Text(

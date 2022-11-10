@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -14,8 +16,10 @@ import 'package:one_chat/screens/storie_page.dart';
 import 'package:provider/provider.dart';
 
 class MyHomePage extends StatefulWidget {
+  final List<String>? userInfo;
   const MyHomePage({
     Key? key,
+    required this.userInfo,
   }) : super(key: key);
 
   @override
@@ -26,23 +30,24 @@ class _MyHomePageState extends State<MyHomePage> {
   int index = 0;
   double appBarHeightSize = 0;
 
-  final screens = [
-    StorieScreen(),
-    StorieScreen(),
-    SearchScreen(),
-    AccountScreen(),
-  ];
-
-  final screenName = [
-    'One Chat',
-    'Status',
-    'Search',
-    'Account',
-  ];
-
   final inputController = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    final screens = [
+      StorieScreen(),
+      StorieScreen(),
+      SearchScreen(),
+      AccountScreen(
+        userInfo: widget.userInfo,
+      ),
+    ];
+
+    final screenName = [
+      'One Chat',
+      'Status',
+      'Search',
+      'Account',
+    ];
     List<List> menuItemList = [
       [
         'assets/icons/scan.svg',

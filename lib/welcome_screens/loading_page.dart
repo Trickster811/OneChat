@@ -1,14 +1,19 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:one_chat/constant.dart';
+import 'package:one_chat/welcome_screens/auth/security_auth_page.dart';
 import 'package:one_chat/welcome_screens/auth/sign_in_page.dart';
 import 'package:one_chat/welcome_screens/start_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoadingScreen extends StatefulWidget {
+  final List<String>? userInfo;
   const LoadingScreen({
     Key? key,
+    required this.userInfo,
   }) : super(key: key);
 
   @override
@@ -16,13 +21,6 @@ class LoadingScreen extends StatefulWidget {
 }
 
 class _LoadingScreenState extends State<LoadingScreen> {
-  Future<bool?> firstTimeApp() async {
-    final perfs = await SharedPreferences.getInstance();
-    final isFirst = perfs.getBool('first_time');
-    // print('joachim, the get value is:>>' + isFirst.toString());
-    return isFirst;
-  }
-
   @override
   void initState() {
     super.initState();
@@ -31,20 +29,17 @@ class _LoadingScreenState extends State<LoadingScreen> {
   }
 
   start() async {
-    bool? first_time = await firstTimeApp();
-    if (first_time != null && !first_time) {
-      startTime();
+    bool? firstTime = UserSimplePreferences.getFirstTime();
+    bool? passwordSecurity = UserSimplePreferences.getPasswordSecurity();
+    if (firstTime != null && !firstTime) {
+      if (passwordSecurity != null && !passwordSecurity) {
+        startTime2();
+      } else {
+        startTime();
+      }
     } else {
       startTime1();
     }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      // backgroundColor: Color.fromARGB(255, 228, 228, 228),
-      body: initScreen(context),
-    );
   }
 
   startTime() async {
@@ -57,11 +52,18 @@ class _LoadingScreenState extends State<LoadingScreen> {
     return new Timer(duration, route1);
   }
 
+  startTime2() async {
+    var duration = new Duration(seconds: 5);
+    return new Timer(duration, route2);
+  }
+
   route() {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (context) => MyHomePage(),
+        builder: (context) => MyHomePage(
+          userInfo: widget.userInfo,
+        ),
       ),
     );
   }
@@ -70,8 +72,29 @@ class _LoadingScreenState extends State<LoadingScreen> {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (context) => SignInScreen(),
+        builder: (context) => SignInScreen(
+          userInfo: widget.userInfo,
+        ),
       ),
+    );
+  }
+
+  route2() {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => SecurityAuthScreen(
+          userInfo: widget.userInfo,
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      // backgroundColor: Color.fromARGB(255, 228, 228, 228),
+      body: initScreen(context),
     );
   }
 
